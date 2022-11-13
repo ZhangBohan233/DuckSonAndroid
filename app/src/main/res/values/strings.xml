@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">Duck Son</string>
+    <string name="app_bar_name">Duck Son Translator</string>
+
+    <string name="translate">Translate</string>
+    <string name="swapLang">Swap</string>
+    <string name="translating">Translating…</string>
+
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+
+    <string name="auto_detect">Auto detect</string>
+    <string name="chinese">中文</string>
+    <string name="geglish">Geglish</string>
+
+    <string name="cqDialect">CQ</string>
+    <string name="mandarin">Mandarin</string>
+
+    <string name="settings">Settings</string>
+    <string name="chinese_dialect">Dialect</string>
+    <string name="word_picker">Word Picker</string>
+    <string name="word_picker_random">Random</string>
+    <string name="word_picker_freq">Frequency</string>
+    <string name="word_picker_substring">Prefix</string>
+    <string name="word_picker_combined">Combined</string>
+    <string name="recommended">Recommended</string>
+    <string name="use_same_sound">Homophone</string>
+    <string name="use_base_dict">Enhanced dictionary</string>
+
+    <string name="enabled">Enabled</string>
+    <string name="disabled">Disabled</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="cancel">Cancel</string>
+    <string name="please_confirm">Please confirm</string>
+
+    <string name="copy_content">Copy</string>
+    <string name="copied_to_clipboard">Copied to clipboard</string>
+    <string name="nothing_to_copy">Nothing to copy</string>
+
+    <string name="history">History</string>
+    <string name="clear">Clear</string>
+    <string name="clear_confirm">Are you sure to clear translation history?</string>
+    <string name="clear_success">All records deleted</string>
+    <string name="clear_failed">Failed to clear records</string>
+
+    <string name="translate_again">Apply again</string>
+    <string name="date">Date</string>
+    <string name="empty_history">Empty history</string>
+    <string name="manage">Manage</string>
+    <string name="select_all">Select All</string>
+    <string name="delete">Delete</string>
+    <string name="delete_confirm">Are you sure to delete selected item(s)?</string>
+    <string name="delete_success">Deletion success</string>
+    <string name="delete_failed">Deletion failed</string>
+
+    <string name="about">About</string>
+    <string name="core_version">Core version: %s</string>
+    <string name="app_version">Duck Son Translator %s</string>
+</resources>

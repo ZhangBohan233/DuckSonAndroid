@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">Duck Son</string>
+    <string name="app_bar_name">Duck Son 翻译器</string>
+
+    <string name="translate">翻译</string>
+    <string name="swapLang">互换</string>
+    <string name="translating">正在翻译…</string>
+
+    <string name="open">打开</string>
+    <string name="close">关闭</string>
+
+    <string name="auto_detect">自动检测</string>
+    <string name="chinese">中文</string>
+    <string name="geglish">Geglish</string>
+
+    <string name="cqDialect">重庆话</string>
+    <string name="mandarin">普通话</string>
+
+    <string name="settings">设置</string>
+    <string name="chinese_dialect">方言</string>
+    <string name="word_picker">选词器</string>
+    <string name="word_picker_random">随机</string>
+    <string name="word_picker_freq">词频</string>
+    <string name="word_picker_substring">前缀</string>
+    <string name="word_picker_combined">综合</string>
+    <string name="recommended">推荐</string>
+    <string name="use_same_sound">启用同音字</string>
+    <string name="use_base_dict">启用增强词典</string>
+
+    <string name="enabled">启用</string>
+    <string name="disabled">禁用</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="cancel">取消</string>
+    <string name="please_confirm">请确认</string>
+
+    <string name="copy_content">复制</string>
+    <string name="copied_to_clipboard">已复制至剪切板</string>
+    <string name="nothing_to_copy">没有内容</string>
+
+    <string name="history">历史记录</string>
+    <string name="clear">清空</string>
+    <string name="clear_confirm">真的要清空历史记录吗？清了就没得了。</string>
+    <string name="clear_success">都删了，你啥子都没得了。</string>
+    <string name="clear_failed">哦豁，没清得成。</string>
+
+    <string name="translate_again">重新翻译</string>
+    <string name="date">时间</string>
+    <string name="empty_history">没有历史记录</string>
+    <string name="manage">管理</string>
+    <string name="select_all">全选</string>
+    <string name="delete">删除</string>
+    <string name="delete_confirm">请确认删除。</string>
+    <string name="delete_success">已删除</string>
+    <string name="delete_failed">删除失败</string>
+
+    <string name="about">关于</string>
+    <string name="core_version">内核版本: %s</string>
+    <string name="app_version">Duck Son翻译器 %s</string>
+</resources>

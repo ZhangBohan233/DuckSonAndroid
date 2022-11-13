@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="12dp"
+    android:layout_marginBottom="12dp"
+    app:layout_optimizationLevel="none">
+
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/history_item_box"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:layout_marginBottom="-12dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/arrow_img"
+        app:layout_constraintBottom_toBottomOf="@id/arrow_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/src_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:maxLines="3"
+        android:text="输入的原句需要比较长来展示折行的效果"
+        android:textColor="@color/black"
+        app:layout_constraintLeft_toRightOf="@id/history_item_box"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.42" />
+
+    <ImageView
+        android:id="@+id/arrow_img"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/history"
+        android:src="@drawable/ic_arrow_forward_48"
+        app:layout_constraintBottom_toBottomOf="@id/src_text"
+        app:layout_constraintLeft_toRightOf="@+id/src_text"
+        app:layout_constraintTop_toTopOf="@id/src_text"
+        app:layout_constraintWidth_percent="0.1" />
+
+    <TextView
+        android:id="@+id/dst_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:maxLines="3"
+        android:text="Dst text demo"
+        android:textColor="@color/black"
+        app:layout_constraintLeft_toRightOf="@id/arrow_img"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.48">
+
+    </TextView>
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/expand_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="src_text, dst_text, arrow_img" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/expand_part"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:visibility="visible"
+        app:layout_constraintLeft_toRightOf="@id/history_item_box"
+        app:layout_constraintTop_toBottomOf="@id/expand_barrier">
+
+        <TextView
+            android:id="@+id/src_lang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="中文"
+            app:layout_constraintBottom_toBottomOf="@id/arrow_img2"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@id/arrow_img2">
+
+        </TextView>
+
+        <ImageView
+            android:id="@+id/arrow_img2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/history"
+            android:src="@drawable/ic_arrow_forward_48_20"
+            app:layout_constraintLeft_toRightOf="@+id/src_lang"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/dst_lang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Geglish"
+            app:layout_constraintBottom_toBottomOf="@id/arrow_img2"
+            app:layout_constraintLeft_toRightOf="@id/arrow_img2"
+            app:layout_constraintTop_toTopOf="@id/arrow_img2">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/base_dict_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/use_base_dict"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/arrow_img2" />
+
+        <TextView
+            android:id="@+id/base_dict_selection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="demo"
+            app:layout_constraintLeft_toRightOf="@id/base_dict_label"
+            app:layout_constraintTop_toTopOf="@id/base_dict_label" />
+
+        <TextView
+            android:id="@+id/same_sound_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/use_same_sound"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/base_dict_label" />
+
+        <TextView
+            android:id="@+id/same_sound_selection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="demo"
+            app:layout_constraintLeft_toRightOf="@id/same_sound_label"
+            app:layout_constraintTop_toTopOf="@id/same_sound_label" />
+
+        <TextView
+            android:id="@+id/dialect_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chinese_dialect"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/same_sound_label" />
+
+        <TextView
+            android:id="@+id/dialect_selection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="demo"
+            app:layout_constraintLeft_toRightOf="@id/dialect_label"
+            app:layout_constraintTop_toTopOf="@id/dialect_label" />
+
+        <TextView
+            android:id="@+id/word_picker_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/word_picker"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dialect_label" />
+
+        <TextView
+            android:id="@+id/word_picker_selection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="demo"
+            app:layout_constraintLeft_toRightOf="@id/word_picker_label"
+            app:layout_constraintTop_toTopOf="@id/word_picker_label" />
+
+        <TextView
+            android:id="@+id/date_selection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="demo"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/word_picker_label" />
+
+        <Button
+            android:id="@+id/translate_again_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/translate_again"
+            android:textAllCaps="false"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/date_selection" />
+
+<!--        <Button-->
+<!--            android:id="@+id/delete_history_btn"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="6dp"-->
+<!--            android:text="@string/delete"-->
+<!--            android:textAllCaps="false"-->
+<!--            app:layout_constraintLeft_toRightOf="@id/translate_again_btn"-->
+<!--            app:layout_constraintTop_toTopOf="@id/translate_again_btn" />-->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

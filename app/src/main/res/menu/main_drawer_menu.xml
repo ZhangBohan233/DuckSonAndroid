@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item
+        android:id="@+id/historyMenuItem"
+        android:title="@string/history"
+        android:onClick="historyAction">
+
+    </item>
+
+    <item
+        android:id="@+id/appVersionItem"
+        android:title="app version">
+
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/coreVersionItem"
+                    android:title="core version">
+                </item>
+            </group>
+        </menu>
+    </item>
+
+</menu>
