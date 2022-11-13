@@ -23,7 +23,7 @@ import com.trashsoftware.ducksontranslator.widgets.HistoryAdapter;
 
 public class HistoryActivity extends AppCompatActivity {
 
-    TextView emptyPlaceholder;
+//    TextView emptyPlaceholder;
     RecyclerView historyRecyclerView;
     Button deleteButton, manageButton;
     MaterialCheckBox selectAllBox;
@@ -51,7 +51,7 @@ public class HistoryActivity extends AppCompatActivity {
         bottomBar.setVisibility(View.GONE);
 
         historyRecyclerView = findViewById(R.id.historyRecyclerView);
-        emptyPlaceholder = findViewById(R.id.empty_history_text);
+//        emptyPlaceholder = findViewById(R.id.empty_history_text);
         initRecyclerView();
 
         selectAllBox.setOnCheckedChangeListener((view, isChecked) -> {
@@ -139,7 +139,7 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        adapter = new HistoryAdapter(this, emptyPlaceholder);
+        adapter = new HistoryAdapter(this);
         historyRecyclerView.addItemDecoration(
                 new DividerItemDecoration(historyRecyclerView.getContext(),
                         DividerItemDecoration.VERTICAL));

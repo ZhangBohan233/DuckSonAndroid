@@ -17,7 +17,7 @@ import com.trashsoftware.ducksontranslator.db.HistoryItem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HistoryAdapter extends RecyclerView.Adapter<HistoryItemVH> {
+public class HistoryAdapter extends RecyclerView.Adapter<HistoryVH> {
     public static final int NONE_SELECTED = 0;
     public static final int SOME_BUT_NOT_ALL_SELECTED = 4;
     public static final int ALL_SELECTED = 8;
@@ -25,19 +25,18 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryItemVH> {
     private final HistoryAccess historyAccess;
     private final HistoryActivity context;
     private final List<HistoryItem> allHistory = new ArrayList<>();
-    private View placeHolder;
+//    private final View placeHolder;
     private boolean selecting;
 
-    public HistoryAdapter(HistoryActivity context, View placeHolder) {
+    public HistoryAdapter(HistoryActivity context) {
         this.context = context;
-        this.placeHolder = placeHolder;
 
         historyAccess = HistoryAccess.getInstance(context);
         pullHistoryFromDb();
     }
 
     public void selectOrDeselectAll(boolean select) {
-        for (int i = 0; i < getItemCount(); i++) {
+        for (int i = 0; i < allHistory.size(); i++) {
             allHistory.get(i).setSelected(select);
             notifyItemChanged(i);
         }
@@ -55,15 +54,15 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryItemVH> {
                 item.setSelected(false);
             }
         }
-        int origSize = selected.size();
+        int origSize = getItemCount();
         if (historyAccess.patchDelete(selected)) {
             for (int i = affectedIndex.size() - 1; i >= 0; i--) {
                 int removeIndex = affectedIndex.get(i);
                 allHistory.remove(removeIndex);
                 notifyItemRemoved(removeIndex);
             }
+            notifyItemChanged(allHistory.size());  // 通知最后的计数器变了
             notifyItemRangeChanged(0, origSize);
-            detectSizeChange();
             return true;
         } else {
             pullHistoryFromDb();
@@ -75,7 +74,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryItemVH> {
     private void pullHistoryFromDb() {
         allHistory.clear();
         allHistory.addAll(historyAccess.getAll());
-        detectSizeChange();
     }
 
     void updateUiWhenSelectionChanged() {
@@ -116,7 +114,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryItemVH> {
             int size = allHistory.size();
             allHistory.clear();
             notifyItemRangeChanged(0, size);
-            detectSizeChange();
             return true;
         } else {
             pullHistoryFromDb();
@@ -132,7 +129,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryItemVH> {
             allHistory.remove(index);
             notifyItemRemoved(index);
             notifyItemRangeChanged(index, allHistory.size());
-            detectSizeChange();
             return true;
         } else {
             pullHistoryFromDb();
@@ -150,50 +146,65 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryItemVH> {
         context.setBottomBarVisible(selecting);
         context.setManageButton(selecting);
 
-        for (int i = 0; i < getItemCount(); i++) {
+        for (int i = 0; i < allHistory.size(); i++) {
             allHistory.get(i).setSelected(false);
             notifyItemChanged(i);
         }
         updateUiWhenSelectionChanged();
     }
 
-    private void detectSizeChange() {
-        if (allHistory.size() == 0) {
-            placeHolder.setVisibility(View.VISIBLE);
+    @NonNull
+    @Override
+    public HistoryVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == HistoryVH.NORMAL) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.history_item_view, parent, false);
+
+            return new HistoryItemVH(view);
         } else {
-            placeHolder.setVisibility(View.GONE);
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.history_item_footer, parent, false);
+            return new HistoryFooterVH(view);
         }
     }
 
-    @NonNull
     @Override
-    public HistoryItemVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.history_item_view, parent, false);
-
-        return new HistoryItemVH(view);
+    public int getItemViewType(int position) {
+        if (position < allHistory.size()) {
+            return HistoryVH.NORMAL;
+        } else {
+            return HistoryVH.FOOTER;
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HistoryItemVH holder, int position) {
+    public void onBindViewHolder(@NonNull HistoryVH holder, int position) {
 //        System.out.println("bind" + position);
-        HistoryItem item = allHistory.get(position);
-        holder.setItem(context, this, item);
-        holder.itemView.setOnClickListener(v -> {
-            item.setExpanded(!item.isExpanded());
-            notifyItemChanged(position);
-        });
-        holder.itemView.setOnLongClickListener(v -> {
-            if (!selecting) {
-                setSelecting(true);
-                return true;
-            }
-            return false;
-        });
+        int type = getItemViewType(position);
+
+        if (type == HistoryVH.NORMAL) {
+            HistoryItemVH itemVH = (HistoryItemVH) holder;
+            HistoryItem item = allHistory.get(position);
+            itemVH.setItem(context, this, item);
+            itemVH.itemView.setOnClickListener(v -> {
+                item.setExpanded(!item.isExpanded());
+                notifyItemChanged(position);
+            });
+            itemVH.itemView.setOnLongClickListener(v -> {
+                if (!selecting) {
+                    setSelecting(true);
+                    return true;
+                }
+                return false;
+            });
+        } else if (type == HistoryVH.FOOTER) {
+            HistoryFooterVH footerVH = (HistoryFooterVH) holder;
+            footerVH.setValue(context, allHistory.size());
+        }
     }
 
     @Override
     public int getItemCount() {
-        return allHistory.size();
+        return allHistory.size() + 1;
     }
 }

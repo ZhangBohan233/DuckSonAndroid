@@ -47,6 +47,7 @@
     <string name="translate_again">Apply again</string>
     <string name="date">Date</string>
     <string name="empty_history">Empty history</string>
+    <string name="history_items_count">%s record(s)</string>
     <string name="manage">Manage</string>
     <string name="select_all">Select All</string>
     <string name="delete">Delete</string>
