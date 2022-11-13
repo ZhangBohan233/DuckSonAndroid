@@ -20,7 +20,9 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -500,6 +502,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static class WordPickerItem {
         final Context context;
+        @StringRes
         final int resId;
         final PickerFactory pickerFactory;
         final boolean recommended;

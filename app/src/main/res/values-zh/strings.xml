@@ -43,6 +43,7 @@
     <string name="clear_confirm">真的要清空历史记录吗？清了就没得了。</string>
     <string name="clear_success">都删了，你啥子都没得了。</string>
     <string name="clear_failed">哦豁，没清得成。</string>
+    <string name="load_more">加载更多</string>
 
     <string name="translate_again">重新翻译</string>
     <string name="date">时间</string>

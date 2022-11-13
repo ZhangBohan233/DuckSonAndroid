@@ -11,13 +11,12 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 public class HistoryAccess extends SQLiteOpenHelper {
 
+    public static final int EACH_TIME_LOAD = 3;
     public static final String DB_NAME = "history.db";
     public static final String TABLE_NAME = "history";
     private static final String TAG = "HISTORY";
@@ -55,7 +54,7 @@ public class HistoryAccess extends SQLiteOpenHelper {
     public boolean patchDelete(List<HistoryItem> items) {
         String[] queryWhere = new String[items.size()];
         String[] clause = new String[items.size()];
-        for (int i = 0 ; i < queryWhere.length; i++) {
+        for (int i = 0; i < queryWhere.length; i++) {
             clause[i] = "?";
             queryWhere[i] = String.valueOf(items.get(i).time);
         }
@@ -118,6 +117,52 @@ public class HistoryAccess extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Fill the list with more values and return the index of list modification starts
+     *
+     * @param list       the list to be fill
+     * @param targetSize the designated new list size, but the actual size can be smaller
+     * @return the index of list modification starts
+     */
+    public int fillListToSize(List<HistoryItem> list, int targetSize) {
+        int origSize = list.size();
+        int rtn = origSize;
+        String query = "SELECT * FROM history ORDER BY time DESC LIMIT " + targetSize + ";";
+        try (SQLiteDatabase db = getReadableDatabase()) {
+            Cursor cursor = db.rawQuery(query, null);
+            if (origSize > targetSize) {
+                list.clear();
+                rtn = 0;
+            }
+            int index = 0;
+            while (cursor.moveToNext()) {
+                try {
+                    if (index < origSize && rtn == origSize) {
+                        long time = cursor.getLong(cursor.getColumnIndexOrThrow("time"));
+                        HistoryItem orig = list.get(index);
+                        if (time == orig.time) {
+                            // no need to modify
+                            index++;
+                            continue;
+                        } else {
+                            // changed, reload this item and all items after this
+                            rtn = index;
+                            list.subList(index, list.size()).clear();
+                        }
+                    }
+
+                    HistoryItem item = loadItem(cursor);
+                    list.add(item);
+                } catch (IllegalArgumentException e) {
+                    Log.e(TAG, e.toString());
+                }
+                index++;
+            }
+            cursor.close();
+        }
+        return rtn;
+    }
+
     public List<HistoryItem> getAll() {
         List<HistoryItem> items = new ArrayList<>();
         String query = "select * from history;";
@@ -125,18 +170,7 @@ public class HistoryAccess extends SQLiteOpenHelper {
             Cursor cursor = db.rawQuery(query, null);
             while (cursor.moveToNext()) {
                 try {
-                    HistoryItem item = new HistoryItem();
-                    item.time = cursor.getLong(cursor.getColumnIndexOrThrow("time"));
-                    item.coreVersion = cursor.getString(cursor.getColumnIndexOrThrow("coreVersion"));
-                    item.srcLang = cursor.getString(cursor.getColumnIndexOrThrow("srcLang"));
-                    item.dstLang = cursor.getString(cursor.getColumnIndexOrThrow("dstLang"));
-                    item.origText = cursor.getString(cursor.getColumnIndexOrThrow("origText"));
-                    item.translatedText = cursor.getString(cursor.getColumnIndexOrThrow("translatedText"));
-                    item.useBaseDict = cursor.getInt(cursor.getColumnIndexOrThrow("useBaseDict")) > 0;
-                    item.useSameSound = cursor.getInt(cursor.getColumnIndexOrThrow("useSameSound")) > 0;
-                    item.isCq = cursor.getInt(cursor.getColumnIndexOrThrow("isCq")) > 0;
-                    item.wordPickerName = cursor.getString(cursor.getColumnIndexOrThrow("wordPickerName"));
-
+                    HistoryItem item = loadItem(cursor);
                     items.add(item);
                 } catch (IllegalArgumentException e) {
                     Log.e(TAG, e.toString());
@@ -147,6 +181,21 @@ public class HistoryAccess extends SQLiteOpenHelper {
 
         Collections.sort(items);
         return items;
+    }
+
+    private HistoryItem loadItem(Cursor cursor) throws IllegalArgumentException {
+        HistoryItem item = new HistoryItem();
+        item.time = cursor.getLong(cursor.getColumnIndexOrThrow("time"));
+        item.coreVersion = cursor.getString(cursor.getColumnIndexOrThrow("coreVersion"));
+        item.srcLang = cursor.getString(cursor.getColumnIndexOrThrow("srcLang"));
+        item.dstLang = cursor.getString(cursor.getColumnIndexOrThrow("dstLang"));
+        item.origText = cursor.getString(cursor.getColumnIndexOrThrow("origText"));
+        item.translatedText = cursor.getString(cursor.getColumnIndexOrThrow("translatedText"));
+        item.useBaseDict = cursor.getInt(cursor.getColumnIndexOrThrow("useBaseDict")) > 0;
+        item.useSameSound = cursor.getInt(cursor.getColumnIndexOrThrow("useSameSound")) > 0;
+        item.isCq = cursor.getInt(cursor.getColumnIndexOrThrow("isCq")) > 0;
+        item.wordPickerName = cursor.getString(cursor.getColumnIndexOrThrow("wordPickerName"));
+        return item;
     }
 
     @Override

@@ -19,7 +19,7 @@ import java.util.Date;
 
 import trashsoftware.duckSonTranslator.wordPickerChsGeg.PickerFactory;
 
-public class HistoryItemVH extends RecyclerView.ViewHolder {
+public class HistoryItemVH extends HistoryVH {
 
     private final ConstraintLayout expandPart;
     private final TextView srcLangText, dstLangText, origText, translatedText;
@@ -46,6 +46,10 @@ public class HistoryItemVH extends RecyclerView.ViewHolder {
         date = itemView.findViewById(R.id.date_selection);
 
         trans = itemView.findViewById(R.id.translate_again_btn);
+    }
+
+    public int getItemType() {
+        return HistoryAdapter.ITEM_NORMAL;
     }
 
     public void setItem(Context context, HistoryAdapter parent, HistoryItem item) {
