@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,14 +9,14 @@
 
     <com.google.android.material.checkbox.MaterialCheckBox
         android:id="@+id/history_item_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="-12dp"
         android:minWidth="0dp"
         android:minHeight="0dp"
-        android:layout_marginBottom="-12dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="@id/arrow_img"
         app:layout_constraintBottom_toBottomOf="@id/arrow_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/arrow_img" />
 
     <TextView
         android:id="@+id/src_text"
@@ -50,16 +49,26 @@
         android:textColor="@color/black"
         app:layout_constraintLeft_toRightOf="@id/arrow_img"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.48">
+        app:layout_constraintWidth_percent="0.48" />
 
-    </TextView>
+    <com.trashsoftware.ducksontranslator.widgets.AlignedText
+        android:id="@+id/full_text_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintWidth_percent="1.0"
+        app:layout_constraintLeft_toRightOf="@id/history_item_box"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </com.trashsoftware.ducksontranslator.widgets.AlignedText>
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/expand_barrier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="src_text, dst_text, arrow_img" />
+        app:constraint_referenced_ids="src_text,
+        dst_text, arrow_img, full_text_container" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/expand_part"
@@ -186,15 +195,15 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/date_selection" />
 
-<!--        <Button-->
-<!--            android:id="@+id/delete_history_btn"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="6dp"-->
-<!--            android:text="@string/delete"-->
-<!--            android:textAllCaps="false"-->
-<!--            app:layout_constraintLeft_toRightOf="@id/translate_again_btn"-->
-<!--            app:layout_constraintTop_toTopOf="@id/translate_again_btn" />-->
+        <!--        <Button-->
+        <!--            android:id="@+id/delete_history_btn"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginStart="6dp"-->
+        <!--            android:text="@string/delete"-->
+        <!--            android:textAllCaps="false"-->
+        <!--            app:layout_constraintLeft_toRightOf="@id/translate_again_btn"-->
+        <!--            app:layout_constraintTop_toTopOf="@id/translate_again_btn" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

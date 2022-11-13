@@ -26,6 +26,7 @@ public class HistoryItemVH extends HistoryVH {
     private final TextView baseDict, homo, dialect, picker, date;
     private final Button trans;
     private final MaterialCheckBox checkBox;
+    private final AlignedText fullTextContainer;
     HistoryItem item;
 
     public HistoryItemVH(@NonNull View itemView) {
@@ -46,6 +47,7 @@ public class HistoryItemVH extends HistoryVH {
         date = itemView.findViewById(R.id.date_selection);
 
         trans = itemView.findViewById(R.id.translate_again_btn);
+        fullTextContainer = itemView.findViewById(R.id.full_text_container);
     }
 
     @Override
@@ -88,11 +90,21 @@ public class HistoryItemVH extends HistoryVH {
         });
 
         if (item.isExpanded()) {
-            origText.setMaxLines(Integer.MAX_VALUE);
-            translatedText.setMaxLines(Integer.MAX_VALUE);
+            origText.setVisibility(View.INVISIBLE);  // 不用gone, 因为要固定箭头的位置
+            translatedText.setVisibility(View.INVISIBLE);
+            fullTextContainer.setVisibility(View.VISIBLE);
+
+            fullTextContainer.setText(item.getOrigText(), item.getTranslatedText());
+            fullTextContainer.drawParagraphs();
+
+//            origText.setMaxLines(Integer.MAX_VALUE);
+//            translatedText.setMaxLines(Integer.MAX_VALUE);
         } else {
-            origText.setMaxLines(3);
-            translatedText.setMaxLines(3);
+            origText.setVisibility(View.VISIBLE);
+            translatedText.setVisibility(View.VISIBLE);
+            fullTextContainer.setVisibility(View.GONE);
+//            origText.setMaxLines(3);
+//            translatedText.setMaxLines(3);
         }
     }
 
