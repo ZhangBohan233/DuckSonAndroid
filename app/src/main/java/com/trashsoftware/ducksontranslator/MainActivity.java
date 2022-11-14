@@ -1,5 +1,7 @@
 package com.trashsoftware.ducksontranslator;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -9,6 +11,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,8 +19,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -33,6 +34,7 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 import com.trashsoftware.ducksontranslator.db.HistoryAccess;
 import com.trashsoftware.ducksontranslator.db.HistoryItem;
+import com.trashsoftware.ducksontranslator.dialogs.ChangelogDialog;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,6 +45,7 @@ import trashsoftware.duckSonTranslator.DuckSonTranslator;
 import trashsoftware.duckSonTranslator.wordPickerChsGeg.PickerFactory;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MAIN_ACTIVITY";
     final List<WordPickerItem> pickerList = List.of(
             new WordPickerItem(this, PickerFactory.COMBINED_CHAR, true),
             new WordPickerItem(this, PickerFactory.COMMON_PREFIX_CHAR),
@@ -65,7 +68,35 @@ public class MainActivity extends AppCompatActivity {
     private SwitchMaterial homophoneSwitch;
     private Spinner wordPickerSpinner;
     private ArrayAdapter<WordPickerItem> wordPickerAdapter;
+    ActivityResultLauncher<Intent> historyResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    Intent data = result.getData();
+                    if (data != null) {
+                        HistoryItem item = (HistoryItem) data.getSerializableExtra("historyItem");
+                        if (item != null) {
+                            mainDrawer.closeDrawer(navigationView);
+
+                            translator.setUseBaseDict(item.isUseBaseDict());
+                            translator.setUseSameSoundChar(item.isUseSameSound());
+                            translator.setChongqingMode(item.isCq());
+                            translator.setChsGegPicker(PickerFactory.valueOf(item.getWordPickerName()));
+
+                            applyOptionsToUI();
+
+                            selectByValue(item.getSrcLang(), lang1Spinner);
+                            selectByValue(item.getDstLang(), lang2Spinner);
+
+                            editTextUp.setText(item.getOrigText());
+                            translate();
+                        }
+                    }
+                }
+            }
+    );
     private SharedPreferences translatorPref;
+    private SharedPreferences versionPref;
 
     public static String getLangName(Context context, String langId) {
         switch (langId) {
@@ -99,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         translatorPref = getSharedPreferences("translatorPref", 0);
+        versionPref = getSharedPreferences("versionPref", 0);
 
         mainDrawer = findViewById(R.id.mainDrawer);
 
@@ -197,6 +229,28 @@ public class MainActivity extends AppCompatActivity {
         });
 
         historyAccess = HistoryAccess.getInstance(this);
+
+        checkIsFirstOpen();
+    }
+
+    private void checkIsFirstOpen() {
+        int lastOpenVersion = versionPref.getInt("lastOpenVersion", 0);
+        int currentVersion = BuildConfig.VERSION_CODE;
+        Log.i(TAG, String.format("Current version %d, last open version %d",
+                currentVersion, lastOpenVersion));
+//        showUpdates();
+        if (currentVersion != lastOpenVersion) {
+            showUpdates();
+            SharedPreferences.Editor editor = versionPref.edit();
+            editor.putInt("lastOpenVersion", currentVersion);
+            editor.apply();
+        }
+    }
+
+    private void showUpdates() {
+        ChangelogDialog dialog = new ChangelogDialog(this);
+
+        dialog.show();
     }
 
     private void restoreSettings() {
@@ -211,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
         translator.setChsGegPicker(pickerList.get(translatorPref.getInt("wordPickerIndex", 0)).pickerFactory);
     }
 
-    private void applyOptionsToUI(){
+    private void applyOptionsToUI() {
         initToggleSelection();
 
         PickerFactory current = translator.getChsGegPicker().getFactory();
@@ -351,12 +405,18 @@ public class MainActivity extends AppCompatActivity {
         LanguageItem dst = (LanguageItem) lang2Spinner.getSelectedItem();
 
         String input = Objects.requireNonNull(editTextUp.getText()).toString();
+        if (input.trim().isEmpty()) {
+            editTextDown.setText("");
+            return;
+        }
+
         String srcLang;
         if (src.isAutoDetect) {
             if (src.langId.length() > 0) {
                 srcLang = src.langId;
             } else {
                 srcLang = translator.autoDetectLanguage(input);
+                src.langId = srcLang;  // 顺便给它设置了
             }
         } else {
             srcLang = src.langId;
@@ -416,7 +476,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         String down = editable.toString();
-        if (down.isEmpty()) {
+        if (down.trim().isEmpty()) {
             Toast.makeText(this, R.string.nothing_to_copy, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -433,33 +493,9 @@ public class MainActivity extends AppCompatActivity {
         historyResultLauncher.launch(intent);
     }
 
-    ActivityResultLauncher<Intent> historyResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == RESULT_OK) {
-                    Intent data = result.getData();
-                    if (data != null) {
-                        HistoryItem item = (HistoryItem) data.getSerializableExtra("historyItem");
-                        if (item != null) {
-                            mainDrawer.closeDrawer(navigationView);
-
-                            translator.setUseBaseDict(item.isUseBaseDict());
-                            translator.setUseSameSoundChar(item.isUseSameSound());
-                            translator.setChongqingMode(item.isCq());
-                            translator.setChsGegPicker(PickerFactory.valueOf(item.getWordPickerName()));
-
-                            applyOptionsToUI();
-
-                            selectByValue(item.getSrcLang(), lang1Spinner);
-                            selectByValue(item.getDstLang(), lang2Spinner);
-
-                            editTextUp.setText(item.getOrigText());
-                            translate();
-                        }
-                    }
-                }
-            }
-    );
+    public void changelogAction(MenuItem view) {
+        showUpdates();
+    }
 
     private void selectByValue(String langCode, Spinner spinner) {
         for (int i = 0; i < spinner.getAdapter().getCount(); i++) {
@@ -475,7 +511,7 @@ public class MainActivity extends AppCompatActivity {
         public final int resId;
         public final boolean isAutoDetect;
         final Context context;
-        public String langId;
+        String langId;
 
         LanguageItem(Context context, String langId, int resId, boolean isAutoDetect) {
             this.context = context;

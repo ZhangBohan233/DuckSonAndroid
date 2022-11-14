@@ -11,6 +11,13 @@
     </item>
 
     <item
+        android:id="@+id/changelogItem"
+        android:title="@string/check_changelog"
+        android:onClick="changelogAction">
+
+    </item>
+
+    <item
         android:id="@+id/appVersionItem"
         android:title="app version">
 

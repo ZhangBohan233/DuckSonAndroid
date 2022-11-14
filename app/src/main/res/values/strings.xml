@@ -58,4 +58,11 @@
     <string name="about">About</string>
     <string name="core_version">Core version: %s</string>
     <string name="app_version">Duck Son Translator %s</string>
+
+    <string name="welcome_text">Welcome to Duck Son Translator</string>
+    <string name="updates_intro">We have very duck son\'s new features!</string>
+    <string name="check_changelog">Check changelog</string>
+    <string name="full_changelog">Full changelog</string>
+    <string name="fold_changelog">Fold</string>
+    <string name="update_contents">Updates: </string>
 </resources>
