@@ -1,5 +1,6 @@
 package com.trashsoftware.ducksontranslator;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.ClipData;
@@ -13,9 +14,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -61,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private MenuItem appVersionItem, coreVersionItem;
     private DrawerLayout mainDrawer;
+    private ScrollView mainScrollView;
     private MaterialButtonToggleGroup dialectGroup;
     private MaterialButton cqToggle, mandarinToggle;
     private SwitchMaterial useBaseDictSwitch;
@@ -133,9 +137,12 @@ public class MainActivity extends AppCompatActivity {
         versionPref = getSharedPreferences("versionPref", 0);
 
         mainDrawer = findViewById(R.id.mainDrawer);
+        mainScrollView = findViewById(R.id.main_scroller);
 
         editTextUp = findViewById(R.id.textBoxUp);
         editTextDown = findViewById(R.id.textBoxDown);
+
+        setScrollListeners();
 
         navigationView = findViewById(R.id.mainNavigation);
 
@@ -156,7 +163,9 @@ public class MainActivity extends AppCompatActivity {
         homophoneSwitch = header.findViewById(R.id.homophoneSwitch);
 
         try {
+            long t0 = System.currentTimeMillis();
             translator = new DuckSonTranslator();
+            Log.v(TAG, "Translator launch time: " + (System.currentTimeMillis() - t0));
             restoreSettings();
             appVersionItem.setTitle(String.format(getString(R.string.app_version), BuildConfig.VERSION_NAME));
             coreVersionItem.setTitle(String.format(getString(R.string.core_version),
@@ -275,6 +284,26 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
         }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void setScrollListeners() {
+        // 让焦点在text时scrollview不滑动，焦点不在时才滑动
+        mainScrollView.setOnTouchListener((v, event) -> {
+            editTextUp.getParent().requestDisallowInterceptTouchEvent(false);
+            editTextDown.getParent().requestDisallowInterceptTouchEvent(false);
+            return false;
+        });
+
+        editTextUp.setOnTouchListener((v, event) -> {
+            editTextUp.getParent().requestDisallowInterceptTouchEvent(true);
+            return false;
+        });
+
+        editTextDown.setOnTouchListener((v, event) -> {
+            editTextDown.getParent().requestDisallowInterceptTouchEvent(true);
+            return false;
+        });
     }
 
     private void savePref() {
@@ -427,6 +456,7 @@ public class MainActivity extends AppCompatActivity {
 
         Thread thread = new Thread(() -> {
             String output;
+            long t0 = System.currentTimeMillis();
             if ("chs".equals(srcLang) && "geg".equals(dstLang)) {
                 output = translator.chsToGeglish(input);
             } else if ("geg".equals(srcLang) && "chs".equals(dstLang)) {
@@ -434,6 +464,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 output = input;
             }
+            Log.v(TAG, "Translation time: " + (System.currentTimeMillis() - t0));
 
             historyAccess.insert(HistoryItem.createFromTranslator(
                     srcLang,

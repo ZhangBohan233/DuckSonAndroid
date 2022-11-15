@@ -60,7 +60,7 @@
     <string name="app_version">Duck Son翻译器 %s</string>
 
     <string name="welcome_text">欢迎使用Duck Son翻译器</string>
-    <string name="updates_intro">我们推出了很鸭儿的更新！</string>
+    <string name="updates_intro">我们推出了很鸭儿的新功能！</string>
     <string name="check_changelog">查看更新日志</string>
     <string name="full_changelog">完整更新日志</string>
     <string name="fold_changelog">折叠</string>
