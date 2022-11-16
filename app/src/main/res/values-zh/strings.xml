@@ -37,6 +37,7 @@
     <string name="copy_content">复制</string>
     <string name="copied_to_clipboard">已复制至剪切板</string>
     <string name="nothing_to_copy">没有内容</string>
+    <string name="text_has_changed">上方内容已改变</string>
 
     <string name="history">历史记录</string>
     <string name="clear">清空</string>

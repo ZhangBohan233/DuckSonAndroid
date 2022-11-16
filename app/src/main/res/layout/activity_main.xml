@@ -15,25 +15,41 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.trashsoftware.ducksontranslator.widgets.TranslatorEditText
                 android:id="@+id/textBoxUp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
                 android:gravity="top"
-                android:inputType="none"
                 android:lines="8"
                 android:scrollbars="vertical"
                 app:layout_constraintTop_toTopOf="parent">
 
-            </com.google.android.material.textfield.TextInputEditText>
+            </com.trashsoftware.ducksontranslator.widgets.TranslatorEditText>
+
+            <ImageButton
+                android:id="@+id/upTextClearBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:background="@null"
+                android:contentDescription="@string/clear"
+                android:onClick="clearUpTextAction"
+                android:src="@drawable/ic_close_opsz48"
+                app:layout_constraintBottom_toBottomOf="@id/textBoxUp"
+                app:layout_constraintLeft_toLeftOf="@id/downTextCopyBtn"
+                app:layout_constraintRight_toRightOf="@id/downTextCopyBtn"/>
 
             <Spinner
                 android:id="@+id/lang1Spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
                 app:layout_constraintBottom_toBottomOf="@id/SwitchLangButton"
                 app:layout_constraintLeft_toLeftOf="@id/textBoxUp"
                 app:layout_constraintTop_toTopOf="@id/SwitchLangButton">
@@ -45,7 +61,8 @@
                 style="@style/SwitchLangButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="6dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
                 android:contentDescription="@string/swapLang"
                 android:onClick="swapLanguageAction"
                 android:src="@drawable/baseline_sync_alt_black_36"
@@ -70,6 +87,7 @@
                 style="@style/TranslateButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="6dp"
                 android:onClick="translateAction"
                 android:text="@string/translate"
@@ -79,32 +97,42 @@
 
             </Button>
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.trashsoftware.ducksontranslator.widgets.ResultText
                 android:id="@+id/textBoxDown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="12dp"
-                android:editable="false"
-                android:gravity="top"
-                android:inputType="none"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="12dp"
+                android:cursorVisible="true"
                 android:lines="8"
                 android:scrollbars="vertical"
                 android:textIsSelectable="true"
+                android:textSize="18sp"
                 app:layout_constraintTop_toBottomOf="@id/translateButton">
 
-            </com.google.android.material.textfield.TextInputEditText>
+            </com.trashsoftware.ducksontranslator.widgets.ResultText>
+
+            <View
+                android:id="@+id/textBoxDownFocusIndicator"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:background="#7F7F7F"
+                app:layout_constraintTop_toBottomOf="@id/textBoxDown" />
 
             <ImageButton
                 android:id="@+id/downTextCopyBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="8dp"
                 android:background="@null"
                 android:contentDescription="@string/copy_content"
                 android:onClick="copyDownTextAction"
                 android:src="@drawable/ic_content_copy"
-                app:layout_constraintBottom_toBottomOf="@id/textBoxDown"
-                app:layout_constraintRight_toRightOf="@id/textBoxDown">
+                app:layout_constraintBottom_toBottomOf="@id/textBoxDownFocusIndicator"
+                app:layout_constraintRight_toRightOf="@id/textBoxDownFocusIndicator">
 
             </ImageButton>
         </androidx.constraintlayout.widget.ConstraintLayout>

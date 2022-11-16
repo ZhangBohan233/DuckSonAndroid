@@ -1,8 +1,6 @@
 package com.trashsoftware.ducksontranslator;
 
 import android.annotation.SuppressLint;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -14,10 +12,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -34,17 +32,20 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.switchmaterial.SwitchMaterial;
-import com.google.android.material.textfield.TextInputEditText;
 import com.trashsoftware.ducksontranslator.db.HistoryAccess;
 import com.trashsoftware.ducksontranslator.db.HistoryItem;
 import com.trashsoftware.ducksontranslator.dialogs.ChangelogDialog;
+import com.trashsoftware.ducksontranslator.widgets.ResultText;
+import com.trashsoftware.ducksontranslator.widgets.TranslatorEditText;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import trashsoftware.duckSonTranslator.DuckSonTranslator;
+import trashsoftware.duckSonTranslator.result.TranslationResult;
 import trashsoftware.duckSonTranslator.wordPickerChsGeg.PickerFactory;
 
 public class MainActivity extends AppCompatActivity {
@@ -57,7 +58,8 @@ public class MainActivity extends AppCompatActivity {
     );
     DuckSonTranslator translator;
     private HistoryAccess historyAccess;
-    private TextInputEditText editTextUp, editTextDown;
+    private TranslatorEditText editTextUp;
+    private ResultText textBoxDown;
     private Spinner lang1Spinner, lang2Spinner;
     private ArrayAdapter<LanguageItem> lang1Adapter, lang2Adapter;
     private boolean autoDetect = false;
@@ -67,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
     private ScrollView mainScrollView;
     private MaterialButtonToggleGroup dialectGroup;
     private MaterialButton cqToggle, mandarinToggle;
+    private ImageButton clearUpTextBtn;
     private SwitchMaterial useBaseDictSwitch;
     //    private MaterialButton homophoneYesToggle, homophoneNoToggle;
     private SwitchMaterial homophoneSwitch;
@@ -101,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
     );
     private SharedPreferences translatorPref;
     private SharedPreferences versionPref;
+
+    private TranslationResult translationResult;
 
     public static String getLangName(Context context, String langId) {
         switch (langId) {
@@ -140,7 +145,12 @@ public class MainActivity extends AppCompatActivity {
         mainScrollView = findViewById(R.id.main_scroller);
 
         editTextUp = findViewById(R.id.textBoxUp);
-        editTextDown = findViewById(R.id.textBoxDown);
+        textBoxDown = findViewById(R.id.textBoxDown);
+        clearUpTextBtn = findViewById(R.id.upTextClearBtn);
+        clearUpTextBtn.setVisibility(View.GONE);
+
+        // 关联两个东西
+        textBoxDown.setSrcField(editTextUp);
 
         setScrollListeners();
 
@@ -242,6 +252,13 @@ public class MainActivity extends AppCompatActivity {
         checkIsFirstOpen();
     }
 
+    private void bindResultToDownText(TranslationResult result, String dstText) {
+        textBoxDown.setTextColor(Color.BLACK);
+        textBoxDown.setTranslationResult(result);
+        textBoxDown.setText(dstText);
+        editTextUp.enableHighlighting();
+    }
+
     private void checkIsFirstOpen() {
         int lastOpenVersion = versionPref.getInt("lastOpenVersion", 0);
         int currentVersion = BuildConfig.VERSION_CODE;
@@ -291,7 +308,7 @@ public class MainActivity extends AppCompatActivity {
         // 让焦点在text时scrollview不滑动，焦点不在时才滑动
         mainScrollView.setOnTouchListener((v, event) -> {
             editTextUp.getParent().requestDisallowInterceptTouchEvent(false);
-            editTextDown.getParent().requestDisallowInterceptTouchEvent(false);
+            textBoxDown.getParent().requestDisallowInterceptTouchEvent(false);
             return false;
         });
 
@@ -300,8 +317,8 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
-        editTextDown.setOnTouchListener((v, event) -> {
-            editTextDown.getParent().requestDisallowInterceptTouchEvent(true);
+        textBoxDown.setOnTouchListener((v, event) -> {
+            textBoxDown.getParent().requestDisallowInterceptTouchEvent(true);
             return false;
         });
     }
@@ -396,7 +413,14 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() == 0) {
+                    clearUpTextBtn.setVisibility(View.GONE);
+                } else {
+                    clearUpTextBtn.setVisibility(View.VISIBLE);
+                }
+
                 updateLangSpinners(charSequence.toString());
+                editTextUp.textContentChanged();
             }
 
             @Override
@@ -430,12 +454,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void translate() {
+        editTextUp.clearHighlights();
+//        editTextDown.clearHighlights();
+
         LanguageItem src = (LanguageItem) lang1Spinner.getSelectedItem();
         LanguageItem dst = (LanguageItem) lang2Spinner.getSelectedItem();
 
         String input = Objects.requireNonNull(editTextUp.getText()).toString();
         if (input.trim().isEmpty()) {
-            editTextDown.setText("");
+            textBoxDown.setText("");
             return;
         }
 
@@ -451,40 +478,46 @@ public class MainActivity extends AppCompatActivity {
             srcLang = src.langId;
         }
         String dstLang = dst.langId;
-        editTextDown.setTextColor(Color.GRAY);
-        editTextDown.setText(R.string.translating);
+        textBoxDown.setTextColor(Color.GRAY);
+        textBoxDown.setText(R.string.translating);
 
         Thread thread = new Thread(() -> {
-            String output;
             long t0 = System.currentTimeMillis();
             if ("chs".equals(srcLang) && "geg".equals(dstLang)) {
-                output = translator.chsToGeglish(input);
+                translationResult = translator.chsToGeglish(input);
             } else if ("geg".equals(srcLang) && "chs".equals(dstLang)) {
-                output = translator.geglishToChs(input);
+                translationResult = translator.geglishToChs(input);
             } else {
-                output = input;
+                translationResult = null;
             }
             Log.v(TAG, "Translation time: " + (System.currentTimeMillis() - t0));
+
+            String dstText;
+            if (translationResult == null) {
+                dstText = input;
+            } else {
+                dstText = translationResult.toString();
+            }
 
             historyAccess.insert(HistoryItem.createFromTranslator(
                     srcLang,
                     input,
                     dstLang,
-                    output,
+                    dstText,
                     translator
             ));
-            runOnUiThread(() -> {
-                editTextDown.setTextColor(Color.BLACK);
-                editTextDown.setText(output);
-            });
+            runOnUiThread(() -> bindResultToDownText(translationResult, dstText));
         });
         thread.start();
     }
 
     public void swapLanguageAction(View view) {
-        Editable editable = editTextDown.getText();
-        if (editable == null) return;
-        String down = editable.toString();
+        CharSequence downCs = textBoxDown.getText();
+        if (downCs == null) {
+            Toast.makeText(this, R.string.nothing_to_copy, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String down = downCs.toString();
         LanguageItem src = (LanguageItem) lang1Spinner.getSelectedItem();
         LanguageItem dst = (LanguageItem) lang2Spinner.getSelectedItem();
 
@@ -500,13 +533,17 @@ public class MainActivity extends AppCompatActivity {
         translate();
     }
 
+    public void clearUpTextAction(View view) {
+        editTextUp.setText("");
+    }
+
     public void copyDownTextAction(View view) {
-        Editable editable = editTextDown.getText();
-        if (editable == null) {
+        CharSequence downCs = textBoxDown.getText();
+        if (downCs == null) {
             Toast.makeText(this, R.string.nothing_to_copy, Toast.LENGTH_SHORT).show();
             return;
         }
-        String down = editable.toString();
+        String down = downCs.toString();
         if (down.trim().isEmpty()) {
             Toast.makeText(this, R.string.nothing_to_copy, Toast.LENGTH_SHORT).show();
             return;
