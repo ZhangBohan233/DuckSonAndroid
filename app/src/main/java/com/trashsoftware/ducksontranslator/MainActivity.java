@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private HistoryAccess historyAccess;
     private TranslatorEditText editTextUp;
     private ResultText textBoxDown;
+    private View resultFocusIndicator;
     private Spinner lang1Spinner, lang2Spinner;
     private ArrayAdapter<LanguageItem> lang1Adapter, lang2Adapter;
     private boolean autoDetect = false;
@@ -146,11 +147,13 @@ public class MainActivity extends AppCompatActivity {
 
         editTextUp = findViewById(R.id.textBoxUp);
         textBoxDown = findViewById(R.id.textBoxDown);
+        resultFocusIndicator = findViewById(R.id.textBoxDownFocusIndicator);
         clearUpTextBtn = findViewById(R.id.upTextClearBtn);
         clearUpTextBtn.setVisibility(View.GONE);
 
         // 关联两个东西
         textBoxDown.setSrcField(editTextUp);
+        textBoxDown.setFocusIndicator(resultFocusIndicator);
 
         setScrollListeners();
 

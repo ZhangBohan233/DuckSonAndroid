@@ -1,10 +1,15 @@
 package com.trashsoftware.ducksontranslator.widgets;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.trashsoftware.ducksontranslator.R;
 
@@ -16,15 +21,27 @@ import trashsoftware.duckSonTranslator.result.TranslationResult;
 
 public class ResultText extends androidx.appcompat.widget.AppCompatTextView {
 
+    private ViewGroup.LayoutParams focusedParams;
+    private ViewGroup.LayoutParams normalParams;
     private TranslationResult translationResult;
+    private View focusIndicator;
     private TranslatorEditText srcField;
 
     public ResultText(@NonNull Context context) {
         super(context);
+
+        createParams();
     }
 
     public ResultText(@NonNull Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
+
+        createParams();
+    }
+
+    private void createParams() {
+        focusedParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPx(3));
+        normalParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPx(1));
     }
 
     @Override
@@ -77,8 +94,33 @@ public class ResultText extends androidx.appcompat.widget.AppCompatTextView {
         return results;
     }
 
+    private int dpToPx(int dp) {
+        return Math.round(dp * getContext().getResources().getDisplayMetrics().density);
+    }
+
+    @Override
+    protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
+        super.onFocusChanged(focused, direction, previouslyFocusedRect);
+
+        if (focusIndicator != null) {
+            ViewGroup.LayoutParams layoutParams = focusIndicator.getLayoutParams();
+            if (focused) {
+                focusIndicator.setBackgroundColor(getContext().getColor(R.color.teal_200));
+                layoutParams.height = dpToPx(3);
+            } else {
+                focusIndicator.setBackgroundColor(getContext().getColor(R.color.not_important_black));
+                layoutParams.height = dpToPx(1);
+            }
+            focusIndicator.setLayoutParams(layoutParams);
+        }
+    }
+
     public void setSrcField(TranslatorEditText srcField) {
         this.srcField = srcField;
+    }
+
+    public void setFocusIndicator(View focusIndicator) {
+        this.focusIndicator = focusIndicator;
     }
 
     public void setTranslationResult(TranslationResult translationResult) {
