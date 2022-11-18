@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.trashsoftware.ducksontranslator.MainActivity;
@@ -15,25 +14,31 @@ import com.trashsoftware.ducksontranslator.R;
 import com.trashsoftware.ducksontranslator.db.HistoryItem;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
 import trashsoftware.duckSonTranslator.wordPickerChsGeg.PickerFactory;
 
 public class HistoryItemVH extends HistoryVH {
 
+    private final ConstraintLayout dateDividerPart;
     private final ConstraintLayout expandPart;
     private final TextView srcLangText, dstLangText, origText, translatedText;
     private final TextView baseDict, homo, dialect, picker, date;
+    private final TextView dateDividerText;
     private final Button trans;
     private final MaterialCheckBox checkBox;
     private final AlignedText fullTextContainer;
     HistoryItem item;
+    Date itemDate;
 
     public HistoryItemVH(@NonNull View itemView) {
         super(itemView);
 
+        dateDividerPart = itemView.findViewById(R.id.item_date_divider);
         expandPart = itemView.findViewById(R.id.expand_part);
         checkBox = itemView.findViewById(R.id.history_item_box);
+        dateDividerText = itemView.findViewById(R.id.item_date_divider_text);
 
         srcLangText = itemView.findViewById(R.id.src_lang);
         dstLangText = itemView.findViewById(R.id.dst_lang);
@@ -55,8 +60,41 @@ public class HistoryItemVH extends HistoryVH {
         return NORMAL;
     }
 
-    public void setItem(Context context, HistoryAdapter parent, HistoryItem item) {
+    private void setupDateDivider() {
+        LocalDate today = LocalDate.now();
+
+
+        LocalDate itemD = item.getDate();
+        if (itemD.equals(today)) {
+            dateDividerText.setText(R.string.today);
+            return;
+        }
+        LocalDate yesterday = today.minusDays(1);
+        if (itemD.equals(yesterday)) {
+            dateDividerText.setText(R.string.yesterday);
+            return;
+        }
+        LocalDate beforeYesterday = yesterday.minusDays(1);
+        if (itemD.equals(beforeYesterday)) {
+            dateDividerText.setText(R.string.day_before_yesterday);
+            return;
+        }
+
+        dateDividerText.setText(SimpleDateFormat.getDateInstance().format(itemDate));
+    }
+
+    public void setItem(Context context, HistoryAdapter parent, HistoryItem item,
+                        boolean isDateDivider) {
         this.item = item;
+
+        itemDate = new Date(item.getTime());
+
+        if (isDateDivider) {
+            dateDividerPart.setVisibility(View.VISIBLE);
+            setupDateDivider();
+        } else {
+            dateDividerPart.setVisibility(View.GONE);
+        }
 
         srcLangText.setText(MainActivity.getLangName(context, item.getSrcLang()));
         dstLangText.setText(MainActivity.getLangName(context, item.getDstLang()));
@@ -76,7 +114,7 @@ public class HistoryItemVH extends HistoryVH {
         PickerFactory pf = PickerFactory.valueOf(pickerDb);
         picker.setText(MainActivity.getWordPickerShownName(pf));
 
-        date.setText(SimpleDateFormat.getDateTimeInstance().format(new Date(item.getTime())));
+        date.setText(SimpleDateFormat.getDateTimeInstance().format(itemDate));
 
         trans.setOnClickListener(view -> parent.translateAgain(this));
 

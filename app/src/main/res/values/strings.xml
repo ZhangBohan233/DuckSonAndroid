@@ -45,6 +45,9 @@
     <string name="clear_confirm">Are you sure to clear translation history?</string>
     <string name="clear_success">All records deleted</string>
     <string name="clear_failed">Failed to clear records</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="day_before_yesterday">The day before yesterday</string>
 
     <string name="translate_again">Apply again</string>
     <string name="date">Date</string>

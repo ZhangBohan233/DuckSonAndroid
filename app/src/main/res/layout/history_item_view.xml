@@ -7,6 +7,29 @@
     android:layout_marginBottom="12dp"
     app:layout_optimizationLevel="none">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/item_date_divider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/item_date_divider_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="date"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/light_grey"
+            app:layout_constraintTop_toBottomOf="@+id/item_date_divider_text" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <com.google.android.material.checkbox.MaterialCheckBox
         android:id="@+id/history_item_box"
         android:layout_width="wrap_content"
@@ -26,7 +49,7 @@
         android:text="输入的原句需要比较长来展示折行的效果"
         android:textColor="@color/black"
         app:layout_constraintLeft_toRightOf="@id/history_item_box"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/item_date_divider"
         app:layout_constraintWidth_percent="0.42" />
 
     <ImageView
@@ -48,7 +71,7 @@
         android:text="Dst text demo"
         android:textColor="@color/black"
         app:layout_constraintLeft_toRightOf="@id/arrow_img"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/item_date_divider"
         app:layout_constraintWidth_percent="0.48" />
 
     <com.trashsoftware.ducksontranslator.widgets.AlignedText

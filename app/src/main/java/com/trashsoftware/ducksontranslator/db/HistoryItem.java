@@ -1,6 +1,10 @@
 package com.trashsoftware.ducksontranslator.db;
 
 import java.io.Serializable;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Calendar;
 
 import trashsoftware.duckSonTranslator.DuckSonTranslator;
 
@@ -19,6 +23,9 @@ public class HistoryItem implements Comparable<HistoryItem>, Serializable {
     transient private boolean expanded;  // 不存的属性，用于UI
     transient private boolean selected;
 
+    public HistoryItem() {
+    }
+
     public static HistoryItem createFromTranslator(String srcLang,
                                                    String origText,
                                                    String dstLang,
@@ -35,12 +42,21 @@ public class HistoryItem implements Comparable<HistoryItem>, Serializable {
         item.useSameSound = translator.isUseSameSoundChar();
         item.isCq = translator.isChongqingMode();
         item.wordPickerName = translator.getChsGegPicker().getFactory().name();
+        item.generate();
         return item;
+    }
+
+    public void generate() {
     }
 
     @Override
     public int compareTo(HistoryItem o) {
         return -Long.compare(this.time, o.time);
+    }
+
+    public LocalDate getDate() {
+        // 要现生成，不然过了12点不得变
+        return Instant.ofEpochMilli(time).atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
     public void setExpanded(boolean expanded) {
@@ -52,7 +68,6 @@ public class HistoryItem implements Comparable<HistoryItem>, Serializable {
     }
 
     public void setSelected(boolean selected) {
-        System.out.println(selected);
         this.selected = selected;
     }
 

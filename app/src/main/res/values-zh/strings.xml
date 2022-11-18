@@ -56,6 +56,9 @@
     <string name="delete_confirm">请确认删除。</string>
     <string name="delete_success">已删除</string>
     <string name="delete_failed">删除失败</string>
+    <string name="today">今天</string>
+    <string name="yesterday">昨天</string>
+    <string name="day_before_yesterday">前天</string>
 
     <string name="about">关于</string>
     <string name="core_version">内核版本: %s</string>

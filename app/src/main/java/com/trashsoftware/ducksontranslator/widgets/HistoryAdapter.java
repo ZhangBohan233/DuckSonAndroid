@@ -14,6 +14,7 @@ import com.trashsoftware.ducksontranslator.R;
 import com.trashsoftware.ducksontranslator.db.HistoryAccess;
 import com.trashsoftware.ducksontranslator.db.HistoryItem;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryVH> {
     private final HistoryAccess historyAccess;
     private final HistoryActivity context;
     private final List<HistoryItem> allHistory = new ArrayList<>();
-//    private final View placeHolder;
     private boolean selecting;
 
     public HistoryAdapter(HistoryActivity context) {
@@ -33,6 +33,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryVH> {
 
         historyAccess = HistoryAccess.getInstance(context);
         pullHistoryFromDb();
+    }
+
+    private static boolean isDifferentDay(LocalDate a, LocalDate b) {
+        return !a.equals(b);
     }
 
     public void selectOrDeselectAll(boolean select) {
@@ -185,7 +189,16 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryVH> {
         if (type == HistoryVH.NORMAL) {
             HistoryItemVH itemVH = (HistoryItemVH) holder;
             HistoryItem item = allHistory.get(position);
-            itemVH.setItem(context, this, item);
+
+            boolean isDivider;
+            if (position == 0) {
+                isDivider = true;
+            } else {
+                HistoryItem last = allHistory.get(position - 1);
+                isDivider = isDifferentDay(item.getDate(), last.getDate());
+            }
+
+            itemVH.setItem(context, this, item, isDivider);
             itemVH.itemView.setOnClickListener(v -> {
                 item.setExpanded(!item.isExpanded());
                 notifyItemChanged(position);

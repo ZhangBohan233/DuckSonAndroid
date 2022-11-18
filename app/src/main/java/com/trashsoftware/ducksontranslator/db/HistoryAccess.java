@@ -136,7 +136,7 @@ public class HistoryAccess extends SQLiteOpenHelper {
                     item.useSameSound = cursor.getInt(cursor.getColumnIndexOrThrow("useSameSound")) > 0;
                     item.isCq = cursor.getInt(cursor.getColumnIndexOrThrow("isCq")) > 0;
                     item.wordPickerName = cursor.getString(cursor.getColumnIndexOrThrow("wordPickerName"));
-
+                    item.generate();
                     items.add(item);
                 } catch (IllegalArgumentException e) {
                     Log.e(TAG, e.toString());
