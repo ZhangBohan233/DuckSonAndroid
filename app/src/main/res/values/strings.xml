@@ -5,6 +5,7 @@
     <string name="translate">Translate</string>
     <string name="swapLang">Swap</string>
     <string name="translating">Translating…</string>
+    <string name="up_box_hint">Input here…</string>
 
     <string name="open">Open</string>
     <string name="close">Close</string>
@@ -59,6 +60,18 @@
     <string name="about">About</string>
     <string name="core_version">Core version: %s</string>
     <string name="app_version">Duck Son Translator %s</string>
+    <string name="core_version_text">Core version</string>
+    <string name="app_version_text">App version</string>
+    <string name="app_description">Duck Son Translator is a funny software that translates Chinese into corresponding English words according to each English word. The software has a Mandarin translation version and a Chongqing dialect translation version, and has a variety of translation modes. Welcome to download.</string>
+    <string name="brief_intro">Introduction</string>
+    <string name="contacts">Contacts</string>
+    <string name="email">E-mail</string>
+    <string name="bug_report">Bug report</string>
+    <string name="acknowledgements">Acknowledgements</string>
+    <string name="geglish_standard_association">Geglish Standards and Research Association</string>
+    <string name="closed_beta_users">Close beta users</string>
+    <string name="version_info">Version info</string>
+    <string name="studio_name">Trash Software Studio</string>
 
     <string name="welcome_text">Welcome to Duck Son Translator</string>
     <string name="updates_intro">We have very duck son\'s new features!</string>
@@ -66,4 +79,9 @@
     <string name="full_changelog">Full changelog</string>
     <string name="fold_changelog">Fold</string>
     <string name="update_contents">Updates: </string>
+
+    <string-array name="contact_emails">
+        <item>2676147693@qq.com</item>
+        <item>826602899@qq.com</item>
+    </string-array>
 </resources>

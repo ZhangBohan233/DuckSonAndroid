@@ -1,15 +1,14 @@
 package com.trashsoftware.ducksontranslator.widgets;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.trashsoftware.ducksontranslator.R;
 
@@ -102,11 +101,16 @@ public class ResultText extends androidx.appcompat.widget.AppCompatTextView {
     protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
         super.onFocusChanged(focused, direction, previouslyFocusedRect);
 
+        if (focused) {
+            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getWindowToken(), 0);
+        }
+
         if (focusIndicator != null) {
             ViewGroup.LayoutParams layoutParams = focusIndicator.getLayoutParams();
             if (focused) {
                 focusIndicator.setBackgroundColor(getContext().getColor(R.color.teal_200));
-                layoutParams.height = dpToPx(3);
+                layoutParams.height = dpToPx(2);
             } else {
                 focusIndicator.setBackgroundColor(getContext().getColor(R.color.not_important_black));
                 layoutParams.height = dpToPx(1);

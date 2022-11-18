@@ -2,9 +2,7 @@ package com.trashsoftware.ducksontranslator.util;
 
 import android.content.Context;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,17 +12,8 @@ public class ChangelogReader {
     private final Changelog[] changelogs;
 
     private ChangelogReader(Context context) throws IOException {
-        StringBuilder builder = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(
-                new InputStreamReader(context.getAssets().open("changelog.txt")))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                if (!line.trim().isEmpty()) {
-                    builder.append(line).append('\n');  // 这里不能trim
-                }
-            }
-        }
-        String[] versions = builder.toString().split("==========\n");
+        String fileContent = AssetsReader.readAssetsLinesAsString(context, "changelog.txt");
+        String[] versions = fileContent.split("==========\n");
 
         List<Changelog> changelogList = new ArrayList<>();
         for (String ver : versions) {

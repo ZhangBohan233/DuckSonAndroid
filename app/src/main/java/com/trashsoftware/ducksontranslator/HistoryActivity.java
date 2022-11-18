@@ -34,10 +34,9 @@ public class HistoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_history);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.history_toolbar);
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
@@ -57,7 +56,6 @@ public class HistoryActivity extends AppCompatActivity {
         selectAllBox.setOnCheckedChangeListener((view, isChecked) -> {
             // 不用selectionChange，因为可能要代码改，不想触发这个
             if (!programmingChangeSelectAll) {
-                System.out.println(isChecked);
                 adapter.selectOrDeselectAll(isChecked);
             }
         });

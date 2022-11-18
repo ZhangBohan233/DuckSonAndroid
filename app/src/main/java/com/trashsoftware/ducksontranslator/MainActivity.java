@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
             new WordPickerItem(this, PickerFactory.RANDOM_CHAR)
     );
     DuckSonTranslator translator;
+    private static String appVersion;
+    private static String coreVersion;
     private HistoryAccess historyAccess;
     private TranslatorEditText editTextUp;
     private ResultText textBoxDown;
@@ -76,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
     private SwitchMaterial homophoneSwitch;
     private Spinner wordPickerSpinner;
     private ArrayAdapter<WordPickerItem> wordPickerAdapter;
+
+    // Result getter of history view
     ActivityResultLauncher<Intent> historyResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -179,10 +183,11 @@ public class MainActivity extends AppCompatActivity {
             long t0 = System.currentTimeMillis();
             translator = new DuckSonTranslator();
             Log.v(TAG, "Translator launch time: " + (System.currentTimeMillis() - t0));
+            appVersion = BuildConfig.VERSION_NAME;
+            coreVersion = translator.getCoreVersion() + "." + translator.getDictionaryVersion();
             restoreSettings();
-            appVersionItem.setTitle(String.format(getString(R.string.app_version), BuildConfig.VERSION_NAME));
-            coreVersionItem.setTitle(String.format(getString(R.string.core_version),
-                    translator.getCoreVersion() + "." + translator.getDictionaryVersion()));
+            appVersionItem.setTitle(String.format(getString(R.string.app_version), appVersion));
+            coreVersionItem.setTitle(String.format(getString(R.string.core_version), coreVersion));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -566,6 +571,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void changelogAction(MenuItem view) {
         showUpdates();
+    }
+
+    public void aboutAction(MenuItem menuItem) {
+        Intent intent = new Intent(this, AboutActivity.class);
+        startActivity(intent);
+    }
+
+    public static String getAppVersion() {
+        return appVersion;
+    }
+
+    public static String getCoreVersion() {
+        return coreVersion;
     }
 
     private void selectByValue(String langCode, Spinner spinner) {

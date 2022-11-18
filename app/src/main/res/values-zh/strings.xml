@@ -5,6 +5,7 @@
     <string name="translate">翻译</string>
     <string name="swapLang">互换</string>
     <string name="translating">正在翻译…</string>
+    <string name="up_box_hint">请输入文字…</string>
 
     <string name="open">打开</string>
     <string name="close">关闭</string>
@@ -59,6 +60,18 @@
     <string name="about">关于</string>
     <string name="core_version">内核版本: %s</string>
     <string name="app_version">Duck Son翻译器 %s</string>
+    <string name="core_version_text">内核版本</string>
+    <string name="app_version_text">App版本</string>
+    <string name="app_description">Duck Son翻译器是一个具有将中文按每个字翻译为对应的英文单词的搞笑软件。该软件内置了普通话翻译版和重庆话翻译版，具有多种翻译模式，欢迎下载体验。</string>
+    <string name="brief_intro">简介</string>
+    <string name="contacts">联系方式</string>
+    <string name="email">邮箱</string>
+    <string name="bug_report">Bug反馈</string>
+    <string name="acknowledgements">鸣谢</string>
+    <string name="geglish_standard_association">给力语标准与研究协会</string>
+    <string name="closed_beta_users">内测用户</string>
+    <string name="version_info">版本信息</string>
+    <string name="studio_name">垃圾软件工作室</string>
 
     <string name="welcome_text">欢迎使用Duck Son翻译器</string>
     <string name="updates_intro">我们推出了很鸭儿的新功能！</string>
@@ -66,4 +79,9 @@
     <string name="full_changelog">完整更新日志</string>
     <string name="fold_changelog">折叠</string>
     <string name="update_contents">更新内容：</string>
+
+    <string-array name="contact_emails">
+        <item>2676147693@qq.com</item>
+        <item>826602899@qq.com</item>
+    </string-array>
 </resources>

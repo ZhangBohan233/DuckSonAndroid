@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_scroller"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp">
+
+        <com.trashsoftware.ducksontranslator.widgets.TranslatorEditText
+            android:id="@+id/textBoxUp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:gravity="top"
+            android:hint="@string/up_box_hint"
+            android:lines="8"
+            android:scrollbars="vertical"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </com.trashsoftware.ducksontranslator.widgets.TranslatorEditText>
+
+        <ImageButton
+            android:id="@+id/upTextClearBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="@null"
+            android:contentDescription="@string/clear"
+            android:onClick="clearUpTextAction"
+            android:src="@drawable/ic_close_opsz48"
+            app:layout_constraintBottom_toBottomOf="@id/textBoxUp"
+            app:layout_constraintLeft_toLeftOf="@id/downTextCopyBtn"
+            app:layout_constraintRight_toRightOf="@id/downTextCopyBtn" />
+
+        <Spinner
+            android:id="@+id/lang1Spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            app:layout_constraintBottom_toBottomOf="@id/SwitchLangButton"
+            app:layout_constraintLeft_toLeftOf="@id/textBoxUp"
+            app:layout_constraintTop_toTopOf="@id/SwitchLangButton">
+
+        </Spinner>
+
+        <ImageButton
+            android:id="@+id/SwitchLangButton"
+            style="@style/SwitchLangButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:contentDescription="@string/swapLang"
+            android:onClick="swapLanguageAction"
+            android:src="@drawable/baseline_sync_alt_black_36"
+            app:layout_constraintLeft_toRightOf="@id/lang1Spinner"
+            app:layout_constraintTop_toBottomOf="@id/textBoxUp">
+
+        </ImageButton>
+
+        <Spinner
+            android:id="@+id/lang2Spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            app:layout_constraintBottom_toBottomOf="@id/lang1Spinner"
+            app:layout_constraintLeft_toRightOf="@id/SwitchLangButton"
+            app:layout_constraintTop_toTopOf="@id/lang1Spinner">
+
+        </Spinner>
+
+        <Button
+            android:id="@+id/translateButton"
+            style="@style/TranslateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="6dp"
+            android:gravity="center_vertical"
+            android:onClick="translateAction"
+            android:text="@string/translate"
+            android:textSize="18sp"
+            app:drawableLeftCompat="@drawable/ic_translate_20"
+            app:layout_constraintLeft_toLeftOf="@+id/textBoxUp"
+            app:layout_constraintTop_toBottomOf="@+id/SwitchLangButton">
+
+        </Button>
+
+        <com.trashsoftware.ducksontranslator.widgets.ResultText
+            android:id="@+id/textBoxDown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="12dp"
+            android:cursorVisible="true"
+            android:lines="8"
+            android:scrollbars="vertical"
+            android:textIsSelectable="true"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/translateButton">
+
+        </com.trashsoftware.ducksontranslator.widgets.ResultText>
+
+        <View
+            android:id="@+id/textBoxDownFocusIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="4dp"
+            android:background="@color/not_important_black"
+            app:layout_constraintTop_toBottomOf="@id/textBoxDown" />
+
+        <ImageButton
+            android:id="@+id/downTextCopyBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:background="@null"
+            android:contentDescription="@string/copy_content"
+            android:onClick="copyDownTextAction"
+            android:src="@drawable/ic_content_copy"
+            app:layout_constraintBottom_toBottomOf="@id/textBoxDown"
+            app:layout_constraintRight_toRightOf="@id/textBoxDown">
+
+        </ImageButton>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

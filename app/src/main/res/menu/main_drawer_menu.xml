@@ -5,28 +5,30 @@
 
     <item
         android:id="@+id/historyMenuItem"
-        android:title="@string/history"
-        android:onClick="historyAction">
-
-    </item>
+        android:icon="@drawable/ic_history_24"
+        android:onClick="historyAction"
+        android:title="@string/history" />
 
     <item
         android:id="@+id/changelogItem"
-        android:title="@string/check_changelog"
-        android:onClick="changelogAction">
-
-    </item>
+        android:icon="@drawable/ic_change_circle_24"
+        android:onClick="changelogAction"
+        android:title="@string/check_changelog" />
 
     <item
         android:id="@+id/appVersionItem"
-        android:title="app version">
+        android:title="@string/app_version_text">
 
         <menu>
-            <group android:checkableBehavior="single">
+            <group>
                 <item
                     android:id="@+id/coreVersionItem"
-                    android:title="core version">
-                </item>
+                    android:icon="@drawable/ic_settings_applications_24"
+                    android:title="@string/core_version" />
+                <item
+                    android:onClick="aboutAction"
+                    android:icon="@drawable/ic_info_black_24"
+                    android:title="@string/about" />
             </group>
         </menu>
     </item>
