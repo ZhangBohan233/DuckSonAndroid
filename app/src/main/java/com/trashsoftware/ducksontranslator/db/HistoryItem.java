@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
 
-import trashsoftware.duckSonTranslator.DuckSonTranslator;
+import trashsoftware.duckSonTranslator.translators.DuckSonTranslator;
 
 public class HistoryItem implements Comparable<HistoryItem>, Serializable {
     long time;

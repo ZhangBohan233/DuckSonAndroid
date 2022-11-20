@@ -9,8 +9,8 @@ android {
         applicationId "com.trashsoftware.ducksontranslator"
         minSdk 28
         targetSdk 32
-        versionCode 27
-        versionName "0.6.0-beta"
+        versionCode 29
+        versionName "0.6.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -39,17 +39,18 @@ import com.trashsoftware.ducksontranslator.widgets.ResultText;
 import com.trashsoftware.ducksontranslator.widgets.TranslatorEditText;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import trashsoftware.duckSonTranslator.DuckSonTranslator;
 import trashsoftware.duckSonTranslator.result.TranslationResult;
+import trashsoftware.duckSonTranslator.translators.DuckSonTranslator;
 import trashsoftware.duckSonTranslator.wordPickerChsGeg.PickerFactory;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MAIN_ACTIVITY";
+    private static String appVersion;
+    private static String coreVersion;
     final List<WordPickerItem> pickerList = List.of(
             new WordPickerItem(this, PickerFactory.COMBINED_CHAR, true),
             new WordPickerItem(this, PickerFactory.COMMON_PREFIX_CHAR),
@@ -57,8 +58,6 @@ public class MainActivity extends AppCompatActivity {
             new WordPickerItem(this, PickerFactory.RANDOM_CHAR)
     );
     DuckSonTranslator translator;
-    private static String appVersion;
-    private static String coreVersion;
     private HistoryAccess historyAccess;
     private TranslatorEditText editTextUp;
     private ResultText textBoxDown;
@@ -78,7 +77,9 @@ public class MainActivity extends AppCompatActivity {
     private SwitchMaterial homophoneSwitch;
     private Spinner wordPickerSpinner;
     private ArrayAdapter<WordPickerItem> wordPickerAdapter;
-
+    private SharedPreferences translatorPref;
+    private SharedPreferences versionPref;
+    private TranslationResult translationResult;
     // Result getter of history view
     ActivityResultLauncher<Intent> historyResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -107,10 +108,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
     );
-    private SharedPreferences translatorPref;
-    private SharedPreferences versionPref;
-
-    private TranslationResult translationResult;
 
     public static String getLangName(Context context, String langId) {
         switch (langId) {
@@ -136,6 +133,14 @@ public class MainActivity extends AppCompatActivity {
             default:
                 throw new RuntimeException();
         }
+    }
+
+    public static String getAppVersion() {
+        return appVersion;
+    }
+
+    public static String getCoreVersion() {
+        return coreVersion;
     }
 
     @Override
@@ -576,14 +581,6 @@ public class MainActivity extends AppCompatActivity {
     public void aboutAction(MenuItem menuItem) {
         Intent intent = new Intent(this, AboutActivity.class);
         startActivity(intent);
-    }
-
-    public static String getAppVersion() {
-        return appVersion;
-    }
-
-    public static String getCoreVersion() {
-        return coreVersion;
     }
 
     private void selectByValue(String langCode, Spinner spinner) {
