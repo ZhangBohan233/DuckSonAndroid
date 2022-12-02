@@ -13,20 +13,22 @@
     <string name="auto_detect">Auto detect</string>
     <string name="chinese">中文</string>
     <string name="geglish">Geglish</string>
+    <string name="chinglish">Chinglish</string>
 
     <string name="cqDialect">CQ</string>
     <string name="mandarin">Mandarin</string>
 
     <string name="settings">Settings</string>
+    <string name="trans_options">Translator Options</string>
     <string name="chinese_dialect">Dialect</string>
+    <string name="chongqing_mode">Chongqing Dialect</string>
     <string name="word_picker">Word Picker</string>
-    <string name="word_picker_random">Random</string>
-    <string name="word_picker_freq">Frequency</string>
-    <string name="word_picker_substring">Prefix</string>
-    <string name="word_picker_combined">Combined</string>
-    <string name="recommended">Recommended</string>
     <string name="use_same_sound">Homophone</string>
     <string name="use_base_dict">Enhanced dictionary</string>
+
+    <!--Bottom navigation-->
+    <string name="translate_navigation">Translate</string>
+    <string name="dictionary_navigation">Dictionary</string>
 
     <string name="enabled">Enabled</string>
     <string name="disabled">Disabled</string>
@@ -39,6 +41,7 @@
     <string name="copied_to_clipboard">Copied to clipboard</string>
     <string name="nothing_to_copy">Nothing to copy</string>
     <string name="text_has_changed">Text has already changed</string>
+    <string name="translation_cannot_highlight">Not supported</string>
 
     <string name="history">History</string>
     <string name="clear">Clear</string>
@@ -61,7 +64,7 @@
     <string name="delete_failed">Deletion failed</string>
 
     <string name="about">About</string>
-    <string name="core_version">Core version: %s</string>
+    <string name="core_version">%s</string>
     <string name="app_version">Duck Son Translator %s</string>
     <string name="core_version_text">Core version</string>
     <string name="app_version_text">App version</string>
@@ -83,8 +86,45 @@
     <string name="fold_changelog">Fold</string>
     <string name="update_contents">Updates: </string>
 
+    <string name="more_settings">More settings</string>
+    <string name="multi_language">Multi Language</string>
+    <string name="language_setting">Language</string>
+    <string name="click_switch_lang">Click to switch</string>
+    <string name="language_system">System default (%s)</string>
+    <string name="language_eng">English</string>
+    <string name="language_chs">简体中文</string>
+    <string name="language_geg">Geglish</string>
+
     <string-array name="contact_emails">
         <item>2676147693@qq.com</item>
         <item>826602899@qq.com</item>
+    </string-array>
+
+    <string-array name="language_list">
+        <item>System default</item>
+        <item>English</item>
+        <item>简体中文</item>
+        <item>Geglish</item>
+    </string-array>
+
+    <string-array name="language_list_values">
+        <item>DEFAULT</item>
+        <item>ENG</item>
+        <item>CHS</item>
+        <item>GEG</item>
+    </string-array>
+
+    <string-array name="word_picker_list">
+        <item>Combined (Recommended)</item>
+        <item>Common Prefix</item>
+        <item>Frequency</item>
+        <item>Random</item>
+    </string-array>
+
+    <string-array name="word_picker_list_values">
+        <item>COMBINED_CHAR</item>
+        <item>COMMON_PREFIX_CHAR</item>
+        <item>INVERSE_FREQ_CHAR</item>
+        <item>RANDOM_CHAR</item>
     </string-array>
 </resources>

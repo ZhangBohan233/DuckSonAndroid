@@ -13,20 +13,22 @@
     <string name="auto_detect">自动检测</string>
     <string name="chinese">中文</string>
     <string name="geglish">Geglish</string>
+    <string name="chinglish">Chinglish</string>
 
     <string name="cqDialect">重庆话</string>
     <string name="mandarin">普通话</string>
 
     <string name="settings">设置</string>
+    <string name="trans_options">翻译选项</string>
     <string name="chinese_dialect">方言</string>
+    <string name="chongqing_mode">重庆话模式</string>
     <string name="word_picker">选词器</string>
-    <string name="word_picker_random">随机</string>
-    <string name="word_picker_freq">词频</string>
-    <string name="word_picker_substring">前缀</string>
-    <string name="word_picker_combined">综合</string>
-    <string name="recommended">推荐</string>
     <string name="use_same_sound">启用同音字</string>
     <string name="use_base_dict">启用增强词典</string>
+
+    <!--Bottom navigation-->
+    <string name="translate_navigation">翻译</string>
+    <string name="dictionary_navigation">字典</string>
 
     <string name="enabled">启用</string>
     <string name="disabled">禁用</string>
@@ -39,6 +41,7 @@
     <string name="copied_to_clipboard">已复制至剪切板</string>
     <string name="nothing_to_copy">没有内容</string>
     <string name="text_has_changed">上方内容已改变</string>
+    <string name="translation_cannot_highlight">暂不支持同步高亮</string>
 
     <string name="history">历史记录</string>
     <string name="clear">清空</string>
@@ -61,7 +64,7 @@
     <string name="day_before_yesterday">前天</string>
 
     <string name="about">关于</string>
-    <string name="core_version">内核版本: %s</string>
+    <string name="core_version">%s</string>
     <string name="app_version">Duck Son翻译器 %s</string>
     <string name="core_version_text">内核版本</string>
     <string name="app_version_text">App版本</string>
@@ -83,8 +86,19 @@
     <string name="fold_changelog">折叠</string>
     <string name="update_contents">更新内容：</string>
 
-    <string-array name="contact_emails">
-        <item>2676147693@qq.com</item>
-        <item>826602899@qq.com</item>
+    <string name="more_settings">更多设置</string>
+    <string name="multi_language">多语言</string>
+    <string name="language_setting">界面语言</string>
+    <string name="click_switch_lang">点击设置界面语言</string>
+    <string name="language_system">跟随系统(%s)</string>
+    <string name="language_eng">English</string>
+    <string name="language_chs">简体中文</string>
+    <string name="language_geg">Geglish</string>
+
+    <string-array name="word_picker_list">
+        <item>综合（推荐）</item>
+        <item>共同前缀</item>
+        <item>词频</item>
+        <item>随机</item>
     </string-array>
 </resources>

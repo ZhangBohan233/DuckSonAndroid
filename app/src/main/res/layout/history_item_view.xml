@@ -101,12 +101,14 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/expand_part"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:visibility="visible"
             app:layout_constraintLeft_toRightOf="@id/history_item_box"
-            app:layout_constraintTop_toBottomOf="@id/expand_barrier">
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/expand_barrier"
+            app:layout_optimizationLevel="none">
 
             <TextView
                 android:id="@+id/src_lang"
@@ -141,81 +143,126 @@
 
             </TextView>
 
+            <View
+                android:id="@+id/item_aligner"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.42" />
+
             <TextView
                 android:id="@+id/base_dict_label"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/use_base_dict"
                 app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="@id/item_aligner"
                 app:layout_constraintTop_toBottomOf="@id/arrow_img2" />
 
             <TextView
                 android:id="@+id/base_dict_selection"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="demo"
                 app:layout_constraintLeft_toRightOf="@id/base_dict_label"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/base_dict_label" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/item_barrier_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="base_dict_label, base_dict_selection" />
 
             <TextView
                 android:id="@+id/same_sound_label"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/use_same_sound"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/base_dict_label" />
+                app:layout_constraintRight_toRightOf="@id/item_aligner"
+                app:layout_constraintTop_toBottomOf="@id/item_barrier_1" />
 
             <TextView
                 android:id="@+id/same_sound_selection"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="demo"
                 app:layout_constraintLeft_toRightOf="@id/same_sound_label"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/same_sound_label" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/item_barrier_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="same_sound_label, same_sound_selection" />
 
             <TextView
                 android:id="@+id/dialect_label"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/chinese_dialect"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/same_sound_label" />
+                app:layout_constraintRight_toRightOf="@id/item_aligner"
+                app:layout_constraintTop_toBottomOf="@id/item_barrier_2" />
 
             <TextView
                 android:id="@+id/dialect_selection"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="demo"
                 app:layout_constraintLeft_toRightOf="@id/dialect_label"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/dialect_label" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/item_barrier_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="dialect_label, dialect_selection" />
 
             <TextView
                 android:id="@+id/word_picker_label"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/word_picker"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/dialect_label" />
+                app:layout_constraintRight_toRightOf="@id/item_aligner"
+                app:layout_constraintTop_toBottomOf="@id/item_barrier_3" />
 
             <TextView
                 android:id="@+id/word_picker_selection"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="demo"
                 app:layout_constraintLeft_toRightOf="@id/word_picker_label"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/word_picker_label" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/item_barrier_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="word_picker_label, word_picker_selection" />
 
             <TextView
                 android:id="@+id/date_selection"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="demo"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/word_picker_label" />
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_barrier_4" />
 
             <Button
                 android:id="@+id/translate_again_btn"

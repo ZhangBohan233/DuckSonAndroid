@@ -27,6 +27,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.preference.PreferenceManager;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
@@ -35,6 +36,8 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.trashsoftware.ducksontranslator.db.HistoryAccess;
 import com.trashsoftware.ducksontranslator.db.HistoryItem;
 import com.trashsoftware.ducksontranslator.dialogs.ChangelogDialog;
+import com.trashsoftware.ducksontranslator.util.LanguageCode;
+import com.trashsoftware.ducksontranslator.util.LanguageUtil;
 import com.trashsoftware.ducksontranslator.widgets.ResultText;
 import com.trashsoftware.ducksontranslator.widgets.TranslatorEditText;
 
@@ -45,18 +48,13 @@ import java.util.Objects;
 
 import trashsoftware.duckSonTranslator.result.TranslationResult;
 import trashsoftware.duckSonTranslator.translators.DuckSonTranslator;
-import trashsoftware.duckSonTranslator.wordPickerChsGeg.PickerFactory;
+import trashsoftware.duckSonTranslator.wordPickers.PickerFactory;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MAIN_ACTIVITY";
+    private static final String DEFAULT_PICKER = PickerFactory.COMBINED_CHAR.name();
     private static String appVersion;
     private static String coreVersion;
-    final List<WordPickerItem> pickerList = List.of(
-            new WordPickerItem(this, PickerFactory.COMBINED_CHAR, true),
-            new WordPickerItem(this, PickerFactory.COMMON_PREFIX_CHAR),
-            new WordPickerItem(this, PickerFactory.INVERSE_FREQ_CHAR),
-            new WordPickerItem(this, PickerFactory.RANDOM_CHAR)
-    );
     DuckSonTranslator translator;
     private HistoryAccess historyAccess;
     private TranslatorEditText editTextUp;
@@ -69,14 +67,15 @@ public class MainActivity extends AppCompatActivity {
     private MenuItem appVersionItem, coreVersionItem;
     private DrawerLayout mainDrawer;
     private ScrollView mainScrollView;
-    private MaterialButtonToggleGroup dialectGroup;
-    private MaterialButton cqToggle, mandarinToggle;
+//    private MaterialButtonToggleGroup dialectGroup;
+//    private MaterialButton cqToggle, mandarinToggle;
     private ImageButton clearUpTextBtn;
     private SwitchMaterial useBaseDictSwitch;
     //    private MaterialButton homophoneYesToggle, homophoneNoToggle;
     private SwitchMaterial homophoneSwitch;
-    private Spinner wordPickerSpinner;
-    private ArrayAdapter<WordPickerItem> wordPickerAdapter;
+    private SwitchMaterial cqModeSwitch;
+    //    private Spinner wordPickerSpinner;
+//    private ArrayAdapter<WordPickerItem> wordPickerAdapter;
     private SharedPreferences translatorPref;
     private SharedPreferences versionPref;
     private TranslationResult translationResult;
@@ -94,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                             translator.setUseBaseDict(item.isUseBaseDict());
                             translator.setUseSameSoundChar(item.isUseSameSound());
                             translator.setChongqingMode(item.isCq());
-                            translator.setChsGegPicker(PickerFactory.valueOf(item.getWordPickerName()));
+                            translator.setPickers(PickerFactory.valueOf(item.getWordPickerName()));
 
                             applyOptionsToUI();
 
@@ -105,6 +104,18 @@ public class MainActivity extends AppCompatActivity {
                             translate();
                         }
                     }
+                }
+            }
+    );
+
+    ActivityResultLauncher<Intent> settingsResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                System.out.println(PreferenceManager.getDefaultSharedPreferences(this).getAll());
+                if (result.getResultCode() == SettingsActivity.RESULT_RELOAD) {
+                    recreate();
+                } else if (result.getResultCode() == RESULT_OK) {
+                    restoreSettings();
                 }
             }
     );
@@ -120,27 +131,34 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static int getWordPickerShownName(PickerFactory factory) {
-        switch (factory) {
-            case COMMON_PREFIX_CHAR:
-                return R.string.word_picker_substring;
-            case COMBINED_CHAR:
-                return R.string.word_picker_combined;
-            case RANDOM_CHAR:
-                return R.string.word_picker_random;
-            case INVERSE_FREQ_CHAR:
-                return R.string.word_picker_freq;
-            default:
-                throw new RuntimeException();
-        }
-    }
-
     public static String getAppVersion() {
         return appVersion;
     }
 
     public static String getCoreVersion() {
         return coreVersion;
+    }
+
+    public static String getWordPickerShownName(Context context, PickerFactory pf) {
+        String[] names = context.getResources().getStringArray(R.array.word_picker_list);
+        String[] values = context.getResources().getStringArray(R.array.word_picker_list_values);
+        for (int i = 0; i < names.length; i++) {
+            if (pf.name().equals(values[i])) {
+                return names[i];
+            }
+        }
+        return pf.name();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+//        super.attachBaseContext(newBase);
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(newBase);
+        String localeCode = pref.getString("language_list", "");
+        LanguageCode langCode = LanguageCode.fromLanCodeName(localeCode);
+        Log.d(TAG, "Switched to " + langCode);
+        super.attachBaseContext(LanguageUtil.getInstance().applyLanguage(newBase, langCode));
+//        super.attachBaseContext(newBase);
     }
 
     @Override
@@ -174,9 +192,7 @@ public class MainActivity extends AppCompatActivity {
         View header = navigationView.getHeaderView(0);
 
         // 方言
-        dialectGroup = header.findViewById(R.id.dialectToggleGroup);
-        cqToggle = header.findViewById(R.id.dialectCqBtn);
-        mandarinToggle = header.findViewById(R.id.dialectMandarinBtn);
+        cqModeSwitch = header.findViewById(R.id.cqModeSwitch);
 
         // 使用小词典
         useBaseDictSwitch = header.findViewById(R.id.baseDictSwitch);
@@ -199,9 +215,6 @@ public class MainActivity extends AppCompatActivity {
 
         initToggleSelection();
 
-        wordPickerSpinner = header.findViewById(R.id.wordPickerSpinner);
-        initWordPickerSpinner();
-
         // 语言设置
         lang1Spinner = findViewById(R.id.lang1Spinner);
         lang2Spinner = findViewById(R.id.lang2Spinner);
@@ -209,11 +222,13 @@ public class MainActivity extends AppCompatActivity {
         List<LanguageItem> lang1List = new ArrayList<>(List.of(
                 new LanguageItem(this, "", R.string.auto_detect, true),
                 new LanguageItem(this, "chs", R.string.chinese, false),
-                new LanguageItem(this, "geg", R.string.geglish, false)
+                new LanguageItem(this, "geg", R.string.geglish, false),
+                new LanguageItem(this, "chi", R.string.chinglish, false)
         ));
         List<LanguageItem> lang2List = new ArrayList<>(List.of(
                 new LanguageItem(this, "chs", R.string.chinese, false),
-                new LanguageItem(this, "geg", R.string.geglish, false)
+                new LanguageItem(this, "geg", R.string.geglish, false),
+                new LanguageItem(this, "chi", R.string.chinglish, false)
         ));
 
         lang1Adapter = new ArrayAdapter<>(this, R.layout.lang_spinner_item, lang1List);
@@ -244,19 +259,14 @@ public class MainActivity extends AppCompatActivity {
             savePref();
         });
 
-        homophoneSwitch.setOnCheckedChangeListener((v, checked) -> {
-            translator.setUseSameSoundChar(checked);
-            cqToggle.setEnabled(checked);
-            mandarinToggle.setEnabled(checked);
+        cqModeSwitch.setOnCheckedChangeListener((v, checked) -> {
+            translator.setChongqingMode(checked);
             savePref();
         });
 
-        cqToggle.setOnClickListener(v -> {
-            translator.setChongqingMode(true);
-            savePref();
-        });
-        mandarinToggle.setOnClickListener(v -> {
-            translator.setChongqingMode(false);
+        homophoneSwitch.setOnCheckedChangeListener((v, checked) -> {
+            translator.setUseSameSoundChar(checked);
+            cqModeSwitch.setEnabled(checked);
             savePref();
         });
 
@@ -297,23 +307,32 @@ public class MainActivity extends AppCompatActivity {
         translator.setChongqingMode(translatorPref.getBoolean("cqMode", true));
         translator.setUseSameSoundChar(translatorPref.getBoolean("useSameSoundChar", true));
         if (!translator.isUseSameSoundChar()) {
-            cqToggle.setEnabled(false);
-            mandarinToggle.setEnabled(false);
+            cqModeSwitch.setEnabled(false);
+//            cqToggle.setEnabled(false);
+//            mandarinToggle.setEnabled(false);
         }
 
-        translator.setChsGegPicker(pickerList.get(translatorPref.getInt("wordPickerIndex", 0)).pickerFactory);
+        String picker = PreferenceManager.getDefaultSharedPreferences(this)
+                .getString("word_picker", DEFAULT_PICKER);
+        PickerFactory pf;
+        try {
+            pf = PickerFactory.valueOf(picker);
+        } catch (EnumConstantNotPresentException e) {
+            pf = PickerFactory.valueOf(DEFAULT_PICKER);
+        }
+        translator.setPickers(pf);
     }
 
     private void applyOptionsToUI() {
         initToggleSelection();
 
-        PickerFactory current = translator.getChsGegPicker().getFactory();
-        for (int i = 0; i < wordPickerAdapter.getCount(); i++) {
-            if (wordPickerAdapter.getItem(i).pickerFactory == current) {
-                wordPickerSpinner.setSelection(i);
-                break;
-            }
-        }
+//        PickerFactory current = translator.getChsGegPicker().getFactory();
+//        for (int i = 0; i < wordPickerAdapter.getCount(); i++) {
+//            if (wordPickerAdapter.getItem(i).pickerFactory == current) {
+//                wordPickerSpinner.setSelection(i);
+//                break;
+//            }
+//        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -341,47 +360,48 @@ public class MainActivity extends AppCompatActivity {
         editor.putBoolean("useBaseDict", translator.isUseBaseDict());
         editor.putBoolean("cqMode", translator.isChongqingMode());
         editor.putBoolean("useSameSoundChar", translator.isUseSameSoundChar());
-        editor.putInt("wordPickerIndex", wordPickerSpinner.getSelectedItemPosition());
+//        editor.putInt("wordPickerIndex", wordPickerSpinner.getSelectedItemPosition());
         editor.apply();
     }
 
-    private void initWordPickerSpinner() {
-        // 借一下spinner_item不过分吧？
-        wordPickerAdapter = new ArrayAdapter<>(this, R.layout.lang_spinner_item, pickerList);
-        wordPickerAdapter.setDropDownViewResource(R.layout.lang_spinner_dropdiwn_item);
-        wordPickerSpinner.setAdapter(wordPickerAdapter);
-
-        PickerFactory current = translator.getChsGegPicker().getFactory();
-        for (int i = 0; i < wordPickerAdapter.getCount(); i++) {
-            if (wordPickerAdapter.getItem(i).pickerFactory == current) {
-                wordPickerSpinner.setSelection(i);
-                break;
-            }
-        }
-
-        wordPickerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                WordPickerItem selected = wordPickerAdapter.getItem(position);
-                if (selected != null) {
-                    translator.setChsGegPicker(selected.pickerFactory);
-                    savePref();
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-    }
+//    private void initWordPickerSpinner() {
+//        // 借一下spinner_item不过分吧？
+//        wordPickerAdapter = new ArrayAdapter<>(this, R.layout.lang_spinner_item, pickerList);
+//        wordPickerAdapter.setDropDownViewResource(R.layout.lang_spinner_dropdiwn_item);
+//        wordPickerSpinner.setAdapter(wordPickerAdapter);
+//
+//        PickerFactory current = translator.getChsGegPicker().getFactory();
+//        for (int i = 0; i < wordPickerAdapter.getCount(); i++) {
+//            if (wordPickerAdapter.getItem(i).pickerFactory == current) {
+//                wordPickerSpinner.setSelection(i);
+//                break;
+//            }
+//        }
+//
+//        wordPickerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                WordPickerItem selected = wordPickerAdapter.getItem(position);
+//                if (selected != null) {
+//                    translator.setChsGegPicker(selected.pickerFactory);
+//                    savePref();
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
+//    }
 
     private void initToggleSelection() {
-        if (translator.isChongqingMode()) {
-            dialectGroup.check(R.id.dialectCqBtn);
-        } else {
-            dialectGroup.check(R.id.dialectMandarinBtn);
-        }
+//        if (translator.isChongqingMode()) {
+//            dialectGroup.check(R.id.dialectCqBtn);
+//        } else {
+//            dialectGroup.check(R.id.dialectMandarinBtn);
+//        }
+        cqModeSwitch.setChecked(translator.isChongqingMode());
 
         useBaseDictSwitch.setChecked(translator.isUseBaseDict());
         homophoneSwitch.setChecked(translator.isUseSameSoundChar());
@@ -496,12 +516,25 @@ public class MainActivity extends AppCompatActivity {
 
         Thread thread = new Thread(() -> {
             long t0 = System.currentTimeMillis();
-            if ("chs".equals(srcLang) && "geg".equals(dstLang)) {
-                translationResult = translator.chsToGeglish(input);
-            } else if ("geg".equals(srcLang) && "chs".equals(dstLang)) {
-                translationResult = translator.geglishToChs(input);
-            } else {
-                translationResult = null;
+            translationResult = null;
+            if ("chs".equals(srcLang)) {
+                if ("geg".equals(dstLang)) {
+                    translationResult = translator.chsToGeglish(input);
+                } else if ("chi".equals(dstLang)) {
+                    translationResult = translator.chsToChinglish(input);
+                }
+            } else if ("chi".equals(srcLang)) {
+                if ("geg".equals(dstLang)) {
+                    translationResult = translator.chinglishToGeglish(input);
+                } else if ("chs".equals(dstLang)) {
+                    translationResult = translator.chinglishToChs(input);
+                }
+            } else if ("geg".equals(srcLang)) {
+                if ("chs".equals(dstLang)) {
+                    translationResult = translator.geglishToChs(input);
+                } else if ("chi".equals(dstLang)) {
+                    translationResult = translator.geglishToChinglish(input);
+                }
             }
             Log.v(TAG, "Translation time: " + (System.currentTimeMillis() - t0));
 
@@ -574,6 +607,11 @@ public class MainActivity extends AppCompatActivity {
         historyResultLauncher.launch(intent);
     }
 
+    public void settingsAction(MenuItem view) {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        settingsResultLauncher.launch(intent);
+    }
+
     public void changelogAction(MenuItem view) {
         showUpdates();
     }
@@ -620,32 +658,32 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static class WordPickerItem {
-        final Context context;
-        final int resId;
-        final PickerFactory pickerFactory;
-        final boolean recommended;
-
-        WordPickerItem(Context context, PickerFactory pickerFactory) {
-            this(context, pickerFactory, false);
-        }
-
-        WordPickerItem(Context context, PickerFactory pickerFactory, boolean recommended) {
-            this.context = context;
-            this.resId = getWordPickerShownName(pickerFactory);
-            this.pickerFactory = pickerFactory;
-            this.recommended = recommended;
-        }
-
-        @NonNull
-        @Override
-        public String toString() {
-            String s = context.getString(resId);
-            if (recommended) {
-                return s + '(' + context.getString(R.string.recommended) + ')';
-            } else {
-                return s;
-            }
-        }
-    }
+//    public static class WordPickerItem {
+//        final Context context;
+//        final int resId;
+//        final PickerFactory pickerFactory;
+//        final boolean recommended;
+//
+//        WordPickerItem(Context context, PickerFactory pickerFactory) {
+//            this(context, pickerFactory, false);
+//        }
+//
+//        WordPickerItem(Context context, PickerFactory pickerFactory, boolean recommended) {
+//            this.context = context;
+//            this.resId = getWordPickerShownName(pickerFactory);
+//            this.pickerFactory = pickerFactory;
+//            this.recommended = recommended;
+//        }
+//
+//        @NonNull
+//        @Override
+//        public String toString() {
+//            String s = context.getString(resId);
+//            if (recommended) {
+//                return s + '(' + context.getString(R.string.recommended) + ')';
+//            } else {
+//                return s;
+//            }
+//        }
+//    }
 }

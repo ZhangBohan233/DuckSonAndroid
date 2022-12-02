@@ -12,12 +12,13 @@ import com.google.android.material.checkbox.MaterialCheckBox;
 import com.trashsoftware.ducksontranslator.MainActivity;
 import com.trashsoftware.ducksontranslator.R;
 import com.trashsoftware.ducksontranslator.db.HistoryItem;
+import com.trashsoftware.ducksontranslator.util.LanguageUtil;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 
-import trashsoftware.duckSonTranslator.wordPickerChsGeg.PickerFactory;
+import trashsoftware.duckSonTranslator.wordPickers.PickerFactory;
 
 public class HistoryItemVH extends HistoryVH {
 
@@ -60,9 +61,8 @@ public class HistoryItemVH extends HistoryVH {
         return NORMAL;
     }
 
-    private void setupDateDivider() {
+    private void setupDateDivider(Context context) {
         LocalDate today = LocalDate.now();
-
 
         LocalDate itemD = item.getDate();
         if (itemD.equals(today)) {
@@ -80,7 +80,15 @@ public class HistoryItemVH extends HistoryVH {
             return;
         }
 
-        dateDividerText.setText(SimpleDateFormat.getDateInstance().format(itemDate));
+        dateDividerText.setText(dateText(context, false));
+    }
+
+    private String dateText(Context context, boolean showTime) {
+        if (showTime) {
+            return LanguageUtil.getInstance().getDateTimeInstance().format(itemDate);
+        } else {
+            return LanguageUtil.getInstance().getDateInstance().format(itemDate);
+        }
     }
 
     public void setItem(Context context, HistoryAdapter parent, HistoryItem item,
@@ -91,7 +99,7 @@ public class HistoryItemVH extends HistoryVH {
 
         if (isDateDivider) {
             dateDividerPart.setVisibility(View.VISIBLE);
-            setupDateDivider();
+            setupDateDivider(context);
         } else {
             dateDividerPart.setVisibility(View.GONE);
         }
@@ -112,9 +120,9 @@ public class HistoryItemVH extends HistoryVH {
 
         String pickerDb = item.getWordPickerName();
         PickerFactory pf = PickerFactory.valueOf(pickerDb);
-        picker.setText(MainActivity.getWordPickerShownName(pf));
+        picker.setText(MainActivity.getWordPickerShownName(context, pf));
 
-        date.setText(SimpleDateFormat.getDateTimeInstance().format(itemDate));
+        date.setText(dateText(context, true));
 
         trans.setOnClickListener(view -> parent.translateAgain(this));
 

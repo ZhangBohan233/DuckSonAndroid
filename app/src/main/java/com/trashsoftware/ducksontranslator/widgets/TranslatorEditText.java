@@ -9,12 +9,13 @@ import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TranslatorEditText extends TextInputEditText {
+public class TranslatorEditText extends MaterialAutoCompleteTextView {
 
     final List<BackgroundColorSpan> spans = new ArrayList<>();
 

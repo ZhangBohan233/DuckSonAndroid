@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="common_icon">#FF7F7F7F</color>
     <color name="not_important_black">#FF7F7F7F</color>
+    <color name="text_underline">#FF777777</color>
     <color name="light_grey">#FFDDDDDD</color>
     <color name="light_blue_600">#FF039BE5</color>
     <color name="light_blue_900">#FF01579B</color>

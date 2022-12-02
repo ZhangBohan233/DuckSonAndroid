@@ -59,7 +59,11 @@ public class ResultText extends androidx.appcompat.widget.AppCompatTextView {
 //        System.out.println("Result " + selectedTokens);
             srcField.clearHighlights();
             if (selStart != selEnd && !indexRanges.isEmpty()) {
-                srcField.highlightText(analyzeRangesWithSpace(indexRanges));
+                if (translationResult.isClickable()) {
+                    srcField.highlightText(analyzeRangesWithSpace(indexRanges));
+                } else {
+                    Toast.makeText(getContext(), R.string.translation_cannot_highlight, Toast.LENGTH_SHORT).show();
+                }
             }
         } else if (selStart != selEnd && srcField.notShownToastInThisRound) {
             Toast.makeText(getContext(), R.string.text_has_changed, Toast.LENGTH_SHORT).show();

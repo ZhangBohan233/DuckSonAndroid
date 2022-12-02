@@ -1,0 +1,104 @@
+<resources>
+    <string name="app_name">Duck Son</string>
+    <string name="app_bar_name">Duck Son translator</string>
+
+    <string name="translate">translate</string>
+    <string name="swapLang">mutual exchange</string>
+    <string name="translating">translating…</string>
+    <string name="up_box_hint">please lose enter literature character…</string>
+
+    <string name="open">fight open</string>
+    <string name="close">close</string>
+
+    <string name="auto_detect">self move</string>
+    <string name="chinese">中文</string>
+    <string name="geglish">Geglish</string>
+    <string name="chinglish">Chinglish</string>
+
+    <string name="cqDialect">double celebrity</string>
+    <string name="mandarin">general pass</string>
+
+    <string name="settings">let put</string>
+    <string name="trans_options">translate select neck</string>
+    <string name="chinese_dialect">square language</string>
+    <string name="chongqing_mode">double celebrity model type</string>
+    <string name="word_picker">select word instrument</string>
+    <string name="use_same_sound">same music character</string>
+    <string name="use_base_dict">small dictionary</string>
+
+    <!--Bottom navigation-->
+    <string name="translate_navigation">Translate</string>
+    <string name="dictionary_navigation">Dictionary</string>
+
+    <string name="enabled">launch use</string>
+    <string name="disabled">ban use</string>
+    <string name="yes">is</string>
+    <string name="no">no</string>
+    <string name="cancel">take firefighter</string>
+    <string name="please_confirm">please exact recognize</string>
+
+    <string name="copy_content">repeat manufacture</string>
+    <string name="copied_to_clipboard">already repeat manufacture</string>
+    <string name="nothing_to_copy">no have inside contain</string>
+    <string name="text_has_changed">up square inside contain already change</string>
+    <string name="translation_cannot_highlight">No cheque last</string>
+
+    <string name="history">history remember record</string>
+    <string name="clear">clear empty</string>
+    <string name="clear_confirm">真的要清空历史记录吗？清了就没得了。</string>
+    <string name="clear_success">delete divide success</string>
+    <string name="clear_failed">delete divide lose defeat</string>
+
+    <string name="translate_again">heavy new translate</string>
+    <string name="date">sun number</string>
+    <string name="empty_history">no have history remember record</string>
+    <string name="history_items_count">%s remember record</string>
+    <string name="manage">pipe reason</string>
+    <string name="select_all">all select</string>
+    <string name="delete">delete divide</string>
+    <string name="delete_confirm">please exact recognize delete divide</string>
+    <string name="delete_success">already delete divide</string>
+    <string name="delete_failed">delete divide lose defeat</string>
+    <string name="today">today</string>
+    <string name="yesterday">yesterday</string>
+    <string name="day_before_yesterday">front day</string>
+
+    <string name="about">close at</string>
+    <string name="core_version">%s</string>
+    <string name="app_version">Duck Son traslator %s</string>
+    <string name="core_version_text">inside nuclear version</string>
+    <string name="app_version_text">App version</string>
+    <string name="app_description">Duck Son translator is one fold have would mid literature press each character translate for right supply\'s english literature single word\'s mistaken laugh soft ware. should soft ware inside puted general pass language translate version and double celebrity language translate version, fold have many kind translate model type, welcome down load gymnast test.</string>
+    <string name="brief_intro">brief</string>
+    <string name="contacts">relate fasten square type</string>
+    <string name="email">mail box</string>
+    <string name="bug_report">Bug anti shame</string>
+    <string name="acknowledgements">birdsong thank</string>
+    <string name="geglish_standard_association">give power language flag sharp and research agreement meeting</string>
+    <string name="closed_beta_users">inside measure use outdoor</string>
+    <string name="version_info">version letter break</string>
+    <string name="studio_name">Garbage Chicken soft ware work room</string>
+
+    <string name="welcome_text">welcome get use Duck Son translator</string>
+    <string name="updates_intro">we push outed very duck son\'s new success energy!</string>
+    <string name="check_changelog">newer sun character</string>
+    <string name="full_changelog">spread open</string>
+    <string name="fold_changelog">fold pile</string>
+    <string name="update_contents">newer inside contain: </string>
+
+    <string name="more_settings">manier let put</string>
+    <string name="multi_language">Many language</string>
+    <string name="language_setting">language</string>
+    <string name="click_switch_lang">point hit let put language</string>
+    <string name="language_system">tail follow fasten unify (%s)</string>
+    <string name="language_eng">English</string>
+    <string name="language_chs">简体中文</string>
+    <string name="language_geg">Geglish</string>
+
+    <string-array name="word_picker_list">
+        <item>universal merge (push recommend)</item>
+        <item>communist fellow front dot</item>
+        <item>word frequency</item>
+        <item>follow machine</item>
+    </string-array>
+</resources>

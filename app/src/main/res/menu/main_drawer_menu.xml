@@ -9,6 +9,11 @@
         android:onClick="historyAction"
         android:title="@string/history" />
 
+    <item android:id="@+id/settings_menu_item"
+        android:icon="@drawable/ic_settings_24"
+        android:onClick="settingsAction"
+        android:title="@string/settings"/>
+
     <item
         android:id="@+id/changelogItem"
         android:icon="@drawable/ic_change_circle_24"

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:icon="@drawable/ic_translate_black_24"
+        android:title="@string/trans_options">
+
+        <ListPreference
+            android:defaultValue="@string/language_system"
+            android:entries="@array/word_picker_list"
+            android:entryValues="@array/word_picker_list_values"
+            android:key="word_picker"
+            android:negativeButtonText="@string/cancel"
+            android:title="@string/word_picker"
+            app:defaultValue="COMBINED_CHAR"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:icon="@drawable/ic_language_24"
+        android:title="@string/multi_language">
+
+        <ListPreference
+            android:defaultValue="@string/language_system"
+            android:entries="@array/language_list"
+            android:entryValues="@array/language_list_values"
+            android:key="language_list"
+            android:negativeButtonText="@string/cancel"
+            android:title="@string/language_setting"
+            app:defaultValue="DEFAULT"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

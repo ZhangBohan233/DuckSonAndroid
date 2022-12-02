@@ -9,8 +9,8 @@ android {
         applicationId "com.trashsoftware.ducksontranslator"
         minSdk 28
         targetSdk 32
-        versionCode 29
-        versionName "0.6.0"
+        versionCode 36
+        versionName "0.8-alpha-1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -38,6 +38,7 @@ dependencies {
     implementation files('libs/duck_son_core.jar')
     implementation 'androidx.navigation:navigation-fragment:2.5.3'
     implementation 'androidx.navigation:navigation-ui:2.5.3'
+    implementation 'androidx.preference:preference:1.2.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
