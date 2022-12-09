@@ -9,8 +9,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStore;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.trashsoftware.ducksontranslator.R;
+import com.trashsoftware.ducksontranslator.model.MainViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +26,7 @@ public class ResultText extends androidx.appcompat.widget.AppCompatTextView {
 
     private ViewGroup.LayoutParams focusedParams;
     private ViewGroup.LayoutParams normalParams;
-    private TranslationResult translationResult;
+    private MainViewModel viewModel;
     private View focusIndicator;
     private TranslatorEditText srcField;
 
@@ -39,27 +43,38 @@ public class ResultText extends androidx.appcompat.widget.AppCompatTextView {
     }
 
     private void createParams() {
+        viewModel = MainViewModel.getInstance();
+
         focusedParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPx(3));
         normalParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPx(1));
+    }
+
+    public void notifyTranslationChanged() {
+        if (viewModel.getTranslationResult() == null) {
+            setText(srcField.getText().toString());
+        } else {
+            setText(viewModel.getTranslationResult().toString());
+        }
     }
 
     @Override
     protected void onSelectionChanged(int selStart, int selEnd) {
         super.onSelectionChanged(selStart, selEnd);
+//        System.out.println("Sel from " + selStart + " to " + selEnd);
 
-        super.onSelectionChanged(selStart, selEnd);
-        if (translationResult == null || srcField == null) return;
-        if (srcField.isHighlightAble()) {
+        if (srcField == null) return;
+        srcField.clearHighlights();
 
-//        System.out.println("Select " + selStart + " " + selEnd);
+        if (viewModel == null || viewModel.getTranslationResult() == null) return;
 
-            List<ResultToken> selectedTokens = translationResult.findTokensInRange(selStart, selEnd);
+        if (srcField.isHighlightAble(viewModel.getTranslationResult().getOriginalText())) {
+
+            List<ResultToken> selectedTokens = viewModel.getTranslationResult().findTokensInRange(selStart, selEnd);
             List<int[]> indexRanges = TranslationResult.rangeOf(selectedTokens);
 
 //        System.out.println("Result " + selectedTokens);
-            srcField.clearHighlights();
             if (selStart != selEnd && !indexRanges.isEmpty()) {
-                if (translationResult.isClickable()) {
+                if (viewModel.getTranslationResult().isClickable()) {
                     srcField.highlightText(analyzeRangesWithSpace(indexRanges));
                 } else {
                     Toast.makeText(getContext(), R.string.translation_cannot_highlight, Toast.LENGTH_SHORT).show();
@@ -81,7 +96,7 @@ public class ResultText extends androidx.appcompat.widget.AppCompatTextView {
             // 看看两段高亮之间是不是只有空格或是折行
             boolean isContinuous = true;
             for (int i = curEnd; i < rge[0]; i++) {
-                char gap = translationResult.getOriginalText().charAt(i);
+                char gap = viewModel.getTranslationResult().getOriginalText().charAt(i);
                 if (gap != ' ' && gap != '\n') {
                     isContinuous = false;
                     break;
@@ -129,9 +144,5 @@ public class ResultText extends androidx.appcompat.widget.AppCompatTextView {
 
     public void setFocusIndicator(View focusIndicator) {
         this.focusIndicator = focusIndicator;
-    }
-
-    public void setTranslationResult(TranslationResult translationResult) {
-        this.translationResult = translationResult;
     }
 }

@@ -38,10 +38,10 @@ public class HistoryItem implements Comparable<HistoryItem>, Serializable {
         item.translatedText = translatedText;
         item.srcLang = srcLang;
         item.dstLang = dstLang;
-        item.useBaseDict = translator.isUseBaseDict();
-        item.useSameSound = translator.isUseSameSoundChar();
-        item.isCq = translator.isChongqingMode();
-        item.wordPickerName = translator.getChsGegPicker().getFactory().name();
+        item.useBaseDict = translator.getOptions().isUseBaseDict();
+        item.useSameSound = translator.getOptions().isUseSameSoundChar();
+        item.isCq = translator.getOptions().isChongqingMode();
+        item.wordPickerName = translator.getOptions().getPicker().name();
         item.generate();
         return item;
     }

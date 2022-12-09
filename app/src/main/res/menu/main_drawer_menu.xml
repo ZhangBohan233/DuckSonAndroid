@@ -30,10 +30,6 @@
                     android:id="@+id/coreVersionItem"
                     android:icon="@drawable/ic_settings_applications_24"
                     android:title="@string/core_version" />
-                <item
-                    android:onClick="aboutAction"
-                    android:icon="@drawable/ic_info_black_24"
-                    android:title="@string/about" />
             </group>
         </menu>
     </item>

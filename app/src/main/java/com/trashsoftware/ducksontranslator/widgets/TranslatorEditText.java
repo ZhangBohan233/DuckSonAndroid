@@ -11,55 +11,54 @@ import androidx.annotation.NonNull;
 
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.trashsoftware.ducksontranslator.model.MainViewModel;
+import com.trashsoftware.ducksontranslator.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TranslatorEditText extends MaterialAutoCompleteTextView {
 
-    final List<BackgroundColorSpan> spans = new ArrayList<>();
-
-    // 在用户主动修改上方文本之后，翻译高亮将不可用
-    private boolean highlightAble = false;
+    private final MainViewModel viewModel;
     boolean notShownToastInThisRound = true;
 
     public TranslatorEditText(@NonNull Context context) {
         super(context);
+
+        viewModel = MainViewModel.getInstance();
     }
 
     public TranslatorEditText(@NonNull Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
+
+        viewModel = MainViewModel.getInstance();
     }
 
-    public void textContentChanged() {
-        highlightAble = false;
+    public boolean isHighlightAble(String correspondingOrigText) {
+        return Util.equals(getText(), correspondingOrigText);
     }
 
-    public boolean isHighlightAble() {
-        return highlightAble;
-    }
-
-    public void enableHighlighting() {
-        highlightAble = true;
+    public void setToastReady() {
         notShownToastInThisRound = true;
     }
 
     public void clearHighlights() {
         Editable et = getText();
         if (et != null) {
-            for (BackgroundColorSpan span : spans) {
+            for (BackgroundColorSpan span : viewModel.transUpTextSpans) {
                 et.removeSpan(span);
             }
-            spans.clear();
+            viewModel.transUpTextSpans.clear();
         }
     }
 
     public void highlightText(@NonNull List<int[]> ranges) {
+//        System.out.println("high " + trashsoftware.duckSonTranslator.dict.Util.listOfArrayToString(ranges));
         Editable text = getText();
         if (text == null) return;
         for (int[] range : ranges) {
             BackgroundColorSpan span = new BackgroundColorSpan(getHighlightColor());
-            spans.add(span);
+            viewModel.transUpTextSpans.add(span);
             text.setSpan(span, range[0], range[1], Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         setSelection(ranges.get(0)[0]);  // 光标位置影响scroll，通过这个方式来滚动到正确位置

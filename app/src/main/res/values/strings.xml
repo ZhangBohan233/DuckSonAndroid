@@ -30,6 +30,12 @@
     <string name="translate_navigation">Translate</string>
     <string name="dictionary_navigation">Dictionary</string>
 
+    <!--Dict fragment-->
+    <string name="search">Search</string>
+    <string name="no_results">No results found</string>
+    <string name="part_of_speech">%s.</string>
+    <string name="same_sound_divider">Homophones</string>
+
     <string name="enabled">Enabled</string>
     <string name="disabled">Disabled</string>
     <string name="yes">Yes</string>
@@ -43,15 +49,6 @@
     <string name="text_has_changed">Text has already changed</string>
     <string name="translation_cannot_highlight">Not supported</string>
 
-    <string name="history">History</string>
-    <string name="clear">Clear</string>
-    <string name="clear_confirm">Are you sure to clear translation history?</string>
-    <string name="clear_success">All records deleted</string>
-    <string name="clear_failed">Failed to clear records</string>
-    <string name="today">Today</string>
-    <string name="yesterday">Yesterday</string>
-    <string name="day_before_yesterday">The day before yesterday</string>
-
     <string name="translate_again">Apply again</string>
     <string name="date">Date</string>
     <string name="empty_history">Empty history</string>
@@ -62,6 +59,16 @@
     <string name="delete_confirm">Are you sure to delete selected item(s)?</string>
     <string name="delete_success">Deletion success</string>
     <string name="delete_failed">Deletion failed</string>
+    <string name="demo">demo</string>
+
+    <string name="history">History</string>
+    <string name="clear">Clear</string>
+    <string name="clear_confirm">Are you sure to clear translation history?</string>
+    <string name="clear_success">All records deleted</string>
+    <string name="clear_failed">Failed to clear records</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="day_before_yesterday">The day before yesterday</string>
 
     <string name="about">About</string>
     <string name="core_version">%s</string>
@@ -105,6 +112,14 @@
         <item>English</item>
         <item>简体中文</item>
         <item>Geglish</item>
+    </string-array>
+
+    <string-array name="dict_lang_list">
+        <item>Chs-Geg</item>
+    </string-array>
+
+    <string-array name="dict_lang_list_values">
+        <item>chs-geg</item>
     </string-array>
 
     <string-array name="language_list_values">

@@ -46,7 +46,6 @@
             app:layout_constraintBottom_toBottomOf="@id/SwitchLangButton"
             app:layout_constraintLeft_toLeftOf="@id/textBoxUp"
             app:layout_constraintTop_toTopOf="@id/SwitchLangButton">
-
         </Spinner>
 
         <ImageButton

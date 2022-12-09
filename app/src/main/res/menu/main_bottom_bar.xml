@@ -9,7 +9,7 @@
     <item
         android:id="@+id/bot_navigation_dict"
         android:title="@string/dictionary_navigation"
-        android:icon="@drawable/ic_translate_black_24"/>
+        android:icon="@drawable/magnify_expand"/>
 
     <item
         android:id="@+id/bot_navigation_about"

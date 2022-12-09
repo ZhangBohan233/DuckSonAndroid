@@ -30,6 +30,12 @@
     <string name="translate_navigation">翻译</string>
     <string name="dictionary_navigation">字典</string>
 
+    <!--Dict fragment-->
+    <string name="search">查询</string>
+    <string name="no_results">未找到该词</string>
+    <string name="part_of_speech">%s.</string>
+    <string name="same_sound_divider">以下为同音词</string>
+
     <string name="enabled">启用</string>
     <string name="disabled">禁用</string>
     <string name="yes">是</string>
@@ -48,6 +54,7 @@
     <string name="clear_confirm">真的要清空历史记录吗？清了就没得了。</string>
     <string name="clear_success">都删了，你啥子都没得了。</string>
     <string name="clear_failed">哦豁，没清得成。</string>
+    <string name="demo">demo</string>
 
     <string name="translate_again">重新翻译</string>
     <string name="date">时间</string>
@@ -100,5 +107,9 @@
         <item>共同前缀</item>
         <item>词频</item>
         <item>随机</item>
+    </string-array>
+
+    <string-array name="dict_lang_list">
+        <item>中给</item>
     </string-array>
 </resources>

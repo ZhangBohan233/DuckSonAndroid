@@ -30,6 +30,12 @@
     <string name="translate_navigation">Translate</string>
     <string name="dictionary_navigation">Dictionary</string>
 
+    <!--Dict fragment-->
+    <string name="search">Find</string>
+    <string name="no_results">No find arrive this word</string>
+    <string name="part_of_speech">%s.</string>
+    <string name="same_sound_divider">Down is same sound word</string>
+
     <string name="enabled">launch use</string>
     <string name="disabled">ban use</string>
     <string name="yes">is</string>
@@ -48,6 +54,7 @@
     <string name="clear_confirm">真的要清空历史记录吗？清了就没得了。</string>
     <string name="clear_success">delete divide success</string>
     <string name="clear_failed">delete divide lose defeat</string>
+    <string name="demo">demo</string>
 
     <string name="translate_again">heavy new translate</string>
     <string name="date">sun number</string>

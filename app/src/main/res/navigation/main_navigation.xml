@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/bot_navigation_trans"
+    android:id="@+id/main_navigation">
+
+    <fragment
+        android:id="@+id/bot_navigation_trans"
+        android:name="com.trashsoftware.ducksontranslator.fragments.MainTranslateFragment"
+        tools:layout="@layout/fragment_main_translate" />
+
+    <fragment
+        android:id="@+id/bot_navigation_dict"
+        android:name="com.trashsoftware.ducksontranslator.fragments.MainDictionaryFragment"
+        tools:layout="@layout/fragment_main_dict" />
+
+    <fragment
+        android:id="@+id/bot_navigation_about"
+        android:name="com.trashsoftware.ducksontranslator.fragments.MainAboutFragment"
+        tools:layout="@layout/fragment_main_about"/>
+
+</navigation>

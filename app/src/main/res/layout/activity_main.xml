@@ -8,7 +8,45 @@
     tools:context=".MainActivity"
     tools:openDrawer="start">
 
-    <include layout="@layout/content_main" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/main_app_bar_layout"
+            app:layout_constraintTop_toTopOf="parent"
+            android:theme="@style/Theme.DuckSonTranslator.AppBarOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/main_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/Theme.DuckSonTranslator.PopupOverlay"
+                app:title="@string/app_bar_name"/>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/main_nav_bot_bar"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:menu="@menu/main_bottom_bar" />
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/main_nav_container"
+            android:name="com.trashsoftware.ducksontranslator.fragments.MainFragmentHost"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:defaultNavHost="true"
+            app:layout_constraintBottom_toTopOf="@id/main_nav_bot_bar"
+            app:layout_constraintTop_toBottomOf="@id/main_app_bar_layout"
+            app:navGraph="@navigation/main_navigation" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/mainNavigation"
