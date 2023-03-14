@@ -29,12 +29,42 @@
     <!--Bottom navigation-->
     <string name="translate_navigation">翻译</string>
     <string name="dictionary_navigation">字典</string>
+    <string name="encrypt_navigation">加密</string>
 
     <!--Dict fragment-->
     <string name="search">查询</string>
     <string name="no_results">未找到该词</string>
     <string name="part_of_speech">%s.</string>
     <string name="same_sound_divider">以下为同音词</string>
+    <string name="duck_son_ad">Duck son</string>
+
+    <!--Encrypt fragment-->
+    <string name="key_generation">密钥生成</string>
+    <string name="content_encryption">信息加密</string>
+    <string name="encrypt">加密</string>
+    <string name="decrypt">解密</string>
+    <string name="public_key">公钥</string>
+    <string name="private_key">私钥</string>
+    <string name="generate_keys">生成密钥对</string>
+    <string name="key_bits">位数</string>
+    <string name="generate_key_first">请先生成密钥</string>
+    <string name="public_key_input_prompt">请输入公钥</string>
+    <string name="private_key_input_prompt">请输入私钥</string>
+    <string name="encrypt_field_prompt">请在此输入</string>
+    <string name="decrypt_field_prompt">请在此输入密文</string>
+    <string name="encrypt_literal_type">密文类型</string>
+    <string name="public_key_intro">将公钥共享后，任何持有公钥的用户都能向你发送加密信息。</string>
+    <string name="private_key_intro">请妥善保管私钥，且不要将私钥发送给任何人。</string>
+    <string name="fill_encrypt_content">请输入要加密的信息</string>
+    <string name="fill_rsa_key">请输入密钥</string>
+    <string name="invalid_encrypted_text">无法解密：未知字符串“%s”</string>
+    <string name="invalid_key_text">密钥无效</string>
+
+    <!--Literal converters-->
+    <string name="converter_think_clean">李言李语</string>
+    <string name="converter_chn">中文乱码</string>
+    <string name="converter_eng">英文乱码</string>
+    <string name="converter_hex">十六进制</string>
 
     <string name="enabled">启用</string>
     <string name="disabled">禁用</string>

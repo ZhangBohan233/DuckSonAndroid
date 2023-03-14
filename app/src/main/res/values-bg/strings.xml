@@ -29,12 +29,42 @@
     <!--Bottom navigation-->
     <string name="translate_navigation">Translate</string>
     <string name="dictionary_navigation">Dictionary</string>
+    <string name="encrypt_navigation">Add dense</string>
 
     <!--Dict fragment-->
     <string name="search">Find</string>
     <string name="no_results">No find arrive this word</string>
     <string name="part_of_speech">%s.</string>
     <string name="same_sound_divider">Down is same sound word</string>
+    <string name="duck_son_ad">Duck son</string>
+
+    <!--Encrypt fragment-->
+    <string name="key_generation">Key generation</string>
+    <string name="content_encryption">Encryption</string>
+    <string name="encrypt">Encrypt</string>
+    <string name="decrypt">Decrypt</string>
+    <string name="public_key">Public key</string>
+    <string name="private_key">Private key</string>
+    <string name="generate_keys">Generate keys</string>
+    <string name="key_bits">bits</string>
+    <string name="generate_key_first">Please generate the keys</string>
+    <string name="encrypt_field_prompt">Please input here</string>
+    <string name="decrypt_field_prompt">Please input encrypted text here</string>
+    <string name="public_key_input_prompt">Please input the public key</string>
+    <string name="private_key_input_prompt">Please input the private key</string>
+    <string name="encrypt_literal_type">Type</string>
+    <string name="public_key_intro">Share the public key to your friends so they can send encrypted messages to you.</string>
+    <string name="private_key_intro">Do not share the private key. You will need to decrypt messages using the private key.</string>
+    <string name="fill_encrypt_content">Please input something to encrypt</string>
+    <string name="fill_rsa_key">Please input the key</string>
+    <string name="invalid_encrypted_text">Cannot decrypt: unknown literal "%s"</string>
+    <string name="invalid_key_text">Invalid rsa key</string>
+
+    <!--Literal converters-->
+    <string name="converter_think_clean">Think clean</string>
+    <string name="converter_chn">Raw chinese</string>
+    <string name="converter_eng">Raw latin</string>
+    <string name="converter_hex">Hex</string>
 
     <string name="enabled">launch use</string>
     <string name="disabled">ban use</string>

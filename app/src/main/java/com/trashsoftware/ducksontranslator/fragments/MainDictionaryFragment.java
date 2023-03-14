@@ -36,7 +36,7 @@ public class MainDictionaryFragment extends Fragment {
     TextInputEditText searchBox;
     Spinner dictLangSpinner;
     RecyclerView dictRecycler;
-    TextView noResultsPlaceholder;
+    TextView noResultsPlaceholder, adPlaceholder;
 
     private DictAdapter dictAdapter;
     private MainActivity parent;
@@ -57,6 +57,7 @@ public class MainDictionaryFragment extends Fragment {
         dictLangSpinner = root.findViewById(R.id.dict_lang_spinner);
         dictRecycler = root.findViewById(R.id.dict_result_recycler);
         noResultsPlaceholder = root.findViewById(R.id.dict_no_result_placeholder);
+        adPlaceholder = root.findViewById(R.id.dict_ad_placeholder);
 
         bindRecyclerView();
         addInputListener();
@@ -152,9 +153,11 @@ public class MainDictionaryFragment extends Fragment {
         if (viewModel.wordResults == null || viewModel.wordResults.isEmpty()) {
             if (viewModel.dictSearched) {
                 dictAdapter.refreshContent(List.of());
+                adPlaceholder.setVisibility(View.GONE);
             }
         } else {
             dictAdapter.refreshContent(viewModel.wordResults);
+            adPlaceholder.setVisibility(View.GONE);
         }
     }
 

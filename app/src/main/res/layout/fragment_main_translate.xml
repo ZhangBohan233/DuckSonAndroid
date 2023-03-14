@@ -126,9 +126,7 @@
             android:onClick="copyDownTextAction"
             android:src="@drawable/ic_content_copy"
             app:layout_constraintBottom_toBottomOf="@id/textBoxDown"
-            app:layout_constraintRight_toRightOf="@id/textBoxDown">
-
-        </ImageButton>
+            app:layout_constraintRight_toRightOf="@id/textBoxDown"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

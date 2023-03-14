@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
@@ -30,6 +29,7 @@ import com.trashsoftware.ducksontranslator.db.HistoryAccess;
 import com.trashsoftware.ducksontranslator.db.HistoryItem;
 import com.trashsoftware.ducksontranslator.dialogs.ChangelogDialog;
 import com.trashsoftware.ducksontranslator.fragments.MainDictionaryFragment;
+import com.trashsoftware.ducksontranslator.fragments.MainEncryptionFragment;
 import com.trashsoftware.ducksontranslator.fragments.MainTranslateFragment;
 import com.trashsoftware.ducksontranslator.model.MainViewModel;
 import com.trashsoftware.ducksontranslator.util.LanguageCode;
@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MainTranslateFragment translateFragment;
     private MainDictionaryFragment dictionaryFragment;
+    private MainEncryptionFragment encryptionFragment;
 
     private SwitchMaterial useBaseDictSwitch;
     private SwitchMaterial homophoneSwitch;
@@ -121,6 +122,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void setDictionaryFragment(MainDictionaryFragment dictionaryFragment) {
         this.dictionaryFragment = dictionaryFragment;
+    }
+
+    public void setEncryptionFragment(MainEncryptionFragment encryptionFragment) {
+        this.encryptionFragment = encryptionFragment;
     }
 
     private void switchToTranslateFragment() {
@@ -238,6 +243,42 @@ public class MainActivity extends AppCompatActivity {
 
     public void searchDictAction(View view) {
         dictionaryFragment.search();
+    }
+
+    public void expandCollapseKeyFieldAction(View view) {
+        encryptionFragment.expandCollapseKeyField();
+    }
+
+    public void expandCollapseEncryptFieldAction(View view) {
+        encryptionFragment.expandCollapseEncryptField();
+    }
+
+    public void generateRSAKeysAction(View view) {
+        encryptionFragment.generateRSAKeys();
+    }
+
+    public void encryptAction(View view) {
+        encryptionFragment.encryptDecrypt();
+    }
+
+    public void copyPublicKeyAction(View view) {
+        encryptionFragment.copyPublicKey();
+    }
+
+    public void copyPrivateKeyAction(View view) {
+        encryptionFragment.copyPrivateKey();
+    }
+
+    public void clearEncryptInputAction(View view) {
+        encryptionFragment.clearEncryptInput();
+    }
+
+    public void clearKeyInputAction(View view) {
+        encryptionFragment.clearKeyInput();
+    }
+
+    public void copyEncryptOutputAction(View view) {
+        encryptionFragment.copyEncryptOutput();
     }
 
     private void checkIsFirstOpen() {

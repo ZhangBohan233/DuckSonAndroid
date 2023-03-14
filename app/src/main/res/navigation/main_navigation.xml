@@ -16,6 +16,11 @@
         tools:layout="@layout/fragment_main_dict" />
 
     <fragment
+        android:id="@+id/bot_navigation_encrypt"
+        android:name="com.trashsoftware.ducksontranslator.fragments.MainEncryptionFragment"
+        tools:layout="@layout/fragment_main_encrypt" />
+
+    <fragment
         android:id="@+id/bot_navigation_about"
         android:name="com.trashsoftware.ducksontranslator.fragments.MainAboutFragment"
         tools:layout="@layout/fragment_main_about"/>

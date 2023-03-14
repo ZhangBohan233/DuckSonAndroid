@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import trashsoftware.duckSonTranslator.TranslatorOptions;
+import trashsoftware.duckSonTranslator.encrypt.KeyPair;
+import trashsoftware.duckSonTranslator.encrypt.RSA;
+import trashsoftware.duckSonTranslator.encrypt.RSAKeyGenerator;
 import trashsoftware.duckSonTranslator.result.TranslationResult;
 import trashsoftware.duckSonTranslator.translators.DuckSonTranslator;
 import trashsoftware.duckSonTranslator.wordPickers.PickerFactory;
@@ -31,6 +34,15 @@ public class MainViewModel {
     private DuckSonDictionary dictionary;
     private String shownCoreVersion;
     private TranslationResult translationResult;
+
+    // Encrypt fragment
+    public boolean encrypting = true;
+    public boolean keyFieldExpanded = true;
+    public boolean encryptFieldExpanded = false;
+    private KeyPair keyPair;
+    public String encryptOutputText;
+    public int keyBitsSpinnerIndex = 3;
+    public int literalConverterSpinnerIndex = 0;
 
     public static MainViewModel getInstance() {
         if (instance == null) {
@@ -88,5 +100,16 @@ public class MainViewModel {
 
     public String getShownCoreVersion() {
         return shownCoreVersion;
+    }
+
+    public void generateKeyPair(int bitsLow) {
+        RSAKeyGenerator keyGenerator = RSAKeyGenerator.getInstance();
+        keyGenerator.setBits(bitsLow, bitsLow * 3 / 2);
+
+        this.keyPair = keyGenerator.generate();
+    }
+
+    public KeyPair getKeyPair() {
+        return keyPair;
     }
 }
