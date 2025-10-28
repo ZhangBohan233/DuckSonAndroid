@@ -24,7 +24,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.compose.material3.OutlinedTextFieldKt;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
@@ -187,7 +186,7 @@ public class MainEncryptionFragment extends Fragment {
         ArrayAdapter<String> litTypeAdapter = new ArrayAdapter<>(getContext(),
                 R.layout.lang_spinner_item,
                 names);
-        litTypeAdapter.setDropDownViewResource(R.layout.lang_spinner_dropdiwn_item);
+        litTypeAdapter.setDropDownViewResource(R.layout.lang_spinner_dropdown_item);
         literalTypeSpinner.setAdapter(litTypeAdapter);
 
         keyBitsSpinner.setSelection(viewModel.keyBitsSpinnerIndex);

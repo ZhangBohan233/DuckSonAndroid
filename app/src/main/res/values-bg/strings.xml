@@ -5,7 +5,8 @@
     <string name="translate">translate</string>
     <string name="swapLang">mutual exchange</string>
     <string name="translating">translating…</string>
-    <string name="up_box_hint">please lose enter literature character…</string>
+    <string name="up_box_hint">please lose enter literature character</string>
+    <string name="language_box_hint">Language</string>
 
     <string name="open">fight open</string>
     <string name="close">close</string>

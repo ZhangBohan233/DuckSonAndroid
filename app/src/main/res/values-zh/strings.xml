@@ -5,7 +5,8 @@
     <string name="translate">翻译</string>
     <string name="swapLang">互换</string>
     <string name="translating">正在翻译…</string>
-    <string name="up_box_hint">请输入文字…</string>
+    <string name="up_box_hint">请输入文字</string>
+    <string name="language_box_hint">语言</string>
 
     <string name="open">打开</string>
     <string name="close">关闭</string>

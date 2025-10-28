@@ -118,11 +118,11 @@ public class MainTranslateFragment extends Fragment {
         ));
 
         lang1Adapter = new ArrayAdapter<>(getContext(), R.layout.lang_spinner_item, lang1List);
-        lang1Adapter.setDropDownViewResource(R.layout.lang_spinner_dropdiwn_item);
+        lang1Adapter.setDropDownViewResource(R.layout.lang_spinner_dropdown_item);
         lang1Spinner.setAdapter(lang1Adapter);
 
         lang2Adapter = new ArrayAdapter<>(getContext(), R.layout.lang_spinner_item, lang2List);
-        lang2Adapter.setDropDownViewResource(R.layout.lang_spinner_dropdiwn_item);
+        lang2Adapter.setDropDownViewResource(R.layout.lang_spinner_dropdown_item);
         lang2Spinner.setAdapter(lang2Adapter);
 
         addSpinnerChangeListener();

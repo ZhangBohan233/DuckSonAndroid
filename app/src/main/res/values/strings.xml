@@ -5,7 +5,8 @@
     <string name="translate">Translate</string>
     <string name="swapLang">Swap</string>
     <string name="translating">Translating…</string>
-    <string name="up_box_hint">Input here…</string>
+    <string name="up_box_hint">Input here</string>
+    <string name="language_box_hint">Language</string>
 
     <string name="open">Open</string>
     <string name="close">Close</string>

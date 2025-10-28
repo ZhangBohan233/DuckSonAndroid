@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.trashsoftware.ducksontranslator.R;
@@ -17,7 +18,10 @@ import trashsoftware.duckSonTranslator.words.WordResult;
 
 public class DictAdapter extends RecyclerView.Adapter<DictVH> {
 
-    private final List<WordResult> list = new ArrayList<>();
+    static final int TYPE_DIVIDER = 0;
+    static final int TYPE_ITEM = 1;
+
+    private final List<WordResultWrapper> list = new ArrayList<>();
     MainDictionaryFragment fragment;
     View emptyPlaceholder;
 
@@ -27,11 +31,12 @@ public class DictAdapter extends RecyclerView.Adapter<DictVH> {
     }
 
     public void refreshContent(List<WordResult> results) {
-        emptyPlaceholder.setVisibility(results.isEmpty() ? View.VISIBLE : View.GONE);
+        List<WordResultWrapper> wrappers = makeWrapperList(results);
+        emptyPlaceholder.setVisibility(wrappers.isEmpty() ? View.VISIBLE : View.GONE);
         int origSize = list.size();
 
-        for (int i = 0; i < results.size(); i++) {
-            WordResult wr = results.get(i);
+        for (int i = 0; i < wrappers.size(); i++) {
+            WordResultWrapper wr = wrappers.get(i);
             if (i < origSize) {
                 list.set(i, wr);
                 notifyItemChanged(i);
@@ -41,7 +46,7 @@ public class DictAdapter extends RecyclerView.Adapter<DictVH> {
             }
         }
 
-        while (list.size() > results.size()) {
+        while (list.size() > wrappers.size()) {
             list.remove(list.size() - 1);
             notifyItemRemoved(list.size());
         }
@@ -52,30 +57,59 @@ public class DictAdapter extends RecyclerView.Adapter<DictVH> {
     @NonNull
     @Override
     public DictVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.dict_item_view, parent, false);
+        if (viewType == TYPE_DIVIDER) {
+            return new DictVH.DividerVH(LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.recycler_type_divider, parent, false));
+        } else {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.dict_item_view, parent, false);
 
-        return new DictVH(view);
+            return new DictVH.ItemHolder(view);
+        }
     }
 
     @Override
     public void onBindViewHolder(@NonNull DictVH holder, int position) {
-        WordResult item = list.get(position);
-
-        boolean isSameSoundDivider = false;
-        if (item.isFromSameSound()) {
-            if (position == 0) isSameSoundDivider = true;
-            else {
-                WordResult last = list.get(position - 1);
-                if (!last.isFromSameSound()) isSameSoundDivider = true;
-            }
+        WordResultWrapper item = list.get(position);
+        if (holder instanceof DictVH.ItemHolder) {
+            assert item.wordResult != null;
+            ((DictVH.ItemHolder) holder).setContent(item.wordResult, fragment.getContext());
         }
+    }
 
-        holder.setContent(item, fragment.getContext(), isSameSoundDivider);
+    @Override
+    public int getItemViewType(int position) {
+        if (list.get(position).wordResult == null) {
+            return TYPE_DIVIDER;
+        } else {
+            return TYPE_ITEM;
+        }
     }
 
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    private static List<WordResultWrapper> makeWrapperList(List<WordResult> wordResults) {
+        List<WordResultWrapper> wrappers = new ArrayList<>();
+        boolean isExact = true;
+        for (WordResult wr : wordResults) {
+            if (isExact && wr.isFromSameSound()) {
+                isExact = false;
+                wrappers.add(new WordResultWrapper(null));
+            }
+            wrappers.add(new WordResultWrapper(wr));
+        }
+        return wrappers;
+    }
+
+    private static class WordResultWrapper {
+        @Nullable
+        final WordResult wordResult;  // if this is null, then this item will be a separator
+
+        WordResultWrapper(@Nullable WordResult wordResult) {
+            this.wordResult = wordResult;
+        }
     }
 }

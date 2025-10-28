@@ -6,38 +6,52 @@
     android:layout_marginStart="12dp"
     android:layout_marginEnd="12dp">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/search_box"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/search_outbox"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:drawableStart="@drawable/magnify_grey"
-        android:drawablePadding="4dp"
-        android:hint="@string/up_box_hint"
-        android:imeOptions="actionSearch"
-        android:inputType="text"
-        android:textSize="18sp"
+        android:layout_marginEnd="6dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/dict_lang_spinner"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintRight_toLeftOf="@id/dict_lang_dropdown_out"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Spinner
-        android:id="@+id/dict_lang_spinner"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/search_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/up_box_hint"
+            android:drawableEnd="@drawable/magnify_grey"
+            android:imeOptions="actionSearch"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/dict_lang_dropdown_out"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:entries="@array/dict_lang_list"
-        app:layout_constraintBottom_toBottomOf="@id/search_box"
+        app:layout_constraintBottom_toBottomOf="@id/search_outbox"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_box"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/search_outbox"
+        app:layout_constraintTop_toTopOf="@id/search_outbox">
+
+        <AutoCompleteTextView
+            android:id="@+id/dict_lang_dropdown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/language_box_hint"
+            android:inputType="none" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dict_result_recycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@id/search_word_btn"
-        app:layout_constraintTop_toBottomOf="@id/search_box" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_outbox" />
 
     <TextView
         android:id="@+id/dict_no_result_placeholder"

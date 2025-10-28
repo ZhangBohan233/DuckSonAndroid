@@ -2,11 +2,14 @@ package com.trashsoftware.ducksontranslator.fragments;
 
 import android.os.Bundle;
 import android.text.Editable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -32,7 +35,8 @@ public class MainDictionaryFragment extends Fragment {
     private MainViewModel viewModel;
 
     TextInputEditText searchBox;
-    Spinner dictLangSpinner;
+    //    Spinner dictLangSpinner;
+    AutoCompleteTextView dictLangDropdown;
     RecyclerView dictRecycler;
     TextView noResultsPlaceholder, adPlaceholder;
 
@@ -52,7 +56,7 @@ public class MainDictionaryFragment extends Fragment {
         parent.setDictionaryFragment(this);
 
         searchBox = root.findViewById(R.id.search_box);
-        dictLangSpinner = root.findViewById(R.id.dict_lang_spinner);
+        dictLangDropdown = root.findViewById(R.id.dict_lang_dropdown);
         dictRecycler = root.findViewById(R.id.dict_result_recycler);
         noResultsPlaceholder = root.findViewById(R.id.dict_no_result_placeholder);
         adPlaceholder = root.findViewById(R.id.dict_ad_placeholder);
@@ -76,22 +80,21 @@ public class MainDictionaryFragment extends Fragment {
     }
 
     private void resumeState() {
-        dictLangSpinner.setSelection(viewModel.dictLangSpinnerIndex);
+//        dictLangSpinner.setSelection(viewModel.dictLangSpinnerIndex);
+        String[] languages = getResources().getStringArray(R.array.dict_lang_list);
+        dictLangDropdown.setText(languages[viewModel.dictLangSpinnerIndex], false);
         refreshByModel();
     }
 
     private void bindRecyclerView() {
         dictAdapter = new DictAdapter(this, noResultsPlaceholder);
-        dictRecycler.addItemDecoration(
-                new DividerItemDecoration(dictRecycler.getContext(),
-                        DividerItemDecoration.VERTICAL));
 
         dictRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         dictRecycler.setAdapter(dictAdapter);
     }
 
     private void buildLangList() {
-        String[] arrayValues = getContext().getResources().getStringArray(R.array.dict_lang_list_values);
+        String[] arrayValues = requireContext().getResources().getStringArray(R.array.dict_lang_list_values);
         langList = new String[arrayValues.length][];
         for (int i = 0; i < arrayValues.length; i++) {
             String[] split = arrayValues[i].split("-");
@@ -101,17 +104,36 @@ public class MainDictionaryFragment extends Fragment {
     }
 
     private void addSpinnerListener() {
-        dictLangSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                viewModel.dictLangSpinnerIndex = position;
-            }
+//        dictLangSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                viewModel.dictLangSpinnerIndex = position;
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+        String[] languages = getResources().getStringArray(R.array.dict_lang_list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                requireContext(),
+                R.layout.lang_spinner_dropdown_item,
+                R.id.lang_spinner_dropdown_text,
+                languages
+        );
 
-            }
+        dictLangDropdown.setAdapter(adapter);
+
+        // selection listener
+        dictLangDropdown.setOnItemClickListener((parent, view, position, id) ->
+        {
+            viewModel.dictLangSpinnerIndex = position;
+            Log.d("MainDictionaryFragment", "Sel pos " + position);
         });
+
+        dictLangDropdown.setText(languages[viewModel.dictLangSpinnerIndex], false);
     }
 
     private void setSearched() {
@@ -160,7 +182,8 @@ public class MainDictionaryFragment extends Fragment {
     }
 
     private String[] getSelectedLangCodes() {
-        int index = dictLangSpinner.getSelectedItemPosition();
+//        int index = dictLangSpinner.getSelectedItemPosition();
+        int index = viewModel.dictLangSpinnerIndex;
         return langList[index];
     }
 
