@@ -55,7 +55,6 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="@string/duck_son_ad"
-        android:textColor="@color/light_grey"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/search_word_btn"
         app:layout_constraintTop_toTopOf="parent" />

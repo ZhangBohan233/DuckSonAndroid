@@ -128,7 +128,7 @@ public class ResultText extends androidx.appcompat.widget.AppCompatTextView {
         if (focusIndicator != null) {
             ViewGroup.LayoutParams layoutParams = focusIndicator.getLayoutParams();
             if (focused) {
-                focusIndicator.setBackgroundColor(getContext().getColor(R.color.teal_200));
+                focusIndicator.setBackgroundColor(getContext().getColor(R.color.md_theme_tertiary));
                 layoutParams.height = dpToPx(2);
             } else {
                 focusIndicator.setBackgroundColor(getContext().getColor(R.color.not_important_black));

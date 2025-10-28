@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="8dp"
-            android:background="@color/light_grey"
+            android:background="@color/md_theme_background"
             app:layout_constraintTop_toBottomOf="@+id/item_date_divider_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

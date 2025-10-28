@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/encrypt_main_scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -26,7 +27,6 @@
             android:layout_height="wrap_content"
             android:onClick="expandCollapseKeyFieldAction"
             android:text="@string/key_generation"
-            android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/keys_expand_arrow"
             app:layout_constraintLeft_toRightOf="@id/keys_expand_arrow"
@@ -72,7 +72,7 @@
                 android:hint="@string/generate_key_first"
                 android:textIsSelectable="true"
                 app:layout_constraintLeft_toRightOf="@id/key_label_barrier"
-                app:layout_constraintRight_toLeftOf="@id/copy_public_key_btn"
+                app:layout_constraintRight_toLeftOf="@id/share_public_key_btn"
                 app:layout_constraintTop_toTopOf="@id/public_key_label" />
 
             <TextView
@@ -83,7 +83,7 @@
                 android:hint="@string/generate_key_first"
                 android:textIsSelectable="true"
                 app:layout_constraintLeft_toRightOf="@id/key_label_barrier"
-                app:layout_constraintRight_toLeftOf="@id/copy_private_key_btn"
+                app:layout_constraintRight_toLeftOf="@id/share_public_key_btn"
                 app:layout_constraintTop_toTopOf="@id/private_key_label" />
 
             <ImageButton
@@ -99,16 +99,42 @@
                 app:layout_constraintTop_toTopOf="@id/public_key_content" />
 
             <ImageButton
-                android:id="@+id/copy_private_key_btn"
+                android:id="@+id/share_public_key_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"
                 android:background="@null"
                 android:contentDescription="@string/copy_content"
-                android:onClick="copyPrivateKeyAction"
-                android:src="@drawable/ic_content_copy"
+                android:onClick="sharePublicKeyAction"
+                android:src="@drawable/share_24px"
+                app:layout_constraintRight_toLeftOf="@id/copy_public_key_btn"
+                app:layout_constraintTop_toTopOf="@id/copy_public_key_btn"
+                app:layout_constraintBottom_toBottomOf="@id/copy_public_key_btn"/>
+
+<!--            <ImageButton-->
+<!--                android:id="@+id/copy_private_key_btn"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginBottom="2dp"-->
+<!--                android:background="@null"-->
+<!--                android:contentDescription="@string/copy_content"-->
+<!--                android:onClick="copyPrivateKeyAction"-->
+<!--                android:src="@drawable/ic_content_copy"-->
+<!--                app:layout_constraintRight_toRightOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="@id/private_key_content" />-->
+
+            <ImageButton
+                android:id="@+id/apply_private_key_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:background="@null"
+                android:contentDescription="@string/copy_content"
+                android:onClick="applyPrivateKeyAction"
+                android:src="@drawable/edit_arrow_down_24px"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/private_key_content" />
+                app:layout_constraintTop_toTopOf="@id/private_key_content"
+                app:layout_constraintBottom_toBottomOf="@id/private_key_content"/>
 
             <Button
                 android:id="@+id/generate_keys_btn"
@@ -157,7 +183,6 @@
             android:layout_height="wrap_content"
             android:onClick="expandCollapseEncryptFieldAction"
             android:text="@string/content_encryption"
-            android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/encrypt_expand_arrow"
             app:layout_constraintLeft_toRightOf="@id/encrypt_expand_arrow"
@@ -254,7 +279,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/toggle_encrypt"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_encrypt_24"
@@ -262,7 +287,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/toggle_decrypt"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_decrypt_24"
@@ -276,7 +301,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="top"
                 android:lines="8"
-                android:textColor="@color/black"
                 android:textIsSelectable="true"
                 android:textSize="16sp"
                 app:layout_constraintTop_toBottomOf="@+id/encrypt_btn" />
@@ -288,7 +312,6 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="2dp"
                 android:layout_marginEnd="4dp"
-                android:background="@color/text_underline"
                 app:layout_constraintTop_toBottomOf="@id/encrypt_output" />
 
             <ImageButton
@@ -302,6 +325,19 @@
                 android:src="@drawable/ic_content_copy"
                 app:layout_constraintBottom_toBottomOf="@id/encrypt_output"
                 app:layout_constraintRight_toRightOf="@id/encrypt_output" />
+
+            <ImageButton
+                android:id="@+id/encrypt_out_share_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:background="@null"
+                android:contentDescription="@string/copy_content"
+                android:onClick="shareEncryptOutputAction"
+                android:src="@drawable/share_24px"
+                app:layout_constraintRight_toLeftOf="@id/encrypt_out_copy_btn"
+                app:layout_constraintTop_toTopOf="@id/encrypt_out_copy_btn"
+                app:layout_constraintBottom_toBottomOf="@id/encrypt_out_copy_btn"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

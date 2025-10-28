@@ -50,7 +50,6 @@
 
         <ImageButton
             android:id="@+id/SwitchLangButton"
-            style="@style/SwitchLangButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
@@ -76,7 +75,6 @@
 
         <Button
             android:id="@+id/translateButton"
-            style="@style/TranslateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -113,7 +111,6 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="2dp"
             android:layout_marginEnd="4dp"
-            android:background="@color/text_underline"
             app:layout_constraintTop_toBottomOf="@id/textBoxDown" />
 
         <ImageButton

@@ -13,10 +13,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.compose.material3.TextFieldKt;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.trashsoftware.ducksontranslator.MainActivity;
@@ -25,8 +25,6 @@ import com.trashsoftware.ducksontranslator.model.MainViewModel;
 import com.trashsoftware.ducksontranslator.widgets.DictAdapter;
 
 import java.util.List;
-
-import trashsoftware.duckSonTranslator.words.WordResult;
 
 public class MainDictionaryFragment extends Fragment {
     private static final String BUNDLE_KEY = "internalSavedViewMainDictionaryFragment";

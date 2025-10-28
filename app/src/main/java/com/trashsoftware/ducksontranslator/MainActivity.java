@@ -23,6 +23,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.trashsoftware.ducksontranslator.db.HistoryAccess;
@@ -54,9 +55,9 @@ public class MainActivity extends AppCompatActivity {
     private MainDictionaryFragment dictionaryFragment;
     private MainEncryptionFragment encryptionFragment;
 
-    private SwitchMaterial useBaseDictSwitch;
-    private SwitchMaterial homophoneSwitch;
-    private SwitchMaterial cqModeSwitch;
+    private MaterialCheckBox useBaseDictSwitch;
+    private MaterialCheckBox homophoneSwitch;
+    private MaterialCheckBox cqModeSwitch;
     // Result getter of history view
     ActivityResultLauncher<Intent> historyResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -265,6 +266,14 @@ public class MainActivity extends AppCompatActivity {
         encryptionFragment.copyPublicKey();
     }
 
+    public void sharePublicKeyAction(View view) {
+        encryptionFragment.sharePublicKey();
+    }
+
+    public void applyPrivateKeyAction(View view) {
+        encryptionFragment.applyPrivateKey();
+    }
+
     public void copyPrivateKeyAction(View view) {
         encryptionFragment.copyPrivateKey();
     }
@@ -279,6 +288,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void copyEncryptOutputAction(View view) {
         encryptionFragment.copyEncryptOutput();
+    }
+
+    public void shareEncryptOutputAction(View view) {
+        encryptionFragment.shareEncryptOutput();
     }
 
     private void checkIsFirstOpen() {

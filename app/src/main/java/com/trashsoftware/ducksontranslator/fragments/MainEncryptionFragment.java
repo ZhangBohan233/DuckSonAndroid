@@ -1,9 +1,11 @@
 package com.trashsoftware.ducksontranslator.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.LayoutInflater;
@@ -22,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.compose.material3.OutlinedTextFieldKt;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
@@ -250,6 +253,22 @@ public class MainEncryptionFragment extends Fragment {
     }
 
     public void generateRSAKeys() {
+        if (viewModel.getKeyPair() != null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
+                    .setTitle(R.string.generate_keys_block_title)
+                    .setMessage(R.string.generate_keys_block_prompt)
+                    .setCancelable(true)
+                    .setPositiveButton(R.string.yes, (dialog, which) -> generateRSAKeysReal())
+                    .setNegativeButton(R.string.no, (dialog, which) -> {
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        } else {
+            generateRSAKeysReal();
+        }
+    }
+
+    private void generateRSAKeysReal() {
         int bits = Integer.parseInt((String) keyBitsSpinner.getSelectedItem());
         viewModel.generateKeyPair(bits);
 
@@ -346,22 +365,58 @@ public class MainEncryptionFragment extends Fragment {
         copyToClipboard(encryptOutput);
     }
 
-    private void copyToClipboard(TextView textView) {
+    public void sharePublicKey() {
+        sharePlainText(publicKeyContent, getString(R.string.share_public_key_title));
+    }
+
+    public void shareEncryptOutput() {
+        sharePlainText(encryptOutput, null);
+    }
+
+    public void applyPrivateKey() {
+        String text = getFromText(privateKeyContent);
+        if (text == null) return;
+
+        decryptToggle.performClick();
+        keyInput.setText(text);
+    }
+
+    @Nullable
+    private String getFromText(TextView textView) {
         CharSequence downCs = textView.getText();
         if (downCs == null) {
             Toast.makeText(getContext(), R.string.nothing_to_copy, Toast.LENGTH_SHORT).show();
-            return;
+            return null;
         }
         String down = downCs.toString();
         if (down.trim().isEmpty()) {
             Toast.makeText(getContext(), R.string.nothing_to_copy, Toast.LENGTH_SHORT).show();
-            return;
+            return null;
         }
+        return down;
+    }
+
+    private void copyToClipboard(TextView textView) {
+        String text = getFromText(textView);
+        if (text == null) return;
 
         ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clipData = ClipData.newPlainText(down, down);
+        ClipData clipData = ClipData.newPlainText(text, text);
         clipboard.setPrimaryClip(clipData);
 
         Toast.makeText(getContext(), R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
+    }
+
+    private void sharePlainText(TextView textView, @Nullable String title) {
+        String text = getFromText(textView);
+        if (text == null) return;
+
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, text);
+        sendIntent.setType("text/plain");
+
+        Intent shareIntent = Intent.createChooser(sendIntent, title);
+        startActivity(shareIntent);
     }
 }

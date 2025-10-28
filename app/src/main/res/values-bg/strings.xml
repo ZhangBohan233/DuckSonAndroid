@@ -59,6 +59,9 @@
     <string name="fill_rsa_key">Please input the key</string>
     <string name="invalid_encrypted_text">Cannot decrypt: unknown literal "%s"</string>
     <string name="invalid_key_text">Invalid rsa key</string>
+    <string name="share_public_key_title">Share the public key and invite any user to send you encrypted messages.</string>
+    <string name="generate_keys_block_title">Are you sure to generate new keys?</string>
+    <string name="generate_keys_block_prompt">Current keys will be lost. Any messages encrypted with current public key will be lost.</string>
 
     <!--Literal converters-->
     <string name="converter_think_clean">Think clean</string>
