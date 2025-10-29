@@ -7,6 +7,8 @@
     <string name="translating">Translating…</string>
     <string name="up_box_hint">Input here</string>
     <string name="language_box_hint">Language</string>
+    <string name="language_box_hint_src">From</string>
+    <string name="language_box_hint_dst">To</string>
 
     <string name="open">Open</string>
     <string name="close">Close</string>

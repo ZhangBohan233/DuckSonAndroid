@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
 
+import com.google.android.material.textview.MaterialTextView;
 import com.trashsoftware.ducksontranslator.R;
 import com.trashsoftware.ducksontranslator.model.MainViewModel;
 
@@ -22,7 +23,7 @@ import java.util.List;
 import trashsoftware.duckSonTranslator.result.ResultToken;
 import trashsoftware.duckSonTranslator.result.TranslationResult;
 
-public class ResultText extends androidx.appcompat.widget.AppCompatTextView {
+public class ResultText extends MaterialTextView {
 
     private ViewGroup.LayoutParams focusedParams;
     private ViewGroup.LayoutParams normalParams;

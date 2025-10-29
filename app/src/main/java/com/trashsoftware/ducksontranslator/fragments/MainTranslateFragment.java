@@ -1,5 +1,8 @@
 package com.trashsoftware.ducksontranslator.fragments;
 
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
+
 import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -12,22 +15,23 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
+import android.widget.AutoCompleteTextView;
 import android.widget.ScrollView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.trashsoftware.ducksontranslator.MainActivity;
 import com.trashsoftware.ducksontranslator.R;
 import com.trashsoftware.ducksontranslator.db.HistoryAccess;
 import com.trashsoftware.ducksontranslator.db.HistoryItem;
 import com.trashsoftware.ducksontranslator.model.MainViewModel;
+import com.trashsoftware.ducksontranslator.util.Util;
 import com.trashsoftware.ducksontranslator.widgets.ResultText;
 import com.trashsoftware.ducksontranslator.widgets.TranslatorEditText;
 
@@ -40,35 +44,17 @@ import trashsoftware.duckSonTranslator.result.TranslationResult;
 public class MainTranslateFragment extends Fragment {
     public static final String TAG = "MainTranslateFragment";
 
-    public static final String[] SRC_LANG_CODES = {"", "chs", "geg", "chi"};
-    public static final String[] DST_LANG_CODES = {"chs", "geg", "chi"};
+    public static final String[] LANG_CODES = {"chs", "geg", "chi"};
 
     MainActivity parent;
     MainViewModel viewModel;
+    MaterialButton copyButton;
     private HistoryAccess historyAccess;
     private ScrollView mainScrollView;
     private TranslatorEditText editTextUp;
     private ResultText textBoxDown;
-    private View resultFocusIndicator;
-    private Spinner lang1Spinner, lang2Spinner;
+    private MaterialAutoCompleteTextView lang1dropdown, lang2dropdown;
     private ArrayAdapter<LanguageItem> lang1Adapter, lang2Adapter;
-    private ImageButton clearUpTextBtn;
-
-    public static int srcLangIndex(String langCode) {
-        for (int i = 0; i < SRC_LANG_CODES.length; i++) {
-            if (SRC_LANG_CODES[i].equals(langCode)) return i;
-        }
-        System.err.println("Src lang '" + langCode + "' not found");
-        return 0;
-    }
-
-    public static int dstLangIndex(String langCode) {
-        for (int i = 0; i < DST_LANG_CODES.length; i++) {
-            if (DST_LANG_CODES[i].equals(langCode)) return i;
-        }
-        System.err.println("Dst lang '" + langCode + "' not found");
-        return 0;
-    }
 
     @Nullable
     @Override
@@ -86,44 +72,42 @@ public class MainTranslateFragment extends Fragment {
 
         historyAccess = HistoryAccess.getInstance(getContext());
         mainScrollView = root.findViewById(R.id.main_scroller);
-        clearUpTextBtn = root.findViewById(R.id.upTextClearBtn);
-        clearUpTextBtn.setVisibility(View.GONE);
+        copyButton = root.findViewById(R.id.downTextCopyBtn);
 
         editTextUp = root.findViewById(R.id.textBoxUp);
         textBoxDown = root.findViewById(R.id.textBoxDown);
-        resultFocusIndicator = root.findViewById(R.id.textBoxDownFocusIndicator);
-        clearUpTextBtn = root.findViewById(R.id.upTextClearBtn);
-        clearUpTextBtn.setVisibility(View.GONE);
 
         // 关联两个东西
         textBoxDown.setSrcField(editTextUp);
-        textBoxDown.setFocusIndicator(resultFocusIndicator);
 
         setScrollListeners();
 
         // 语言设置
-        lang1Spinner = root.findViewById(R.id.lang1Spinner);
-        lang2Spinner = root.findViewById(R.id.lang2Spinner);
+        lang1dropdown = root.findViewById(R.id.lang1_dropdown);
+        lang2dropdown = root.findViewById(R.id.lang2_dropdown);
 
         List<LanguageItem> lang1List = new ArrayList<>(List.of(
-                new LanguageItem(getContext(), SRC_LANG_CODES[0], R.string.auto_detect, true),
-                new LanguageItem(getContext(), SRC_LANG_CODES[1], R.string.chinese, false),
-                new LanguageItem(getContext(), SRC_LANG_CODES[2], R.string.geglish, false),
-                new LanguageItem(getContext(), SRC_LANG_CODES[3], R.string.chinglish, false)
+                new LanguageItem(getContext(), LANG_CODES[0], R.string.chinese),
+                new LanguageItem(getContext(), LANG_CODES[1], R.string.geglish),
+                new LanguageItem(getContext(), LANG_CODES[2], R.string.chinglish)
         ));
         List<LanguageItem> lang2List = new ArrayList<>(List.of(
-                new LanguageItem(getContext(), DST_LANG_CODES[0], R.string.chinese, false),
-                new LanguageItem(getContext(), DST_LANG_CODES[1], R.string.geglish, false),
-                new LanguageItem(getContext(), DST_LANG_CODES[2], R.string.chinglish, false)
+                new LanguageItem(getContext(), LANG_CODES[0], R.string.chinese),
+                new LanguageItem(getContext(), LANG_CODES[1], R.string.geglish),
+                new LanguageItem(getContext(), LANG_CODES[2], R.string.chinglish)
         ));
 
-        lang1Adapter = new ArrayAdapter<>(getContext(), R.layout.lang_spinner_item, lang1List);
-        lang1Adapter.setDropDownViewResource(R.layout.lang_spinner_dropdown_item);
-        lang1Spinner.setAdapter(lang1Adapter);
+        lang1Adapter = new NoFilterAdapter(requireContext(),
+                R.layout.lang_spinner_dropdown_item,
+                R.id.lang_spinner_dropdown_text,
+                lang1List);
+        lang1dropdown.setAdapter(lang1Adapter);
 
-        lang2Adapter = new ArrayAdapter<>(getContext(), R.layout.lang_spinner_item, lang2List);
-        lang2Adapter.setDropDownViewResource(R.layout.lang_spinner_dropdown_item);
-        lang2Spinner.setAdapter(lang2Adapter);
+        lang2Adapter = new NoFilterAdapter(requireContext(),
+                R.layout.lang_spinner_dropdown_item,
+                R.id.lang_spinner_dropdown_text,
+                lang2List);
+        lang2dropdown.setAdapter(lang2Adapter);
 
         addSpinnerChangeListener();
         addTextChangeListener();
@@ -135,9 +119,6 @@ public class MainTranslateFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-//        textBoxDown.clearSelection();
-//        editTextUp.clearHighlights();  // 一清了事最简单
-
         super.onDestroyView();
     }
 
@@ -148,9 +129,42 @@ public class MainTranslateFragment extends Fragment {
         resumeState();
     }
 
+    private static LanguageItem getItemByLangId(ArrayAdapter<LanguageItem> adapter, String langId) {
+        Log.i("MainTranslateFragment", "getItemByLangId: " + adapter.getCount() + " items");
+        for (int i = 0; i < adapter.getCount(); i++) {
+            LanguageItem item = adapter.getItem(i);
+            assert item != null;
+            if (item.langId.equals(langId)) {
+                return item;
+            }
+        }
+        throw new RuntimeException("Lang id '" + langId + "' not found.");
+    }
+
+    private void selectDropdownNoChange(AutoCompleteTextView dropdown,
+                                        ArrayAdapter<LanguageItem> adapter,
+                                        String langId) {
+        selectDropdown(dropdown, adapter, langId, false);
+    }
+
+    private void selectDropdown(AutoCompleteTextView dropdown,
+                                ArrayAdapter<LanguageItem> adapter,
+                                String langId,
+                                boolean changeViewModel) {
+        LanguageItem item = getItemByLangId(adapter, langId);
+        dropdown.setText(item.toString());
+        if (changeViewModel) {
+            if (dropdown == lang1dropdown) viewModel.transSrcLangId = langId;
+            else if (dropdown == lang2dropdown) viewModel.transDstLangId = langId;
+            else throw new RuntimeException("Unrecognized dropdown");
+        }
+    }
+
     private void resumeState() {
-        lang1Spinner.setSelection(viewModel.transSrcLangSpinnerIndex);
-        lang2Spinner.setSelection(viewModel.transDstLangSpinnerIndex);
+        selectDropdownNoChange(lang1dropdown, lang1Adapter, viewModel.transSrcLangId);
+        selectDropdownNoChange(lang2dropdown, lang2Adapter, viewModel.transDstLangId);
+
+        Log.i("MainTranslateFragment", "Dropdown1 items: " + lang1Adapter.getCount());
 
         if (viewModel.plainOrigText != null) {
             editTextUp.setText(viewModel.plainOrigText);
@@ -186,32 +200,36 @@ public class MainTranslateFragment extends Fragment {
     }
 
     private void addSpinnerChangeListener() {
-        lang1Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                LanguageItem sl = lang1Adapter.getItem(position);
-                if (sl.isAutoDetect) {
-                    updateLangSpinners(editTextUp.getText().toString());
-                }
-                viewModel.transSrcLangSpinnerIndex = position;
+        lang1dropdown.setOnItemClickListener((parent, view, position, id) -> {
+//            String curSrc = viewModel.transSrcLangId;
+//            String curDst = viewModel.transDstLangId;
+
+            LanguageItem sl = lang1Adapter.getItem(position);
+            if (sl == null) {
+                Log.i("MainTranslateFragment", "sl is null");
+                return;
             }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
+            viewModel.transSrcLangId = sl.langId;
+//            if (sl.langId.equals(curDst)) {
+//                selectDropdown(lang2dropdown, lang2Adapter, curSrc, true);
+//            }
         });
 
-        lang2Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                viewModel.transDstLangSpinnerIndex = position;
+        lang2dropdown.setOnItemClickListener((parent, view, position, id) -> {
+//            String curSrc = viewModel.transSrcLangId;
+//            String curDst = viewModel.transDstLangId;
+
+            LanguageItem sl = lang1Adapter.getItem(position);
+            if (sl == null) {
+                Log.i("MainTranslateFragment", "sl is null");
+                return;
             }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            viewModel.transSrcLangId = sl.langId;
+//            if (sl.langId.equals(curSrc)) {
+//                selectDropdown(lang1dropdown, lang1Adapter, curDst, true);
+//            }
         });
     }
 
@@ -224,20 +242,10 @@ public class MainTranslateFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.length() == 0) {
-                    clearUpTextBtn.setVisibility(View.GONE);
-                } else {
-                    clearUpTextBtn.setVisibility(View.VISIBLE);
-                }
-
                 String s = charSequence.toString();
                 updateLangSpinners(s);
                 editTextUp.setToastReady();
                 viewModel.plainOrigText = s;
-//                if (viewModel.getTranslationResult() != null &&
-//                        !Util.equals(charSequence, viewModel.getTranslationResult().getOriginalText())) {
-//                    editTextUp.textContentChanged();
-//                }
             }
 
             @Override
@@ -245,30 +253,53 @@ public class MainTranslateFragment extends Fragment {
 
             }
         });
+
+        textBoxDown.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 0) {
+                    copyButton.setVisibility(VISIBLE);
+                } else {
+                    copyButton.setVisibility(INVISIBLE);
+                }
+            }
+        });
     }
 
     private void updateLangSpinners(String editorText) {
-        if (editorText.length() > 0) {
+        if (!editorText.isEmpty()) {
             String lang = viewModel.getTranslator().autoDetectLanguage(editorText);
-            autoChangeDstLang(lang);
-            lang1Adapter.getItem(0).langId = lang;
-            lang1Adapter.notifyDataSetChanged();
+            if (Util.arrayContains(LANG_CODES, lang)) {
+                viewModel.transSrcLangId = lang;
+                autoChangeDstLang(lang);
+                selectDropdownNoChange(lang1dropdown, lang1Adapter, lang);
+            }
         }
     }
 
     private void autoChangeDstLang(String srcLangCode) {
-        String curDstLangCode = ((LanguageItem) lang2Spinner.getSelectedItem()).langId;
+        String curDstLangCode = viewModel.transDstLangId;
         if ("chs".equals(srcLangCode)) {
             if ("chs".equals(curDstLangCode)) {
-                selectByValue("geg", lang2Spinner);
+                selectDropdown(lang2dropdown, lang2Adapter, "geg", true);
             }
         } else if ("geg".equals(srcLangCode)) {
             if ("geg".equals(curDstLangCode)) {
-                selectByValue("chs", lang2Spinner);
+                selectDropdown(lang2dropdown, lang2Adapter, "chs", true);
             }
         } else if ("chi".equals(srcLangCode)) {
             if ("chi".equals(curDstLangCode)) {
-                selectByValue("chs", lang2Spinner);
+                selectDropdown(lang2dropdown, lang2Adapter, "chs", true);
             }
         }
     }
@@ -277,8 +308,8 @@ public class MainTranslateFragment extends Fragment {
         editTextUp.clearHighlights();
 //        editTextDown.clearHighlights();
 
-        LanguageItem src = (LanguageItem) lang1Spinner.getSelectedItem();
-        LanguageItem dst = (LanguageItem) lang2Spinner.getSelectedItem();
+        LanguageItem src = getItemByLangId(lang1Adapter, viewModel.transSrcLangId);
+        LanguageItem dst = getItemByLangId(lang2Adapter, viewModel.transDstLangId);
 
         String input = Objects.requireNonNull(editTextUp.getText()).toString();
         if (input.trim().isEmpty()) {
@@ -286,17 +317,7 @@ public class MainTranslateFragment extends Fragment {
             return;
         }
 
-        String srcLang;
-        if (src.isAutoDetect) {
-            if (src.langId.length() > 0) {
-                srcLang = src.langId;
-            } else {
-                srcLang = viewModel.getTranslator().autoDetectLanguage(input);
-                src.langId = srcLang;  // 顺便给它设置了
-            }
-        } else {
-            srcLang = src.langId;
-        }
+        String srcLang = src.langId;
         String dstLang = dst.langId;
         textBoxDown.setTextColor(Color.GRAY);
         textBoxDown.setText(R.string.translating);
@@ -323,7 +344,7 @@ public class MainTranslateFragment extends Fragment {
                     dstText,
                     viewModel.getTranslator()
             ));
-            getActivity().runOnUiThread(this::notifyTranslationChanged);
+            requireActivity().runOnUiThread(this::notifyTranslationChanged);
         });
         thread.start();
     }
@@ -335,18 +356,13 @@ public class MainTranslateFragment extends Fragment {
             return;
         }
         String down = downCs.toString();
-        LanguageItem src = (LanguageItem) lang1Spinner.getSelectedItem();
-        LanguageItem dst = (LanguageItem) lang2Spinner.getSelectedItem();
-
-        String srcLang = src.langId;
-        if (srcLang.isEmpty()) {
-            srcLang = dst.langId.equals("chs") ? "geg" : "chs";
-        }
+        String curSrc = viewModel.transSrcLangId;
+        String curDst = viewModel.transDstLangId;
 
         editTextUp.setText(down);
 
-        selectByValue(dst.langId, lang1Spinner);
-        selectByValue(srcLang, lang2Spinner);
+        selectDropdown(lang1dropdown, lang1Adapter, curDst, true);
+        selectDropdown(lang2dropdown, lang2Adapter, curSrc, true);
         translate();
     }
 
@@ -366,7 +382,7 @@ public class MainTranslateFragment extends Fragment {
             return;
         }
 
-        ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipboardManager clipboard = (ClipboardManager) requireActivity().getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clipData = ClipData.newPlainText(down, down);
         clipboard.setPrimaryClip(clipData);
 
@@ -380,44 +396,57 @@ public class MainTranslateFragment extends Fragment {
 //        editTextUp.enableHighlighting();
     }
 
-    private void selectByValue(String langCode, Spinner spinner) {
-        if (spinner == lang1Spinner) {
-            int index = srcLangIndex(langCode);
-            viewModel.transSrcLangSpinnerIndex = index;
-            lang1Spinner.setSelection(index);
-        } else if (spinner == lang2Spinner) {
-            int index = dstLangIndex(langCode);
-            viewModel.transDstLangSpinnerIndex = index;
-            lang2Spinner.setSelection(index);
-        } else {
-            throw new RuntimeException("Unexpected spinner");
+    public static class NoFilterAdapter extends ArrayAdapter<LanguageItem> {
+
+        private final LanguageItem[] languages;
+
+        public NoFilterAdapter(@NonNull Context context,
+                               int resource,
+                               int textViewResourceId,
+                               @NonNull List<LanguageItem> objects) {
+            super(context, resource, textViewResourceId, objects);
+
+            this.languages = objects.toArray(new LanguageItem[0]);
+        }
+
+        @NonNull
+        @Override
+        public android.widget.Filter getFilter() {
+            return new android.widget.Filter() {
+                @Override
+                protected FilterResults performFiltering(CharSequence constraint) {
+                    FilterResults results = new FilterResults();
+                    results.values = languages; // full list always
+                    results.count = languages.length;
+                    return results;
+                }
+
+                @Override
+                protected void publishResults(CharSequence constraint, FilterResults results) {
+                    clear();
+                    addAll((LanguageItem[]) results.values);
+                    notifyDataSetChanged();
+                }
+            };
         }
     }
 
+
     public static class LanguageItem {
         public final int resId;
-        public final boolean isAutoDetect;
         final Context context;
-        String langId;
+        final String langId;
 
-        LanguageItem(Context context, String langId, int resId, boolean isAutoDetect) {
+        LanguageItem(Context context, String langId, int resId) {
             this.context = context;
             this.langId = langId;
             this.resId = resId;
-            this.isAutoDetect = isAutoDetect;
         }
 
         @NonNull
         @Override
         public String toString() {
-            String base = context.getString(resId);
-            if (isAutoDetect) {
-                String langName = MainActivity.getLangName(context, langId);
-                if (langName.length() > 0) return base + "(" + langName + ")";
-                else return base;
-            } else {
-                return base;
-            }
+            return context.getString(resId);
         }
     }
 }

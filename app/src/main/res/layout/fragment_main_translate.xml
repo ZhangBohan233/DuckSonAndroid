@@ -11,67 +11,86 @@
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp">
 
-        <com.trashsoftware.ducksontranslator.widgets.TranslatorEditText
-            android:id="@+id/textBoxUp"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textBoxUpContainer"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
-            android:gravity="top"
-            android:hint="@string/up_box_hint"
-            android:lines="8"
-            android:scrollbars="vertical"
+            app:endIconMode="clear_text"
             app:layout_constraintTop_toTopOf="parent">
 
-        </com.trashsoftware.ducksontranslator.widgets.TranslatorEditText>
+            <com.trashsoftware.ducksontranslator.widgets.TranslatorEditText
+                android:id="@+id/textBoxUp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:hint="@string/up_box_hint"
+                android:lines="8"
+                android:scrollbars="vertical"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/upTextClearBtn"
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/lang1_dropdown_box"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:background="@null"
-            android:contentDescription="@string/clear"
-            android:onClick="clearUpTextAction"
-            android:src="@drawable/ic_close_opsz48"
-            app:layout_constraintBottom_toBottomOf="@id/textBoxUp"
-            app:layout_constraintLeft_toLeftOf="@id/downTextCopyBtn"
-            app:layout_constraintRight_toRightOf="@id/downTextCopyBtn" />
+            app:boxCornerRadiusBottomEnd="18dp"
+            app:boxCornerRadiusBottomStart="18dp"
+            app:boxCornerRadiusTopEnd="18dp"
+            app:boxCornerRadiusTopStart="18dp"
+            app:layout_constraintLeft_toLeftOf="@id/textBoxUpContainer"
+            app:layout_constraintTop_toBottomOf="@id/textBoxUpContainer">
 
-        <Spinner
-            android:id="@+id/lang1Spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            app:layout_constraintBottom_toBottomOf="@id/SwitchLangButton"
-            app:layout_constraintLeft_toLeftOf="@id/textBoxUp"
-            app:layout_constraintTop_toTopOf="@id/SwitchLangButton">
-        </Spinner>
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/lang1_dropdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/language_box_hint_src"
+                android:inputType="none" />
 
-        <ImageButton
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/SwitchLangButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="6dp"
+            style="@style/Widget.Material3.Button.Icon"
+            android:layout_width="52dp"
+            android:layout_height="40dp"
             android:contentDescription="@string/swapLang"
             android:onClick="swapLanguageAction"
-            android:src="@drawable/baseline_sync_alt_black_36"
-            app:layout_constraintLeft_toRightOf="@id/lang1Spinner"
-            app:layout_constraintTop_toBottomOf="@id/textBoxUp">
+            app:iconSize="20dp"
+            app:iconTint="?attr/colorOnSurfaceVariant"
+            app:rippleColor="?attr/colorPrimary"
+            app:backgroundTint="@android:color/transparent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+            app:icon="@drawable/swap_horiz_24px"
+            app:layout_constraintBottom_toBottomOf="@id/lang1_dropdown_box"
+            app:layout_constraintLeft_toRightOf="@id/lang1_dropdown_box"
+            app:layout_constraintTop_toTopOf="@id/lang1_dropdown_box" />
 
-        </ImageButton>
-
-        <Spinner
-            android:id="@+id/lang2Spinner"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/lang2_dropdown_box"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            app:layout_constraintBottom_toBottomOf="@id/lang1Spinner"
-            app:layout_constraintLeft_toRightOf="@id/SwitchLangButton"
-            app:layout_constraintTop_toTopOf="@id/lang1Spinner">
+            app:boxCornerRadiusBottomEnd="18dp"
+            app:boxCornerRadiusBottomStart="18dp"
+            app:boxCornerRadiusTopEnd="18dp"
+            app:boxCornerRadiusTopStart="18dp"
+            app:layout_constraintBottom_toBottomOf="@id/lang1_dropdown_box"
+            app:layout_constraintLeft_toRightOf="@id/SwitchLangButton">
 
-        </Spinner>
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/lang2_dropdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/language_box_hint_dst"
+                android:inputType="none" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/translateButton"
@@ -84,8 +103,8 @@
             android:text="@string/translate"
             android:textSize="18sp"
             app:drawableLeftCompat="@drawable/ic_translate_20"
-            app:layout_constraintLeft_toLeftOf="@+id/textBoxUp"
-            app:layout_constraintTop_toBottomOf="@+id/SwitchLangButton">
+            app:layout_constraintLeft_toLeftOf="@+id/textBoxUpContainer"
+            app:layout_constraintTop_toBottomOf="@+id/lang1_dropdown_box">
 
         </Button>
 
@@ -100,30 +119,25 @@
             android:scrollbars="vertical"
             android:textIsSelectable="true"
             android:textSize="18sp"
-            app:layout_constraintTop_toBottomOf="@id/translateButton">
+            app:layout_constraintTop_toBottomOf="@id/translateButton" />
 
-        </com.trashsoftware.ducksontranslator.widgets.ResultText>
-
-        <View
-            android:id="@+id/textBoxDownFocusIndicator"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="4dp"
-            app:layout_constraintTop_toBottomOf="@id/textBoxDown" />
-
-        <ImageButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/downTextCopyBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:background="@null"
+            style="@style/Widget.Material3.Button.Icon"
+            android:layout_width="48dp"
+            android:layout_height="40dp"
             android:contentDescription="@string/copy_content"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
             android:onClick="copyDownTextAction"
-            android:src="@drawable/ic_content_copy"
+            app:backgroundTint="@android:color/transparent"
+            app:icon="@drawable/content_copy_24px"
+            app:iconSize="20dp"
+            app:iconTint="?attr/colorOnSurfaceVariant"
             app:layout_constraintBottom_toBottomOf="@id/textBoxDown"
-            app:layout_constraintRight_toRightOf="@id/textBoxDown"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:rippleColor="?attr/colorPrimary"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

@@ -15,7 +15,11 @@
         <activity
             android:name=".SettingsActivity"
             android:exported="false"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme" >
+            <meta-data
+                android:name="androidx.preference.PreferenceFragmentCompat"
+                android:resource="@style/PreferenceThemeOverlay"/>
+        </activity>
         <activity
             android:name=".HistoryActivity"
             android:exported="false"

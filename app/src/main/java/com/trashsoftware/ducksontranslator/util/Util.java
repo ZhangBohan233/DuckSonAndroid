@@ -13,4 +13,11 @@ public class Util {
         }
         return true;
     }
+
+    public static <T> boolean arrayContains(T[] array, Object item) {
+        for (T t : array) {
+            if (t == item) return true;
+        }
+        return false;
+    }
 }

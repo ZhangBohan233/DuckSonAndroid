@@ -17,7 +17,7 @@ import com.trashsoftware.ducksontranslator.util.Util;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TranslatorEditText extends MaterialAutoCompleteTextView {
+public class TranslatorEditText extends TextInputEditText {
 
     private final MainViewModel viewModel;
     boolean notShownToastInThisRound = true;

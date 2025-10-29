@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
         android:icon="@drawable/ic_translate_black_24"
-        android:title="@string/trans_options">
+        android:title="@string/trans_options"
+        android:iconSpaceReserved="false">
 
         <ListPreference
             android:defaultValue="@string/language_system"
@@ -14,13 +16,14 @@
             android:negativeButtonText="@string/cancel"
             android:title="@string/word_picker"
             app:defaultValue="COMBINED_CHAR"
-            app:useSimpleSummaryProvider="true" />
+            app:useSimpleSummaryProvider="true"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory
         android:icon="@drawable/ic_language_24"
-        android:title="@string/multi_language">
+        android:title="@string/multi_language"
+        android:iconSpaceReserved="false">
 
         <ListPreference
             android:defaultValue="@string/language_system"

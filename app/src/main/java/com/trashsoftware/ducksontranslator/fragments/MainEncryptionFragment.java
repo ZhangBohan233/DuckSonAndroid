@@ -183,8 +183,8 @@ public class MainEncryptionFragment extends Fragment {
         for (int stringId : LITERAL_CONVERTER_NAMES) {
             names.add(getString(stringId));
         }
-        ArrayAdapter<String> litTypeAdapter = new ArrayAdapter<>(getContext(),
-                R.layout.lang_spinner_item,
+        ArrayAdapter<String> litTypeAdapter = new ArrayAdapter<>(requireContext(),
+                R.layout.lang_spinner_dropdown_item,
                 names);
         litTypeAdapter.setDropDownViewResource(R.layout.lang_spinner_dropdown_item);
         literalTypeSpinner.setAdapter(litTypeAdapter);
@@ -378,6 +378,10 @@ public class MainEncryptionFragment extends Fragment {
 
         decryptToggle.performClick();
         keyInput.setText(text);
+        
+        if (!viewModel.encryptFieldExpanded) {
+            expandCollapseEncryptField();
+        }
     }
 
     @Nullable
@@ -399,7 +403,7 @@ public class MainEncryptionFragment extends Fragment {
         String text = getFromText(textView);
         if (text == null) return;
 
-        ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipboardManager clipboard = (ClipboardManager) requireActivity().getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clipData = ClipData.newPlainText(text, text);
         clipboard.setPrimaryClip(clipData);
 

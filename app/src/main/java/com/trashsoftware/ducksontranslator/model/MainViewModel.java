@@ -26,8 +26,8 @@ public class MainViewModel {
     public boolean dictSearched;
     public int dictLangSpinnerIndex;
     public List<WordResult> wordResults;
-    public int transSrcLangSpinnerIndex;
-    public int transDstLangSpinnerIndex;
+    public String transSrcLangId = MainTranslateFragment.LANG_CODES[0];
+    public String transDstLangId = MainTranslateFragment.LANG_CODES[1];
     public List<BackgroundColorSpan> transUpTextSpans = new ArrayList<>();
     public String plainOrigText;
     private DuckSonTranslator translator;
@@ -59,8 +59,8 @@ public class MainViewModel {
 
         plainOrigText = item.getOrigText();
 
-        transSrcLangSpinnerIndex = MainTranslateFragment.srcLangIndex(item.getSrcLang());
-        transDstLangSpinnerIndex = MainTranslateFragment.dstLangIndex(item.getDstLang());
+        transDstLangId = item.getSrcLang();
+        transDstLangId = item.getDstLang();
     }
 
     public TranslationResult getTranslationResult() {
