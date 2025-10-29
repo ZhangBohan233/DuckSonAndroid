@@ -104,17 +104,6 @@ public class MainDictionaryFragment extends Fragment {
     }
 
     private void addSpinnerListener() {
-//        dictLangSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                viewModel.dictLangSpinnerIndex = position;
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
 
         String[] languages = getResources().getStringArray(R.array.dict_lang_list);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(

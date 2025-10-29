@@ -71,6 +71,7 @@
                 android:layout_marginStart="18dp"
                 android:hint="@string/generate_key_first"
                 android:textIsSelectable="true"
+                android:minLines="2"
                 app:layout_constraintLeft_toRightOf="@id/key_label_barrier"
                 app:layout_constraintRight_toLeftOf="@id/share_public_key_btn"
                 app:layout_constraintTop_toTopOf="@id/public_key_label" />
@@ -82,59 +83,105 @@
                 android:layout_marginStart="18dp"
                 android:hint="@string/generate_key_first"
                 android:textIsSelectable="true"
+                android:minLines="2"
                 app:layout_constraintLeft_toRightOf="@id/key_label_barrier"
                 app:layout_constraintRight_toLeftOf="@id/share_public_key_btn"
                 app:layout_constraintTop_toTopOf="@id/private_key_label" />
 
-            <ImageButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/copy_public_key_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
-                android:background="@null"
-                android:contentDescription="@string/copy_content"
+                style="@style/Widget.Material3.Button.Icon"
+                android:layout_width="48dp"
+                android:layout_height="40dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
                 android:onClick="copyPublicKeyAction"
-                android:src="@drawable/ic_content_copy"
+                app:backgroundTint="@android:color/transparent"
+                app:icon="@drawable/content_copy_24px"
+                app:iconSize="20dp"
+                app:iconTint="?attr/colorOnSurfaceVariant"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/public_key_content" />
+                app:layout_constraintTop_toTopOf="@id/public_key_content"
+                app:rippleColor="?attr/colorPrimary"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
 
-            <ImageButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/share_public_key_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
-                android:background="@null"
+                style="@style/Widget.Material3.Button.Icon"
+                android:layout_width="48dp"
+                android:layout_height="40dp"
                 android:contentDescription="@string/copy_content"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
                 android:onClick="sharePublicKeyAction"
-                android:src="@drawable/share_24px"
+                app:backgroundTint="@android:color/transparent"
+                app:icon="@drawable/share_24px"
+                app:iconSize="20dp"
+                app:iconTint="?attr/colorOnSurfaceVariant"
+                app:layout_constraintBottom_toBottomOf="@id/copy_public_key_btn"
                 app:layout_constraintRight_toLeftOf="@id/copy_public_key_btn"
                 app:layout_constraintTop_toTopOf="@id/copy_public_key_btn"
-                app:layout_constraintBottom_toBottomOf="@id/copy_public_key_btn"/>
+                app:rippleColor="?attr/colorPrimary"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
+
 
 <!--            <ImageButton-->
-<!--                android:id="@+id/copy_private_key_btn"-->
+<!--                android:id="@+id/copy_public_key_btn"-->
 <!--                android:layout_width="wrap_content"-->
 <!--                android:layout_height="wrap_content"-->
 <!--                android:layout_marginBottom="2dp"-->
 <!--                android:background="@null"-->
 <!--                android:contentDescription="@string/copy_content"-->
-<!--                android:onClick="copyPrivateKeyAction"-->
+<!--                android:onClick="copyPublicKeyAction"-->
 <!--                android:src="@drawable/ic_content_copy"-->
 <!--                app:layout_constraintRight_toRightOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="@id/private_key_content" />-->
+<!--                app:layout_constraintTop_toTopOf="@id/public_key_content" />-->
 
-            <ImageButton
+<!--            <ImageButton-->
+<!--                android:id="@+id/share_public_key_btn"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginBottom="2dp"-->
+<!--                android:background="@null"-->
+<!--                android:contentDescription="@string/copy_content"-->
+<!--                android:onClick="sharePublicKeyAction"-->
+<!--                android:src="@drawable/share_24px"-->
+<!--                app:layout_constraintBottom_toBottomOf="@id/copy_public_key_btn"-->
+<!--                app:layout_constraintRight_toLeftOf="@id/copy_public_key_btn"-->
+<!--                app:layout_constraintTop_toTopOf="@id/copy_public_key_btn" />-->
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/apply_private_key_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
-                android:background="@null"
+                style="@style/Widget.Material3.Button.Icon"
+                android:layout_width="48dp"
+                android:layout_height="40dp"
                 android:contentDescription="@string/copy_content"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
                 android:onClick="applyPrivateKeyAction"
-                android:src="@drawable/edit_arrow_down_24px"
+                app:backgroundTint="@android:color/transparent"
+                app:icon="@drawable/edit_arrow_down_24px"
+                app:iconSize="20dp"
+                app:iconTint="?attr/colorOnSurfaceVariant"
+                app:layout_constraintBottom_toBottomOf="@id/private_key_content"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/private_key_content"
-                app:layout_constraintBottom_toBottomOf="@id/private_key_content"/>
+                app:rippleColor="?attr/colorPrimary"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
+
+
+<!--            <ImageButton-->
+<!--                android:id="@+id/apply_private_key_btn"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginBottom="2dp"-->
+<!--                android:background="@null"-->
+<!--                android:contentDescription="@string/copy_content"-->
+<!--                android:onClick="applyPrivateKeyAction"-->
+<!--                android:src="@drawable/edit_arrow_down_24px"-->
+<!--                app:layout_constraintBottom_toBottomOf="@id/private_key_content"-->
+<!--                app:layout_constraintRight_toRightOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="@id/private_key_content" />-->
 
             <Button
                 android:id="@+id/generate_keys_btn"
@@ -142,28 +189,31 @@
                 android:layout_height="wrap_content"
                 android:onClick="generateRSAKeysAction"
                 android:text="@string/generate_keys"
-                app:layout_constraintTop_toBottomOf="@id/private_key_content" />
+                app:layout_constraintTop_toTopOf="@id/key_bits_dropdown_box"
+                app:layout_constraintBottom_toBottomOf="@id/key_bits_dropdown_box"/>
 
-            <TextView
-                android:id="@+id/key_bits_label"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/key_bits_dropdown_box"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="@string/key_bits"
-                app:layout_constraintBottom_toBottomOf="@id/generate_keys_btn"
-                app:layout_constraintLeft_toRightOf="@+id/generate_keys_btn"
-                app:layout_constraintTop_toTopOf="@id/generate_keys_btn" />
+                app:boxCornerRadiusBottomEnd="18dp"
+                app:boxCornerRadiusBottomStart="18dp"
+                app:boxCornerRadiusTopEnd="18dp"
+                app:boxCornerRadiusTopStart="18dp"
+                android:hint="@string/key_bits"
+                android:layout_marginStart="6dp"
+                app:layout_constraintTop_toBottomOf="@id/private_key_content"
+                app:layout_constraintLeft_toRightOf="@id/generate_keys_btn">
 
-            <Spinner
-                android:id="@+id/key_bits_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:entries="@array/rsa_bits_array"
-                app:layout_constraintBottom_toBottomOf="@id/key_bits_label"
-                app:layout_constraintLeft_toRightOf="@id/key_bits_label"
-                app:layout_constraintTop_toTopOf="@id/key_bits_label">
+                <AutoCompleteTextView
+                    android:id="@+id/key_bits_dropdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:inputType="number" />
 
-            </Spinner>
+            </com.google.android.material.textfield.TextInputLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -196,66 +246,88 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/encrypt_expand_arrow">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/encrypt_input"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/encrypt_input_box"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="top"
-                android:hint="@string/encrypt_field_prompt"
-                android:lines="6"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:hint="@string/up_box_hint"
+                app:endIconMode="clear_text"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <ImageButton
-                android:id="@+id/encrypt_input_clear_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:background="@null"
-                android:contentDescription="@string/clear"
-                android:onClick="clearEncryptInputAction"
-                android:src="@drawable/ic_close_opsz48"
-                app:layout_constraintBottom_toBottomOf="@id/encrypt_input"
-                app:layout_constraintLeft_toLeftOf="@id/encrypt_out_copy_btn"
-                app:layout_constraintRight_toRightOf="@id/encrypt_out_copy_btn" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/encrypt_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:lines="5"
+                    android:scrollbars="vertical"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/encrypt_key_input"
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/encrypt_key_input_box"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="top"
-                android:hint="@string/public_key_input_prompt"
-                android:lines="3"
-                app:layout_constraintTop_toBottomOf="@id/encrypt_input" />
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:hint="@string/up_box_hint"
+                app:endIconMode="clear_text"
+                app:layout_constraintTop_toBottomOf="@+id/encrypt_input_box">
 
-            <ImageButton
-                android:id="@+id/key_input_clear_btn"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/encrypt_key_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:lines="3"
+                    android:scrollbars="vertical"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+<!--            <TextView-->
+<!--                android:id="@+id/encrypt_literal_type_label"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/encrypt_literal_type"-->
+<!--                app:layout_constraintBottom_toBottomOf="@id/encrypt_literal_type_spinner"-->
+<!--                app:layout_constraintLeft_toLeftOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="@+id/encrypt_literal_type_spinner" />-->
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/literal_type_dropdown_box"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:background="@null"
-                android:contentDescription="@string/clear"
-                android:onClick="clearKeyInputAction"
-                android:src="@drawable/ic_close_opsz48"
-                app:layout_constraintBottom_toBottomOf="@id/encrypt_key_input"
-                app:layout_constraintLeft_toLeftOf="@id/encrypt_out_copy_btn"
-                app:layout_constraintRight_toRightOf="@id/encrypt_out_copy_btn" />
-
-            <TextView
-                android:id="@+id/encrypt_literal_type_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/encrypt_literal_type"
-                app:layout_constraintBottom_toBottomOf="@id/encrypt_literal_type_spinner"
+                app:boxCornerRadiusBottomEnd="18dp"
+                app:boxCornerRadiusBottomStart="18dp"
+                app:boxCornerRadiusTopEnd="18dp"
+                app:boxCornerRadiusTopStart="18dp"
+                android:hint="@string/encrypt_literal_type"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/encrypt_literal_type_spinner" />
+                app:layout_constraintTop_toBottomOf="@id/encrypt_key_input_box">
 
-            <Spinner
-                android:id="@+id/encrypt_literal_type_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                app:layout_constraintLeft_toRightOf="@id/encrypt_literal_type_label"
-                app:layout_constraintTop_toBottomOf="@id/encrypt_key_input" />
+                <AutoCompleteTextView
+                    android:id="@+id/literal_type_dropdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:inputType="text" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+<!--            <Spinner-->
+<!--                android:id="@+id/encrypt_literal_type_spinner"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="12dp"-->
+<!--                app:layout_constraintLeft_toRightOf="@id/encrypt_literal_type_label"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/encrypt_key_input_box" />-->
 
             <Button
                 android:id="@+id/encrypt_btn"
@@ -264,7 +336,7 @@
                 android:onClick="encryptAction"
                 android:text="@string/encrypt"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/encrypt_literal_type_spinner" />
+                app:layout_constraintTop_toBottomOf="@id/literal_type_dropdown_box" />
 
             <com.google.android.material.button.MaterialButtonToggleGroup
                 android:id="@+id/encrypt_decrypt_toggle"
@@ -295,49 +367,49 @@
 
             </com.google.android.material.button.MaterialButtonToggleGroup>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/encrypt_output"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="top"
-                android:lines="8"
                 android:textIsSelectable="true"
                 android:textSize="16sp"
                 app:layout_constraintTop_toBottomOf="@+id/encrypt_btn" />
 
-            <View
-                android:id="@+id/encrypt_output_focus_indicator"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="4dp"
-                app:layout_constraintTop_toBottomOf="@id/encrypt_output" />
-
-            <ImageButton
-                android:id="@+id/encrypt_out_copy_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
-                android:background="@null"
-                android:contentDescription="@string/copy_content"
-                android:onClick="copyEncryptOutputAction"
-                android:src="@drawable/ic_content_copy"
-                app:layout_constraintBottom_toBottomOf="@id/encrypt_output"
-                app:layout_constraintRight_toRightOf="@id/encrypt_output" />
-
-            <ImageButton
-                android:id="@+id/encrypt_out_share_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
-                android:background="@null"
-                android:contentDescription="@string/copy_content"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/share_enc_dec_text_btn"
+                style="@style/Widget.Material3.Button.Icon"
+                android:layout_width="48dp"
+                android:layout_height="40dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
                 android:onClick="shareEncryptOutputAction"
-                android:src="@drawable/share_24px"
-                app:layout_constraintRight_toLeftOf="@id/encrypt_out_copy_btn"
-                app:layout_constraintTop_toTopOf="@id/encrypt_out_copy_btn"
-                app:layout_constraintBottom_toBottomOf="@id/encrypt_out_copy_btn"/>
+                app:backgroundTint="@android:color/transparent"
+                app:icon="@drawable/share_24px"
+                app:iconSize="20dp"
+                app:iconTint="?attr/colorOnSurfaceVariant"
+                app:layout_constraintTop_toBottomOf="@id/encrypt_output"
+                app:layout_constraintEnd_toStartOf="@+id/copy_enc_dec_text_btn"
+                app:rippleColor="?attr/colorPrimary"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/copy_enc_dec_text_btn"
+                style="@style/Widget.Material3.Button.Icon"
+                android:layout_width="48dp"
+                android:layout_height="40dp"
+                android:contentDescription="@string/copy_content"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:onClick="copyEncryptOutputAction"
+                app:backgroundTint="@android:color/transparent"
+                app:icon="@drawable/content_copy_24px"
+                app:iconSize="20dp"
+                app:iconTint="?attr/colorOnSurfaceVariant"
+                app:layout_constraintTop_toBottomOf="@id/encrypt_output"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:rippleColor="?attr/colorPrimary"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

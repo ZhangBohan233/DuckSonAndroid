@@ -1,5 +1,8 @@
 package com.trashsoftware.ducksontranslator.fragments;
 
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ClipData;
@@ -13,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -28,6 +32,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.trashsoftware.ducksontranslator.MainActivity;
 import com.trashsoftware.ducksontranslator.R;
 import com.trashsoftware.ducksontranslator.model.MainViewModel;
@@ -69,14 +74,16 @@ public class MainEncryptionFragment extends Fragment {
     ImageView keysArrow, encryptionArrow;
     ConstraintLayout keysContainer, encryptionContainer;
 
-    Spinner keyBitsSpinner;
-    Spinner literalTypeSpinner;
+    //    Spinner keyBitsSpinner;
+    AutoCompleteTextView keyBitsDropdown, literalTypeDropdown;
+//    Spinner literalTypeSpinner;
 
-    TextInputEditText encryptInput;
-    TextInputEditText keyInput;
+    TextInputLayout encryptInputBox, keyInputBox;
+    TextInputEditText encryptInput, keyInput;
     TextView encryptOutput;
 
     Button encDecBtn;
+    Button copyOutputBtn, shareOutputBtn;
 
     MaterialButtonToggleGroup encryptToggleGroup;
     MaterialButton encryptToggle, decryptToggle;
@@ -99,9 +106,8 @@ public class MainEncryptionFragment extends Fragment {
 
         publicKeyContent = root.findViewById(R.id.public_key_content);
         privateKeyContent = root.findViewById(R.id.private_key_content);
-        keyBitsSpinner = root.findViewById(R.id.key_bits_spinner);
-
-        literalTypeSpinner = root.findViewById(R.id.encrypt_literal_type_spinner);
+        keyBitsDropdown = root.findViewById(R.id.key_bits_dropdown);
+        literalTypeDropdown = root.findViewById(R.id.literal_type_dropdown);
 
         keysArrow = root.findViewById(R.id.keys_expand_arrow);
         encryptionArrow = root.findViewById(R.id.encrypt_expand_arrow);
@@ -110,9 +116,13 @@ public class MainEncryptionFragment extends Fragment {
 
         encryptInput = root.findViewById(R.id.encrypt_input);
         keyInput = root.findViewById(R.id.encrypt_key_input);
+        encryptInputBox = root.findViewById(R.id.encrypt_input_box);
+        keyInputBox = root.findViewById(R.id.encrypt_key_input_box);
         encryptOutput = root.findViewById(R.id.encrypt_output);
 
         encDecBtn = root.findViewById(R.id.encrypt_btn);
+        copyOutputBtn = root.findViewById(R.id.copy_enc_dec_text_btn);
+        shareOutputBtn = root.findViewById(R.id.share_enc_dec_text_btn);
 
         encryptToggleGroup = root.findViewById(R.id.encrypt_decrypt_toggle);
         encryptToggle = root.findViewById(R.id.toggle_encrypt);
@@ -121,6 +131,7 @@ public class MainEncryptionFragment extends Fragment {
         updateKeysFields();
         setupSpinner();
         setupToggle();
+        refreshHintsByEncDec();
         expandByModel();
 
         refreshOutText();
@@ -156,29 +167,25 @@ public class MainEncryptionFragment extends Fragment {
     }
 
     private void setupSpinner() {
-        keyBitsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                viewModel.keyBitsSpinnerIndex = position;
-            }
+        keyBitsDropdown.setOnItemClickListener(
+                (parent, view, position, id) ->
+                        viewModel.keyBitsSpinnerIndex = position);
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+        literalTypeDropdown.setOnItemClickListener(
+                (parent, view, position, id) ->
+                        viewModel.literalConverterSpinnerIndex = position);
 
-            }
-        });
-
-        literalTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                viewModel.literalConverterSpinnerIndex = position;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+//        literalTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                viewModel.literalConverterSpinnerIndex = position;
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
         List<String> names = new ArrayList<>();
         for (int stringId : LITERAL_CONVERTER_NAMES) {
             names.add(getString(stringId));
@@ -187,10 +194,18 @@ public class MainEncryptionFragment extends Fragment {
                 R.layout.lang_spinner_dropdown_item,
                 names);
         litTypeAdapter.setDropDownViewResource(R.layout.lang_spinner_dropdown_item);
-        literalTypeSpinner.setAdapter(litTypeAdapter);
+        literalTypeDropdown.setAdapter(litTypeAdapter);
 
-        keyBitsSpinner.setSelection(viewModel.keyBitsSpinnerIndex);
-        literalTypeSpinner.setSelection(viewModel.literalConverterSpinnerIndex);
+        String[] keyBits = requireContext().getResources().getStringArray(R.array.rsa_bits_array);
+        ArrayAdapter<String> keyBitsAdapter = new ArrayAdapter<>(requireContext(),
+                R.layout.lang_spinner_dropdown_item,
+                R.id.lang_spinner_dropdown_text,
+                keyBits);
+        keyBitsDropdown.setAdapter(keyBitsAdapter);
+
+        keyBitsDropdown.setText(keyBits[viewModel.keyBitsSpinnerIndex], false);
+//        literalTypeSpinner.setSelection(viewModel.literalConverterSpinnerIndex);
+        literalTypeDropdown.setText(names.get(viewModel.literalConverterSpinnerIndex), false);
     }
 
     private void updateKeysFields() {
@@ -218,11 +233,11 @@ public class MainEncryptionFragment extends Fragment {
     }
 
     private void refreshHintsByEncDec() {
-        keyInput.setHint(viewModel.encrypting ?
+        keyInputBox.setHint(viewModel.encrypting ?
                 R.string.public_key_input_prompt : R.string.private_key_input_prompt);
         encDecBtn.setText(viewModel.encrypting ?
                 R.string.encrypt : R.string.decrypt);
-        encryptInput.setHint(viewModel.encrypting ?
+        encryptInputBox.setHint(viewModel.encrypting ?
                 R.string.encrypt_field_prompt : R.string.decrypt_field_prompt);
     }
 
@@ -234,11 +249,19 @@ public class MainEncryptionFragment extends Fragment {
     private void expandByModel(ImageView arrowView, ConstraintLayout container, boolean expanded) {
         arrowView.setImageResource(expanded ?
                 R.drawable.ic_chevron_down_24 : R.drawable.ic_chevron_right_24);
-        container.setVisibility(expanded ? View.VISIBLE : View.GONE);
+        container.setVisibility(expanded ? VISIBLE : View.GONE);
     }
 
     private void refreshOutText() {
-        encryptOutput.setText(Objects.requireNonNullElse(viewModel.encryptOutputText, ""));
+        String text = Objects.requireNonNullElse(viewModel.encryptOutputText, "");
+        encryptOutput.setText(text);
+        if (text.isEmpty()) {
+            copyOutputBtn.setVisibility(INVISIBLE);
+            shareOutputBtn.setVisibility(INVISIBLE);
+        } else {
+            copyOutputBtn.setVisibility(VISIBLE);
+            shareOutputBtn.setVisibility(VISIBLE);
+        }
     }
 
     public void expandCollapseKeyField() {
@@ -268,7 +291,7 @@ public class MainEncryptionFragment extends Fragment {
     }
 
     private void generateRSAKeysReal() {
-        int bits = Integer.parseInt((String) keyBitsSpinner.getSelectedItem());
+        int bits = Integer.parseInt(keyBitsDropdown.getText().toString());
         viewModel.generateKeyPair(bits);
 
         updateKeysFields();
@@ -289,7 +312,7 @@ public class MainEncryptionFragment extends Fragment {
         }
         String keyInput = keyText.toString();
 
-        LiteralConverter converter = LITERAL_CONVERTERS[literalTypeSpinner.getSelectedItemPosition()];
+        LiteralConverter converter = LITERAL_CONVERTERS[viewModel.literalConverterSpinnerIndex];
 
         String out;
         if (viewModel.encrypting) {
@@ -378,7 +401,7 @@ public class MainEncryptionFragment extends Fragment {
 
         decryptToggle.performClick();
         keyInput.setText(text);
-        
+
         if (!viewModel.encryptFieldExpanded) {
             expandCollapseEncryptField();
         }

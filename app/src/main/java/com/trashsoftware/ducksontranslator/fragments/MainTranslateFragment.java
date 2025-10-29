@@ -201,8 +201,8 @@ public class MainTranslateFragment extends Fragment {
 
     private void addSpinnerChangeListener() {
         lang1dropdown.setOnItemClickListener((parent, view, position, id) -> {
-//            String curSrc = viewModel.transSrcLangId;
-//            String curDst = viewModel.transDstLangId;
+            String curSrc = viewModel.transSrcLangId;
+            String curDst = viewModel.transDstLangId;
 
             LanguageItem sl = lang1Adapter.getItem(position);
             if (sl == null) {
@@ -211,25 +211,25 @@ public class MainTranslateFragment extends Fragment {
             }
 
             viewModel.transSrcLangId = sl.langId;
-//            if (sl.langId.equals(curDst)) {
-//                selectDropdown(lang2dropdown, lang2Adapter, curSrc, true);
-//            }
+            if (sl.langId.equals(curDst)) {
+                selectDropdown(lang2dropdown, lang2Adapter, curSrc, true);
+            }
         });
 
         lang2dropdown.setOnItemClickListener((parent, view, position, id) -> {
-//            String curSrc = viewModel.transSrcLangId;
-//            String curDst = viewModel.transDstLangId;
+            String curSrc = viewModel.transSrcLangId;
+            String curDst = viewModel.transDstLangId;
 
-            LanguageItem sl = lang1Adapter.getItem(position);
+            LanguageItem sl = lang2Adapter.getItem(position);
             if (sl == null) {
                 Log.i("MainTranslateFragment", "sl is null");
                 return;
             }
 
-            viewModel.transSrcLangId = sl.langId;
-//            if (sl.langId.equals(curSrc)) {
-//                selectDropdown(lang1dropdown, lang1Adapter, curDst, true);
-//            }
+            viewModel.transDstLangId = sl.langId;
+            if (sl.langId.equals(curSrc)) {
+                selectDropdown(lang1dropdown, lang1Adapter, curDst, true);
+            }
         });
     }
 
