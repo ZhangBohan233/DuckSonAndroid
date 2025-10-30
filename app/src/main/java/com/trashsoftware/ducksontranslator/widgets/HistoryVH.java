@@ -7,7 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public abstract class HistoryVH extends RecyclerView.ViewHolder {
     public static final int NORMAL = 1;
-    public static final int FOOTER = 2;
+    public static final int DATE_SPLITTER = 2;
+    public static final int FOOTER = 3;
 
     public HistoryVH(@NonNull View itemView) {
         super(itemView);

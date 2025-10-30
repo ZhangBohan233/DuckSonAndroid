@@ -22,11 +22,9 @@ import trashsoftware.duckSonTranslator.wordPickers.PickerFactory;
 
 public class HistoryItemVH extends HistoryVH {
 
-    private final ConstraintLayout dateDividerPart;
     private final ConstraintLayout expandPart;
     private final TextView srcLangText, dstLangText, origText, translatedText;
     private final TextView baseDict, homo, dialect, picker, date;
-    private final TextView dateDividerText;
     private final Button trans;
     private final MaterialCheckBox checkBox;
     private final AlignedText fullTextContainer;
@@ -36,10 +34,8 @@ public class HistoryItemVH extends HistoryVH {
     public HistoryItemVH(@NonNull View itemView) {
         super(itemView);
 
-        dateDividerPart = itemView.findViewById(R.id.item_date_divider);
         expandPart = itemView.findViewById(R.id.expand_part);
         checkBox = itemView.findViewById(R.id.history_item_box);
-        dateDividerText = itemView.findViewById(R.id.item_date_divider_text);
 
         srcLangText = itemView.findViewById(R.id.src_lang);
         dstLangText = itemView.findViewById(R.id.dst_lang);
@@ -61,48 +57,10 @@ public class HistoryItemVH extends HistoryVH {
         return NORMAL;
     }
 
-    private void setupDateDivider(Context context) {
-        LocalDate today = LocalDate.now();
-
-        LocalDate itemD = item.getDate();
-        if (itemD.equals(today)) {
-            dateDividerText.setText(R.string.today);
-            return;
-        }
-        LocalDate yesterday = today.minusDays(1);
-        if (itemD.equals(yesterday)) {
-            dateDividerText.setText(R.string.yesterday);
-            return;
-        }
-        LocalDate beforeYesterday = yesterday.minusDays(1);
-        if (itemD.equals(beforeYesterday)) {
-            dateDividerText.setText(R.string.day_before_yesterday);
-            return;
-        }
-
-        dateDividerText.setText(dateText(context, false));
-    }
-
-    private String dateText(Context context, boolean showTime) {
-        if (showTime) {
-            return LanguageUtil.getInstance().getDateTimeInstance().format(itemDate);
-        } else {
-            return LanguageUtil.getInstance().getDateInstance().format(itemDate);
-        }
-    }
-
-    public void setItem(Context context, HistoryAdapter parent, HistoryItem item,
-                        boolean isDateDivider) {
+    public void setItem(Context context, HistoryAdapter parent, HistoryItem item) {
         this.item = item;
 
         itemDate = new Date(item.getTime());
-
-        if (isDateDivider) {
-            dateDividerPart.setVisibility(View.VISIBLE);
-            setupDateDivider(context);
-        } else {
-            dateDividerPart.setVisibility(View.GONE);
-        }
 
         srcLangText.setText(MainActivity.getLangName(context, item.getSrcLang()));
         dstLangText.setText(MainActivity.getLangName(context, item.getDstLang()));
@@ -122,7 +80,7 @@ public class HistoryItemVH extends HistoryVH {
         PickerFactory pf = PickerFactory.valueOf(pickerDb);
         picker.setText(MainActivity.getWordPickerShownName(context, pf));
 
-        date.setText(dateText(context, true));
+        date.setText(HistoryDateVH.dateText(itemDate, true));
 
         trans.setOnClickListener(view -> parent.translateAgain(this));
 

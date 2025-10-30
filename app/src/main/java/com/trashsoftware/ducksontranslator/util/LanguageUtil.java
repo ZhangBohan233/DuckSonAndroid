@@ -9,6 +9,8 @@ import android.util.Log;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Locale;
 
 public class LanguageUtil {
@@ -58,6 +60,15 @@ public class LanguageUtil {
             return GEGLISH_DATE_TIME;
         } else {
             return SimpleDateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.DEFAULT, locale);
+        }
+    }
+
+    public DateTimeFormatter getDateFormatter() {
+        checkIfLocaleSet();
+        if ("bg".equals(locale.getLanguage())) {
+            return DateTimeFormatter.ofPattern(GEGLISH_DATE.toPattern());
+        } else {
+            return DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG);
         }
     }
 

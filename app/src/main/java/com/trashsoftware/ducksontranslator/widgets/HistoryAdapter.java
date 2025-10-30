@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.trashsoftware.ducksontranslator.HistoryActivity;
@@ -25,7 +26,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryVH> {
 
     private final HistoryAccess historyAccess;
     private final HistoryActivity context;
-    private final List<HistoryItem> allHistory = new ArrayList<>();
+    private final List<Wrapper> allHistory = new ArrayList<>();
     private boolean selecting;
 
     public HistoryAdapter(HistoryActivity context) {
@@ -41,8 +42,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryVH> {
 
     public void selectOrDeselectAll(boolean select) {
         for (int i = 0; i < allHistory.size(); i++) {
-            allHistory.get(i).setSelected(select);
-            notifyItemChanged(i);
+            Wrapper wrapper = allHistory.get(i);
+            if (wrapper.item != null) {
+                wrapper.item.setSelected(select);
+                notifyItemChanged(i);
+            }
         }
         updateUiWhenSelectionChanged();
     }
@@ -51,11 +55,13 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryVH> {
         List<HistoryItem> selected = new ArrayList<>();
         List<Integer> affectedIndex = new ArrayList<>();
         for (int i = 0; i < allHistory.size(); i++) {
-            HistoryItem item = allHistory.get(i);
-            if (item.isSelected()) {
-                affectedIndex.add(i);
-                selected.add(item);
-                item.setSelected(false);
+            Wrapper wrapper = allHistory.get(i);
+            if (wrapper.item != null) {
+                if (wrapper.item.isSelected()) {
+                    affectedIndex.add(i);
+                    selected.add(wrapper.item);
+                    wrapper.item.setSelected(false);
+                }
             }
         }
         int origSize = getItemCount();
@@ -65,6 +71,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryVH> {
                 allHistory.remove(removeIndex);
                 notifyItemRemoved(removeIndex);
             }
+            // 这里会有一个问题：某一天的东西删完了，这一天的日期还在
             notifyItemChanged(allHistory.size());  // 通知最后的计数器变了
             notifyItemRangeChanged(0, origSize);
             return true;
@@ -77,7 +84,20 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryVH> {
 
     private void pullHistoryFromDb() {
         allHistory.clear();
-        allHistory.addAll(historyAccess.getAll());
+
+        LocalDate lastDate = null;
+        for (HistoryItem historyItem : historyAccess.getAll()) {
+            LocalDate date = historyItem.getDate();
+            if (lastDate == null || isDifferentDay(lastDate, date)) {
+                lastDate = date;
+                Wrapper dateWrapper = new Wrapper(null, HistoryVH.DATE_SPLITTER);
+                dateWrapper.date = date;
+                allHistory.add(dateWrapper);
+            }
+
+            allHistory.add(new Wrapper(historyItem, HistoryVH.NORMAL));
+        }
+        allHistory.add(new Wrapper(null, HistoryVH.FOOTER));
     }
 
     void updateUiWhenSelectionChanged() {
@@ -94,14 +114,18 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryVH> {
 
     private int selectionStatus() {
         int selectedCount = 0;
+        int valid = 0;
 
-        for (HistoryItem item : allHistory) {
-            if (item.isSelected()) {
-                selectedCount++;
+        for (Wrapper wrapper : allHistory) {
+            if (wrapper.item != null) {
+                valid++;
+                if (wrapper.item.isSelected()) {
+                    selectedCount++;
+                }
             }
         }
         if (selectedCount == 0) return NONE_SELECTED;
-        if (selectedCount == allHistory.size()) return ALL_SELECTED;
+        if (selectedCount == valid) return ALL_SELECTED;
         return SOME_BUT_NOT_ALL_SELECTED;
     }
 
@@ -112,33 +136,33 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryVH> {
         context.finish();
     }
 
-    @Deprecated
-    public boolean clearItems() {
-        if (historyAccess.deleteAll()) {
-            int size = allHistory.size();
-            allHistory.clear();
-            notifyItemRangeChanged(0, size);
-            return true;
-        } else {
-            pullHistoryFromDb();
-            notifyDataSetChanged();
-            return false;
-        }
-    }
+//    @Deprecated
+//    public boolean clearItems() {
+//        if (historyAccess.deleteAll()) {
+//            int size = allHistory.size();
+//            allHistory.clear();
+//            notifyItemRangeChanged(0, size);
+//            return true;
+//        } else {
+//            pullHistoryFromDb();
+//            notifyDataSetChanged();
+//            return false;
+//        }
+//    }
 
-    @Deprecated
-    public boolean deleteItem(HistoryItemVH holder) {
-        if (historyAccess.delete(holder.item)) {
-            int index = holder.getAdapterPosition();
-            allHistory.remove(index);
-            notifyItemRemoved(index);
-            notifyItemRangeChanged(index, allHistory.size());
-            return true;
-        } else {
-            pullHistoryFromDb();
-            return false;
-        }
-    }
+//    @Deprecated
+//    public boolean deleteItem(HistoryItemVH holder) {
+//        if (historyAccess.delete(holder.item)) {
+//            int index = holder.getAdapterPosition();
+//            allHistory.remove(index);
+//            notifyItemRemoved(index);
+//            notifyItemRangeChanged(index, allHistory.size());
+//            return true;
+//        } else {
+//            pullHistoryFromDb();
+//            return false;
+//        }
+//    }
 
     public boolean isSelecting() {
         return selecting;
@@ -151,7 +175,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryVH> {
         context.setManageButton(selecting);
 
         for (int i = 0; i < allHistory.size(); i++) {
-            allHistory.get(i).setSelected(false);
+            Wrapper wrapper = allHistory.get(i);
+            if (wrapper.item != null) {
+                wrapper.item.setSelected(false);
+            }
             notifyItemChanged(i);
         }
         updateUiWhenSelectionChanged();
@@ -165,20 +192,20 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryVH> {
                     .inflate(R.layout.history_item_view, parent, false);
 
             return new HistoryItemVH(view);
-        } else {
+        } else if (viewType == HistoryVH.FOOTER) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.history_item_footer, parent, false);
             return new HistoryFooterVH(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_date_divider, parent, false);
+            return new HistoryDateVH(view);
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position < allHistory.size()) {
-            return HistoryVH.NORMAL;
-        } else {
-            return HistoryVH.FOOTER;
-        }
+        return allHistory.get(position).type;
     }
 
     @Override
@@ -188,17 +215,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryVH> {
 
         if (type == HistoryVH.NORMAL) {
             HistoryItemVH itemVH = (HistoryItemVH) holder;
-            HistoryItem item = allHistory.get(position);
+            HistoryItem item = allHistory.get(position).item;
+            assert item != null;
 
-            boolean isDivider;
-            if (position == 0) {
-                isDivider = true;
-            } else {
-                HistoryItem last = allHistory.get(position - 1);
-                isDivider = isDifferentDay(item.getDate(), last.getDate());
-            }
-
-            itemVH.setItem(context, this, item, isDivider);
+            itemVH.setItem(context, this, item);
             itemVH.itemView.setOnClickListener(v -> {
                 item.setExpanded(!item.isExpanded());
                 notifyItemChanged(position);
@@ -212,12 +232,28 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryVH> {
             });
         } else if (type == HistoryVH.FOOTER) {
             HistoryFooterVH footerVH = (HistoryFooterVH) holder;
-            footerVH.setValue(context, allHistory.size());
+            footerVH.setValue(context, (int) allHistory.stream().filter(wrapper -> wrapper.item != null).count());
+        } else if (type == HistoryVH.DATE_SPLITTER) {
+            HistoryDateVH dateVH = (HistoryDateVH) holder;
+            Wrapper wrapper = allHistory.get(position);
+            assert wrapper.date != null;
+            dateVH.setItem(context, wrapper.date);
         }
     }
 
     @Override
     public int getItemCount() {
-        return allHistory.size() + 1;
+        return allHistory.size();
+    }
+
+    public static class Wrapper {
+        @Nullable public final HistoryItem item;
+        public final int type;
+        @Nullable public LocalDate date;
+
+        Wrapper(@Nullable HistoryItem item, int type) {
+            this.item = item;
+            this.type = type;
+        }
     }
 }

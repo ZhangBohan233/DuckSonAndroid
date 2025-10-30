@@ -136,28 +136,28 @@ public class HistoryActivity extends AppCompatActivity {
                 }).show();
     }
 
-    @Deprecated
-    public void onClearHistoryClicked(MenuItem view) {
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.please_confirm)
-                .setMessage(R.string.clear_confirm)
-                .setIcon(R.drawable.ic_launcher_icon)
-                .setPositiveButton(R.string.yes, (dialog, which) -> {
-                    if (adapter.clearItems()) {
-                        Toast.makeText(this, R.string.clear_success, Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(this, R.string.clear_failed, Toast.LENGTH_SHORT).show();
-                    }
-                }).setNegativeButton(R.string.cancel, (dialog, which) -> {
-                    // nothing happens
-                }).show();
-    }
+//    @Deprecated
+//    public void onClearHistoryClicked(MenuItem view) {
+//        new AlertDialog.Builder(this)
+//                .setTitle(R.string.please_confirm)
+//                .setMessage(R.string.clear_confirm)
+//                .setIcon(R.drawable.ic_launcher_icon)
+//                .setPositiveButton(R.string.yes, (dialog, which) -> {
+//                    if (adapter.clearItems()) {
+//                        Toast.makeText(this, R.string.clear_success, Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        Toast.makeText(this, R.string.clear_failed, Toast.LENGTH_SHORT).show();
+//                    }
+//                }).setNegativeButton(R.string.cancel, (dialog, which) -> {
+//                    // nothing happens
+//                }).show();
+//    }
 
     private void initRecyclerView() {
         adapter = new HistoryAdapter(this);
-        historyRecyclerView.addItemDecoration(
-                new DividerItemDecoration(historyRecyclerView.getContext(),
-                        DividerItemDecoration.VERTICAL));
+//        historyRecyclerView.addItemDecoration(
+//                new DividerItemDecoration(historyRecyclerView.getContext(),
+//                        DividerItemDecoration.VERTICAL));
 
         historyRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         historyRecyclerView.setAdapter(adapter);
