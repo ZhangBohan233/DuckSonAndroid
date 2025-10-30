@@ -14,13 +14,11 @@ import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ScrollView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,11 +26,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.transition.TransitionManager;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.transition.MaterialFadeThrough;
 import com.trashsoftware.ducksontranslator.MainActivity;
 import com.trashsoftware.ducksontranslator.R;
 import com.trashsoftware.ducksontranslator.model.MainViewModel;
@@ -128,16 +128,27 @@ public class MainEncryptionFragment extends Fragment {
         encryptToggle = root.findViewById(R.id.toggle_encrypt);
         decryptToggle = root.findViewById(R.id.toggle_decrypt);
 
+        resumeStates();
+        setScrollListeners();
+
+        return root;
+    }
+
+    @Override
+    public void onResume() {
+        resumeStates();
+
+        super.onResume();
+    }
+
+    private void resumeStates() {
+        setupToggle();
         updateKeysFields();
         setupSpinner();
-        setupToggle();
         refreshHintsByEncDec();
         expandByModel();
 
         refreshOutText();
-        setScrollListeners();
-
-        return root;
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -175,17 +186,6 @@ public class MainEncryptionFragment extends Fragment {
                 (parent, view, position, id) ->
                         viewModel.literalConverterSpinnerIndex = position);
 
-//        literalTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                viewModel.literalConverterSpinnerIndex = position;
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
         List<String> names = new ArrayList<>();
         for (int stringId : LITERAL_CONVERTER_NAMES) {
             names.add(getString(stringId));
@@ -204,7 +204,6 @@ public class MainEncryptionFragment extends Fragment {
         keyBitsDropdown.setAdapter(keyBitsAdapter);
 
         keyBitsDropdown.setText(keyBits[viewModel.keyBitsSpinnerIndex], false);
-//        literalTypeSpinner.setSelection(viewModel.literalConverterSpinnerIndex);
         literalTypeDropdown.setText(names.get(viewModel.literalConverterSpinnerIndex), false);
     }
 
@@ -248,7 +247,9 @@ public class MainEncryptionFragment extends Fragment {
 
     private void expandByModel(ImageView arrowView, ConstraintLayout container, boolean expanded) {
         arrowView.setImageResource(expanded ?
-                R.drawable.ic_chevron_down_24 : R.drawable.ic_chevron_right_24);
+                R.drawable.collapse_content_24px : R.drawable.expand_content_24px);
+        MaterialFadeThrough fade = new MaterialFadeThrough();
+        TransitionManager.beginDelayedTransition((ViewGroup) container.getParent(), fade);
         container.setVisibility(expanded ? VISIBLE : View.GONE);
     }
 

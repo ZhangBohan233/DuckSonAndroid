@@ -3,10 +3,12 @@ package com.trashsoftware.ducksontranslator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -15,6 +17,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
@@ -24,6 +28,7 @@ import androidx.preference.PreferenceManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.checkbox.MaterialCheckBox;
+import com.google.android.material.color.MaterialColors;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.trashsoftware.ducksontranslator.db.HistoryAccess;
@@ -170,6 +175,19 @@ public class MainActivity extends AppCompatActivity {
 
         appVersionItem = navigationView.getMenu().findItem(R.id.appVersionItem);
         coreVersionItem = navigationView.getMenu().findItem(R.id.coreVersionItem);
+
+//        Window window = getWindow();
+//
+//        // Ensure edge-to-edge behavior is applied before overriding color
+//        WindowCompat.setDecorFitsSystemWindows(window, true);
+//
+//        // Force status bar color to match colorSurface
+//        int surfaceColor = MaterialColors.getColor(this, com.google.android.material.R.attr.colorSurface, Color.BLACK);
+//        window.setStatusBarColor(surfaceColor);
+//
+//        // Adjust icon color (true = dark icons, false = light icons)
+//        WindowInsetsControllerCompat insets = new WindowInsetsControllerCompat(window, window.getDecorView());
+//        insets.setAppearanceLightStatusBars(true);  // or false if surface is dark
 
         View header = navigationView.getHeaderView(0);
 

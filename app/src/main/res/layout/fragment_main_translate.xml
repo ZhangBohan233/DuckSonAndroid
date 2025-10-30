@@ -13,11 +13,21 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textBoxUpContainer"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Material3.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
+            app:boxBackgroundColor="?attr/colorSurfaceContainer"
+            app:boxBackgroundMode="filled"
+            app:boxCornerRadiusBottomEnd="28dp"
+            app:boxCornerRadiusBottomStart="28dp"
+            app:boxCornerRadiusTopEnd="28dp"
+            app:boxCornerRadiusTopStart="28dp"
+            app:boxStrokeColor="@android:color/transparent"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:strokeWidth="0dp"
             app:endIconMode="clear_text"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -35,13 +45,20 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/lang1_dropdown_box"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:boxCornerRadiusBottomEnd="18dp"
-            app:boxCornerRadiusBottomStart="18dp"
-            app:boxCornerRadiusTopEnd="18dp"
-            app:boxCornerRadiusTopStart="18dp"
+            android:layout_marginTop="6dp"
+            app:boxBackgroundColor="?attr/colorSurfaceContainer"
+            app:boxBackgroundMode="filled"
+            app:boxCornerRadiusBottomEnd="28dp"
+            app:boxCornerRadiusBottomStart="28dp"
+            app:boxCornerRadiusTopEnd="28dp"
+            app:boxCornerRadiusTopStart="28dp"
+            app:boxStrokeColor="@android:color/transparent"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:strokeWidth="0dp"
             app:layout_constraintLeft_toLeftOf="@id/textBoxUpContainer"
             app:layout_constraintTop_toBottomOf="@id/textBoxUpContainer">
 
@@ -69,19 +86,26 @@
             app:icon="@drawable/swap_horiz_24px"
             app:layout_constraintBottom_toBottomOf="@id/lang1_dropdown_box"
             app:layout_constraintLeft_toRightOf="@id/lang1_dropdown_box"
+            app:layout_constraintRight_toLeftOf="@id/lang2_dropdown_box"
             app:layout_constraintTop_toTopOf="@id/lang1_dropdown_box" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/lang2_dropdown_box"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:boxCornerRadiusBottomEnd="18dp"
-            app:boxCornerRadiusBottomStart="18dp"
-            app:boxCornerRadiusTopEnd="18dp"
-            app:boxCornerRadiusTopStart="18dp"
+            app:boxBackgroundColor="?attr/colorSurfaceContainer"
+            app:boxBackgroundMode="filled"
+            app:boxCornerRadiusBottomEnd="28dp"
+            app:boxCornerRadiusBottomStart="28dp"
+            app:boxCornerRadiusTopEnd="28dp"
+            app:boxCornerRadiusTopStart="28dp"
+            app:boxStrokeColor="@android:color/transparent"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:strokeWidth="0dp"
             app:layout_constraintBottom_toBottomOf="@id/lang1_dropdown_box"
-            app:layout_constraintLeft_toRightOf="@id/SwitchLangButton">
+            app:layout_constraintRight_toRightOf="parent">
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/lang2_dropdown"
@@ -115,7 +139,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="12dp"
             android:cursorVisible="true"
-            android:lines="8"
+            android:minLines="2"
             android:scrollbars="vertical"
             android:textIsSelectable="true"
             android:textSize="18sp"

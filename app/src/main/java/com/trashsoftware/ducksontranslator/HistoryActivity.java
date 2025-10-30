@@ -49,13 +49,13 @@ public class HistoryActivity extends AppCompatActivity {
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        Window window = getWindow();
-        int color = MaterialColors.getColor(this, com.google.android.material.R.attr.colorPrimarySurface, Color.BLACK);
-        window.setStatusBarColor(color);
-
-        WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(window, window.getDecorView());
-        boolean isLight = MaterialColors.isColorLight(color);
-        controller.setAppearanceLightStatusBars(!isLight);
+//        Window window = getWindow();
+//        int color = MaterialColors.getColor(this, com.google.android.material.R.attr.colorPrimarySurface, Color.BLACK);
+//        window.setStatusBarColor(color);
+//
+//        WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(window, window.getDecorView());
+//        boolean isLight = MaterialColors.isColorLight(color);
+//        controller.setAppearanceLightStatusBars(!isLight);
 
         manageButton = findViewById(R.id.manage_history_button);
         deleteButton = findViewById(R.id.delete_selected_history_btn);

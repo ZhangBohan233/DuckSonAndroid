@@ -32,13 +32,13 @@ public class SettingsActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.settings_toolbar);
         setSupportActionBar(toolbar);
 
-        Window window = getWindow();
-        int color = MaterialColors.getColor(this, com.google.android.material.R.attr.colorPrimarySurface, Color.BLACK);
-        window.setStatusBarColor(color);
-
-        WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(window, window.getDecorView());
-        boolean isLight = MaterialColors.isColorLight(color);
-        controller.setAppearanceLightStatusBars(!isLight);
+//        Window window = getWindow();
+//        int color = MaterialColors.getColor(this, com.google.android.material.R.attr.colorPrimarySurface, Color.BLACK);
+//        window.setStatusBarColor(color);
+//
+//        WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(window, window.getDecorView());
+//        boolean isLight = MaterialColors.isColorLight(color);
+//        controller.setAppearanceLightStatusBars(!isLight);
 
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
