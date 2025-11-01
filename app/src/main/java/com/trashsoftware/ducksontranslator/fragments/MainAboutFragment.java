@@ -51,7 +51,7 @@ public class MainAboutFragment extends Fragment {
         emailView.setText(emailText);
 
         try {
-            String usersList = AssetsReader.readAssetsLinesAsString(getContext(),
+            String usersList = AssetsReader.readAssetsLinesAsString(requireContext(),
                     "closed_beta_user_list.txt");
             closedBetaUsersView.setText(usersList);
         } catch (IOException e) {

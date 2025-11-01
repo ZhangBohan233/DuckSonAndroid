@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import trashsoftware.duckSonTranslator.words.WordResult;
+import trashsoftware.duckSonTranslator.words.WordResultType;
 
 public class DictAdapter extends RecyclerView.Adapter<DictVH> {
 
@@ -74,6 +75,8 @@ public class DictAdapter extends RecyclerView.Adapter<DictVH> {
         if (holder instanceof DictVH.ItemHolder) {
             assert item.wordResult != null;
             ((DictVH.ItemHolder) holder).setContent(item.wordResult, fragment.getContext());
+        } else if (holder instanceof DictVH.DividerVH) {
+            ((DictVH.DividerVH) holder).setContent(item.type);
         }
     }
 
@@ -93,13 +96,13 @@ public class DictAdapter extends RecyclerView.Adapter<DictVH> {
 
     private static List<WordResultWrapper> makeWrapperList(List<WordResult> wordResults) {
         List<WordResultWrapper> wrappers = new ArrayList<>();
-        boolean isExact = true;
+        WordResultType lastType = null;
         for (WordResult wr : wordResults) {
-            if (isExact && wr.isFromSameSound()) {
-                isExact = false;
-                wrappers.add(new WordResultWrapper(null));
+            if (wr.getType() != lastType) {
+                lastType = wr.getType();
+                wrappers.add(new WordResultWrapper(null, wr.getType()));
             }
-            wrappers.add(new WordResultWrapper(wr));
+            wrappers.add(new WordResultWrapper(wr, wr.getType()));
         }
         return wrappers;
     }
@@ -107,9 +110,11 @@ public class DictAdapter extends RecyclerView.Adapter<DictVH> {
     private static class WordResultWrapper {
         @Nullable
         final WordResult wordResult;  // if this is null, then this item will be a separator
+        final WordResultType type;
 
-        WordResultWrapper(@Nullable WordResult wordResult) {
+        WordResultWrapper(@Nullable WordResult wordResult, WordResultType type) {
             this.wordResult = wordResult;
+            this.type = type;
         }
     }
 }

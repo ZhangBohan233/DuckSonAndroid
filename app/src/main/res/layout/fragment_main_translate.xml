@@ -27,9 +27,9 @@
             app:boxStrokeColor="@android:color/transparent"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
-            app:strokeWidth="0dp"
             app:endIconMode="clear_text"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeWidth="0dp">
 
             <com.trashsoftware.ducksontranslator.widgets.TranslatorEditText
                 android:id="@+id/textBoxUp"
@@ -58,9 +58,9 @@
             app:boxStrokeColor="@android:color/transparent"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
-            app:strokeWidth="0dp"
             app:layout_constraintLeft_toLeftOf="@id/textBoxUpContainer"
-            app:layout_constraintTop_toBottomOf="@id/textBoxUpContainer">
+            app:layout_constraintTop_toBottomOf="@id/textBoxUpContainer"
+            app:strokeWidth="0dp">
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/lang1_dropdown"
@@ -78,16 +78,16 @@
             android:layout_height="40dp"
             android:contentDescription="@string/swapLang"
             android:onClick="swapLanguageAction"
+            app:backgroundTint="@android:color/transparent"
+            app:icon="@drawable/swap_horiz_24px"
             app:iconSize="20dp"
             app:iconTint="?attr/colorOnSurfaceVariant"
-            app:rippleColor="?attr/colorPrimary"
-            app:backgroundTint="@android:color/transparent"
-            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
-            app:icon="@drawable/swap_horiz_24px"
             app:layout_constraintBottom_toBottomOf="@id/lang1_dropdown_box"
             app:layout_constraintLeft_toRightOf="@id/lang1_dropdown_box"
             app:layout_constraintRight_toLeftOf="@id/lang2_dropdown_box"
-            app:layout_constraintTop_toTopOf="@id/lang1_dropdown_box" />
+            app:layout_constraintTop_toTopOf="@id/lang1_dropdown_box"
+            app:rippleColor="?attr/colorPrimary"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/lang2_dropdown_box"
@@ -103,9 +103,9 @@
             app:boxStrokeColor="@android:color/transparent"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
-            app:strokeWidth="0dp"
             app:layout_constraintBottom_toBottomOf="@id/lang1_dropdown_box"
-            app:layout_constraintRight_toRightOf="parent">
+            app:layout_constraintRight_toRightOf="parent"
+            app:strokeWidth="0dp">
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/lang2_dropdown"
@@ -139,7 +139,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="12dp"
             android:cursorVisible="true"
-            android:minLines="2"
+            android:minLines="1"
             android:scrollbars="vertical"
             android:textIsSelectable="true"
             android:textSize="18sp"
@@ -158,7 +158,7 @@
             app:icon="@drawable/content_copy_24px"
             app:iconSize="20dp"
             app:iconTint="?attr/colorOnSurfaceVariant"
-            app:layout_constraintBottom_toBottomOf="@id/textBoxDown"
+            app:layout_constraintTop_toBottomOf="@id/textBoxDown"
             app:layout_constraintEnd_toEndOf="parent"
             app:rippleColor="?attr/colorPrimary"
             app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />

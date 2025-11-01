@@ -12,77 +12,78 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="16dp">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/settingsTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="13dp"
             android:gravity="center_vertical"
             android:text="@string/trans_options"
-            android:textSize="16sp"
+            android:textSize="18sp"
             app:drawableLeftCompat="@drawable/ic_tune_24"
+            app:itemTextAppearance="?attr/textAppearanceTitleLarge"
+            app:itemTextColor="?attr/colorOnSurface"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/baseDictText"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/use_base_dict"
+            app:itemTextAppearance="?attr/textAppearanceBodyLarge"
+            app:itemTextColor="?attr/colorOnSurface"
             app:layout_constraintBottom_toBottomOf="@+id/baseDictSwitch"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="@+id/baseDictSwitch"
-            app:layout_constraintWidth_max="wrap"
-            app:layout_constraintWidth_percent="0.7">
+            app:layout_constraintWidth_max="wrap">
 
-        </TextView>
+        </com.google.android.material.textview.MaterialTextView>
 
-        <com.google.android.material.checkbox.MaterialCheckBox
+        <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/baseDictSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/settingsTitle">
+            app:layout_constraintTop_toBottomOf="@+id/settingsTitle" />
 
-        </com.google.android.material.checkbox.MaterialCheckBox>
-
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/sameSoundText"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/use_same_sound"
+            app:itemTextAppearance="?attr/textAppearanceBodyLarge"
+            app:itemTextColor="?attr/colorOnSurface"
             app:layout_constraintBottom_toBottomOf="@+id/homophoneSwitch"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="@+id/homophoneSwitch"
-            app:layout_constraintWidth_max="wrap"
-            app:layout_constraintWidth_percent="0.7">
+            app:layout_constraintWidth_max="wrap">
 
-        </TextView>
+        </com.google.android.material.textview.MaterialTextView>
 
-        <com.google.android.material.checkbox.MaterialCheckBox
+        <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/homophoneSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/baseDictSwitch">
+            app:layout_constraintTop_toBottomOf="@+id/baseDictSwitch" />
 
-        </com.google.android.material.checkbox.MaterialCheckBox>
-
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/dialectText"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/chongqing_mode"
+            app:itemTextAppearance="?attr/textAppearanceBodyLarge"
+            app:itemTextColor="?attr/colorOnSurface"
             app:layout_constraintBottom_toBottomOf="@+id/cqModeSwitch"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="@+id/cqModeSwitch"
-            app:layout_constraintWidth_max="wrap"
-            app:layout_constraintWidth_percent="0.7">
+            app:layout_constraintWidth_max="wrap">
 
-        </TextView>
+        </com.google.android.material.textview.MaterialTextView>
 
-        <com.google.android.material.checkbox.MaterialCheckBox
+        <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/cqModeSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

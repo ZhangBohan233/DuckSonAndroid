@@ -1,13 +1,16 @@
 package com.trashsoftware.ducksontranslator;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -17,7 +20,12 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.OnApplyWindowInsetsListener;
+import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
@@ -29,6 +37,7 @@ import androidx.preference.PreferenceManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.color.MaterialColors;
+import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.trashsoftware.ducksontranslator.db.HistoryAccess;
@@ -60,9 +69,7 @@ public class MainActivity extends AppCompatActivity {
     private MainDictionaryFragment dictionaryFragment;
     private MainEncryptionFragment encryptionFragment;
 
-    private MaterialCheckBox useBaseDictSwitch;
-    private MaterialCheckBox homophoneSwitch;
-    private MaterialCheckBox cqModeSwitch;
+    private MaterialSwitch useBaseDictSwitch, homophoneSwitch, cqModeSwitch;
     // Result getter of history view
     ActivityResultLauncher<Intent> historyResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -176,18 +183,10 @@ public class MainActivity extends AppCompatActivity {
         appVersionItem = navigationView.getMenu().findItem(R.id.appVersionItem);
         coreVersionItem = navigationView.getMenu().findItem(R.id.coreVersionItem);
 
-//        Window window = getWindow();
-//
-//        // Ensure edge-to-edge behavior is applied before overriding color
-//        WindowCompat.setDecorFitsSystemWindows(window, true);
-//
-//        // Force status bar color to match colorSurface
-//        int surfaceColor = MaterialColors.getColor(this, com.google.android.material.R.attr.colorSurface, Color.BLACK);
-//        window.setStatusBarColor(surfaceColor);
-//
-//        // Adjust icon color (true = dark icons, false = light icons)
-//        WindowInsetsControllerCompat insets = new WindowInsetsControllerCompat(window, window.getDecorView());
-//        insets.setAppearanceLightStatusBars(true);  // or false if surface is dark
+        setStatusBarColor(this,
+                this,
+                mainDrawer,
+                getWindow());
 
         View header = navigationView.getHeaderView(0);
 
@@ -242,6 +241,48 @@ public class MainActivity extends AppCompatActivity {
         HistoryAccess historyAccess = HistoryAccess.getInstance(this);
 
         checkIsFirstOpen();
+    }
+
+    @SuppressLint("ResourceAsColor")
+    public static void setStatusBarColor(
+            Context ctx,
+            AppCompatActivity activity,
+            View rootLayout,
+            Window window) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {  // Android 15+
+            ViewCompat.setOnApplyWindowInsetsListener(rootLayout, (v, windowInsets) -> {
+                Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.statusBars());
+
+                int top = insets.top;
+                int bottom = insets.bottom;
+
+                // Add top/bottom margin so content doesn’t go under system bars
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+                params.topMargin = top;
+                params.bottomMargin = bottom;
+                v.setLayoutParams(params);
+
+                // Create a fake status bar view
+                View statusBarView = new View(ctx);
+                statusBarView.setLayoutParams(
+                        new ViewGroup.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                top
+                        )
+                );
+                statusBarView.setBackgroundColor(
+                        ContextCompat.getColor(ctx, R.color.md_theme_surface)
+                );
+
+                activity.addContentView(statusBarView, statusBarView.getLayoutParams());
+
+                return WindowInsetsCompat.CONSUMED;
+            });
+        } else {
+            // For Android 14 and below
+            window.setStatusBarColor(ContextCompat.getColor(ctx, R.color.md_theme_surface));
+        }
     }
 
     public void translateAction(View view) {

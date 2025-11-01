@@ -10,10 +10,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import trashsoftware.duckSonTranslator.TranslatorOptions;
 import trashsoftware.duckSonTranslator.encrypt.KeyPair;
 import trashsoftware.duckSonTranslator.encrypt.RSA;
 import trashsoftware.duckSonTranslator.encrypt.RSAKeyGenerator;
+import trashsoftware.duckSonTranslator.options.TranslatorOptions;
 import trashsoftware.duckSonTranslator.result.TranslationResult;
 import trashsoftware.duckSonTranslator.translators.DuckSonTranslator;
 import trashsoftware.duckSonTranslator.wordPickers.PickerFactory;
@@ -78,7 +78,7 @@ public class MainViewModel {
                 translator = new DuckSonTranslator();
                 shownCoreVersion = translator.getCoreVersion() + "." + translator.getDictionaryVersion();
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e("MAIN_VIEW_MODEL", "Translator init failed", e);
             }
             Log.v(TAG, "Translator launch time: " + (System.currentTimeMillis() - t0));
         }

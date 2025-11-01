@@ -38,6 +38,10 @@
     <string name="search">Find</string>
     <string name="no_results">No find arrive this word</string>
     <string name="part_of_speech">%s.</string>
+    <string name="exact_word_divider">Results</string>
+    <string name="prefix_word_divider">Prefix</string>
+    <string name="substring_word_divider">Substring</string>
+    <string name="rough_word_divider">Rough</string>
     <string name="same_sound_divider">Down is same sound word</string>
     <string name="duck_son_ad">Duck son</string>
 

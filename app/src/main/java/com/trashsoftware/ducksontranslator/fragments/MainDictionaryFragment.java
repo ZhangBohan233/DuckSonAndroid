@@ -153,6 +153,7 @@ public class MainDictionaryFragment extends Fragment {
             dictAdapter.refreshContent(List.of());
             return;
         }
+        Log.v("MainDictionaryFragment", "src: " + src + " dst: " + dst);
 
         viewModel.wordResults = viewModel.getDictionary().search(srcText, src, dst);
         refreshByModel();

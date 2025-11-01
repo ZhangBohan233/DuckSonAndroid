@@ -38,6 +38,10 @@
     <string name="search">查询</string>
     <string name="no_results">未找到该词</string>
     <string name="part_of_speech">%s.</string>
+    <string name="exact_word_divider">搜索结果</string>
+    <string name="prefix_word_divider">以下为前缀词</string>
+    <string name="substring_word_divider">以下为子串</string>
+    <string name="rough_word_divider">以下为大致匹配</string>
     <string name="same_sound_divider">以下为同音词</string>
     <string name="duck_son_ad">Duck son</string>
 
