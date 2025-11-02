@@ -22,12 +22,12 @@
         app:boxStrokeColor="@android:color/transparent"
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp"
-        app:strokeWidth="0dp"
         app:endIconMode="clear_text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/dict_lang_dropdown_out"
         app:layout_constraintTop_toTopOf="parent"
-        app:startIconDrawable="@drawable/magnify_grey">
+        app:startIconDrawable="@drawable/magnify"
+        app:strokeWidth="0dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/search_box"
@@ -35,8 +35,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/up_box_hint"
             android:imeOptions="actionSearch"
-            android:singleLine="true"
-            android:inputType="text" />
+            android:inputType="text"
+            android:singleLine="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -54,11 +54,11 @@
         app:boxStrokeColor="@android:color/transparent"
         app:boxStrokeWidth="0dp"
         app:boxStrokeWidthFocused="0dp"
-        app:strokeWidth="0dp"
         app:layout_constraintBottom_toBottomOf="@id/search_outbox"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_outbox"
-        app:layout_constraintTop_toTopOf="@id/search_outbox">
+        app:layout_constraintTop_toTopOf="@id/search_outbox"
+        app:strokeWidth="0dp">
 
         <AutoCompleteTextView
             android:id="@+id/dict_lang_dropdown"
@@ -69,13 +69,31 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/dict_shimmer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_outbox"
+        app:shimmer_auto_start="false"
+        app:shimmer_duration="1000">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/dict_placeholder_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dict_result_recycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_outbox" />
+        app:layout_constraintTop_toBottomOf="@id/search_outbox"/>
 
     <TextView
         android:id="@+id/dict_no_result_placeholder"
@@ -83,9 +101,9 @@
         android:layout_height="wrap_content"
         android:text="@string/no_results"
         android:visibility="gone"
-        app:layout_constraintLeft_toLeftOf="@id/dict_result_recycler"
-        app:layout_constraintRight_toRightOf="@id/dict_result_recycler"
-        app:layout_constraintTop_toTopOf="@id/dict_result_recycler" />
+        app:layout_constraintLeft_toLeftOf="@id/dict_shimmer_layout"
+        app:layout_constraintRight_toRightOf="@id/dict_shimmer_layout"
+        app:layout_constraintTop_toTopOf="@id/dict_shimmer_layout" />
 
     <TextView
         android:id="@+id/dict_ad_placeholder"
@@ -101,7 +119,7 @@
         android:id="@+id/search_word_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/magnify_white"
+        android:drawableLeft="@drawable/magnify_on_primary"
         android:onClick="searchDictAction"
         android:text="@string/search"
         app:layout_constraintBottom_toBottomOf="parent"

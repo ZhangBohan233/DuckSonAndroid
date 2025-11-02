@@ -100,15 +100,10 @@ public class HistoryItemVH extends HistoryVH {
 
             fullTextContainer.setText(item.getOrigText(), item.getTranslatedText());
             fullTextContainer.drawParagraphs();
-
-//            origText.setMaxLines(Integer.MAX_VALUE);
-//            translatedText.setMaxLines(Integer.MAX_VALUE);
         } else {
             origText.setVisibility(View.VISIBLE);
             translatedText.setVisibility(View.VISIBLE);
             fullTextContainer.setVisibility(View.GONE);
-//            origText.setMaxLines(3);
-//            translatedText.setMaxLines(3);
         }
     }
 

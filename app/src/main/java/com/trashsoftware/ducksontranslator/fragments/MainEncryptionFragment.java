@@ -4,7 +4,7 @@ import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -277,7 +277,7 @@ public class MainEncryptionFragment extends Fragment {
 
     public void generateRSAKeys() {
         if (viewModel.getKeyPair() != null) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext())
                     .setTitle(R.string.generate_keys_block_title)
                     .setMessage(R.string.generate_keys_block_prompt)
                     .setCancelable(true)

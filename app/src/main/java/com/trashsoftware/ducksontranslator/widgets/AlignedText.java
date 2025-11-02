@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.material.textview.MaterialTextView;
+
 public class AlignedText extends LinearLayout {
     private static final int PARAGRAPH_GAP = 6;
     LayoutParams leftParam =
@@ -43,12 +45,12 @@ public class AlignedText extends LinearLayout {
             String leftPara = leftParagraphs[i];
             String rightPara = rightParagraphs[i];
 
-            TextView leftText = new TextView(getContext());
-            leftText.setTextColor(Color.BLACK);
+            MaterialTextView leftText = new MaterialTextView(getContext());
+            leftText.setTextAppearance(getContext(), com.google.android.material.R.style.TextAppearance_Material3_TitleSmall);
             leftText.setText(leftPara);
 
-            TextView rightText = new TextView(getContext());
-            rightText.setTextColor(Color.BLACK);
+            MaterialTextView rightText = new MaterialTextView(getContext());
+            rightText.setTextAppearance(getContext(), com.google.android.material.R.style.TextAppearance_Material3_TitleSmall);
             rightText.setText(rightPara);
 
             LinearLayout left = new LinearLayout(getContext());
@@ -73,16 +75,4 @@ public class AlignedText extends LinearLayout {
             addView(block);
         }
     }
-
-//    public int drawNextParagraph() {
-//        String para = paragraphs[curPara++];
-//        TextView textView = new TextView(getContext());
-//        textView.setText(para);
-//        textView.setTextColor(Color.BLACK);
-//
-//        textView.post(() -> {
-//            int lineCount = textView.getLineCount();
-//            // Use lineCount here
-//        });
-//    }
 }

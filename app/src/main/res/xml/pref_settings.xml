@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
-        android:icon="@drawable/ic_translate_black_24"
+        android:icon="@drawable/ic_translate_20"
         android:title="@string/trans_options"
         android:iconSpaceReserved="false">
 

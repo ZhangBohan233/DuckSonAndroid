@@ -100,21 +100,18 @@ public class DictAdapter extends RecyclerView.Adapter<DictVH> {
         for (WordResult wr : wordResults) {
             if (wr.getType() != lastType) {
                 lastType = wr.getType();
-                wrappers.add(new WordResultWrapper(null, wr.getType()));
+                if (wr.getType() != WordResultType.PINYIN) {
+                    wrappers.add(new WordResultWrapper(null, wr.getType()));
+                }
             }
             wrappers.add(new WordResultWrapper(wr, wr.getType()));
         }
         return wrappers;
     }
 
-    private static class WordResultWrapper {
-        @Nullable
-        final WordResult wordResult;  // if this is null, then this item will be a separator
-        final WordResultType type;
-
-        WordResultWrapper(@Nullable WordResult wordResult, WordResultType type) {
-            this.wordResult = wordResult;
-            this.type = type;
-        }
+    /**
+     * @param wordResult if this is null, then this item will be a separator
+     */
+    private record WordResultWrapper(@Nullable WordResult wordResult, WordResultType type) {
     }
 }

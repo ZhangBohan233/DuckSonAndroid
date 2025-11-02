@@ -38,12 +38,19 @@
     <string name="search">查询</string>
     <string name="no_results">未找到该词</string>
     <string name="part_of_speech">%s.</string>
+    <string name="pinyin">拼音</string>
+    <string name="cqPin">重庆话</string>
     <string name="exact_word_divider">搜索结果</string>
     <string name="prefix_word_divider">以下为前缀词</string>
     <string name="substring_word_divider">以下为子串</string>
     <string name="rough_word_divider">以下为大致匹配</string>
     <string name="same_sound_divider">以下为同音词</string>
     <string name="duck_son_ad">Duck son</string>
+    <string name="dict_searching">正在查询</string>
+    <string name="dict_timeout">查询超时，建议缩短词汇或禁用同音字</string>
+    <string name="error_with_message">错误：%s</string>
+    <string name="dict_search_too_long">长词警告</string>
+    <string name="dict_search_too_long_msg">查询的词汇较长，可能导致App崩溃，建议缩短词汇或禁用同音字。如需翻译句子，请前往翻译界面。是否确定要查询？</string>
 
     <!--Encrypt fragment-->
     <string name="key_generation">密钥生成</string>

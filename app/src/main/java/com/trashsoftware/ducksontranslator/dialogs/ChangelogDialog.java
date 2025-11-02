@@ -2,7 +2,7 @@ package com.trashsoftware.ducksontranslator.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.material.textview.MaterialTextView;
 import com.trashsoftware.ducksontranslator.R;
 import com.trashsoftware.ducksontranslator.util.Changelog;
 import com.trashsoftware.ducksontranslator.util.ChangelogReader;
@@ -42,7 +43,7 @@ public class ChangelogDialog extends Dialog {
         try {
             changelogReader = ChangelogReader.getInstance(context);
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("ChangelogDialog", "Failed to load changelog", e);
         }
 
         fillContainer();
@@ -57,10 +58,9 @@ public class ChangelogDialog extends Dialog {
             shows = new Changelog[]{changelogReader.getMostRecent()};
         }
         for (Changelog changelog : shows) {
-            TextView versionName = new TextView(getContext());
+            MaterialTextView versionName = new MaterialTextView(getContext());
             versionName.setText(changelog.getVersionName());
-            versionName.setTextSize(16);
-            versionName.setTextColor(Color.BLACK);
+            versionName.setTextAppearance(getContext(), com.google.android.material.R.style.TextAppearance_Material3_TitleMedium);
 
             TextView versionDate = new TextView(getContext());
             versionDate.setText(changelog.getDateStr());

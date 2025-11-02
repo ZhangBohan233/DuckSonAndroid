@@ -4,22 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginVertical="4dp"
+    android:orientation="vertical"
     app:cardBackgroundColor="?attr/colorSurfaceContainer"
     app:cardCornerRadius="18dp"
     app:cardElevation="0dp"
     app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
     app:strokeColor="?attr/colorOutline"
-    app:strokeWidth="0dp"
-    android:orientation="vertical">
+    app:strokeWidth="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/history_item_center_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp"
         android:layout_marginStart="6dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="6dp"
+        android:layout_marginBottom="12dp"
         app:layout_optimizationLevel="none">
 
         <com.google.android.material.checkbox.MaterialCheckBox
@@ -35,19 +35,19 @@
 
         <TextView
             android:id="@+id/src_text"
+            style="@style/TextAppearance.Material3.TitleSmall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:maxLines="3"
             android:text="输入的原句需要比较长来展示折行的效果"
-            android:textColor="@color/black"
             app:layout_constraintLeft_toRightOf="@id/history_item_box"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.42" />
 
         <ImageView
             android:id="@+id/arrow_img"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:contentDescription="@string/history"
             android:src="@drawable/ic_arrow_forward_48"
             app:layout_constraintBottom_toBottomOf="@id/src_text"
@@ -57,14 +57,15 @@
 
         <TextView
             android:id="@+id/dst_text"
+            style="@style/TextAppearance.Material3.TitleSmall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:maxLines="3"
             android:text="Dst text demo"
-            android:textColor="@color/black"
             app:layout_constraintLeft_toRightOf="@id/arrow_img"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.48" />
+            android:layout_marginStart="16dp"
+            app:layout_constraintWidth_percent="0.42" />
 
         <com.trashsoftware.ducksontranslator.widgets.AlignedText
             android:id="@+id/full_text_container"
@@ -109,11 +110,11 @@
 
             <ImageView
                 android:id="@+id/arrow_img2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:layout_marginStart="8dp"
                 android:contentDescription="@string/history"
-                android:src="@drawable/ic_arrow_forward_48_20"
+                android:src="@drawable/ic_arrow_forward_48"
                 app:layout_constraintLeft_toRightOf="@+id/src_lang"
                 app:layout_constraintTop_toTopOf="parent" />
 

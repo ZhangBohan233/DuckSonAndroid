@@ -116,7 +116,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/translateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -126,11 +126,9 @@
             android:onClick="translateAction"
             android:text="@string/translate"
             android:textSize="18sp"
-            app:drawableLeftCompat="@drawable/ic_translate_20"
+            android:drawableLeft="@drawable/ic_translate_on_primary_20"
             app:layout_constraintLeft_toLeftOf="@+id/textBoxUpContainer"
-            app:layout_constraintTop_toBottomOf="@+id/lang1_dropdown_box">
-
-        </Button>
+            app:layout_constraintTop_toBottomOf="@+id/lang1_dropdown_box"/>
 
         <com.trashsoftware.ducksontranslator.widgets.ResultText
             android:id="@+id/textBoxDown"

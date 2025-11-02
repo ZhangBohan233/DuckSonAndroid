@@ -38,12 +38,19 @@
     <string name="search">Search</string>
     <string name="no_results">No results found</string>
     <string name="part_of_speech">%s.</string>
+    <string name="pinyin">pinyin</string>
+    <string name="cqPin">cq pin</string>
     <string name="exact_word_divider">Results</string>
     <string name="prefix_word_divider">Prefix</string>
     <string name="substring_word_divider">Substring</string>
     <string name="rough_word_divider">Rough</string>
     <string name="same_sound_divider">Homophones</string>
     <string name="duck_son_ad">Duck son</string>
+    <string name="dict_searching">Searching</string>
+    <string name="dict_timeout">Search time out, please try shorter words or turn homophones off</string>
+    <string name="error_with_message">Error: %s</string>
+    <string name="dict_search_too_long">Warning: searching long word</string>
+    <string name="dict_search_too_long_msg">This word is long, which may result in app crashing. Please try shorter words or turn homophones off. Are you sure to keep searching? Translate page may be better place for sentences.</string>
 
     <!--Encrypt fragment-->
     <string name="key_generation">Key generation</string>

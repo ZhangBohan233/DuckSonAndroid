@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,14 +18,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
-import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
@@ -34,12 +29,10 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 import androidx.preference.PreferenceManager;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.checkbox.MaterialCheckBox;
-import com.google.android.material.color.MaterialColors;
 import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.trashsoftware.ducksontranslator.db.HistoryAccess;
 import com.trashsoftware.ducksontranslator.db.HistoryItem;
 import com.trashsoftware.ducksontranslator.dialogs.ChangelogDialog;
@@ -106,16 +99,12 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences versionPref;
 
     public static String getLangName(Context context, String langId) {
-        switch (langId) {
-            case "chs":
-                return context.getString(R.string.chinese);
-            case "geg":
-                return context.getString(R.string.geglish);
-            case "chi":
-                return context.getString(R.string.chinglish);
-            default:
-                return "";
-        }
+        return switch (langId) {
+            case "chs" -> context.getString(R.string.chinese);
+            case "geg" -> context.getString(R.string.geglish);
+            case "chi" -> context.getString(R.string.chinglish);
+            default -> "";
+        };
     }
 
     public static String getWordPickerShownName(Context context, PickerFactory pf) {
@@ -171,7 +160,6 @@ public class MainActivity extends AppCompatActivity {
         navController = navContainerView.getNavController();
 
         // 启动
-//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(mainNavView, navController);
 
         translatorPref = getSharedPreferences("translatorPref", 0);
@@ -208,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
 
         initToggleSelection();
 
-        Toolbar toolbar = findViewById(R.id.main_toolbar);
+        MaterialToolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
