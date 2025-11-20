@@ -1,10 +1,13 @@
 package com.trashsoftware.ducksontranslator.fragments;
 
+import static android.view.View.GONE;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 
 import android.annotation.SuppressLint;
+
 import androidx.appcompat.app.AlertDialog;
+
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -81,6 +84,7 @@ public class MainEncryptionFragment extends Fragment {
     TextInputLayout encryptInputBox, keyInputBox;
     TextInputEditText encryptInput, keyInput;
     TextView encryptOutput;
+    TextView helpIcon, helpContent, helpCollapse;
 
     Button encDecBtn;
     Button copyOutputBtn, shareOutputBtn;
@@ -127,6 +131,10 @@ public class MainEncryptionFragment extends Fragment {
         encryptToggleGroup = root.findViewById(R.id.encrypt_decrypt_toggle);
         encryptToggle = root.findViewById(R.id.toggle_encrypt);
         decryptToggle = root.findViewById(R.id.toggle_decrypt);
+
+        helpIcon = root.findViewById(R.id.encrypt_instruction_text);
+        helpContent = root.findViewById(R.id.encrypt_instruction_content);
+        helpCollapse = root.findViewById(R.id.encrypt_instruction_collapse);
 
         resumeStates();
         setScrollListeners();
@@ -406,6 +414,15 @@ public class MainEncryptionFragment extends Fragment {
         if (!viewModel.encryptFieldExpanded) {
             expandCollapseEncryptField();
         }
+    }
+
+    public void expandCollapseInstruction(boolean toExpand) {
+        int bodyVis = toExpand ? VISIBLE : GONE;
+        int iconVis = toExpand ? GONE : VISIBLE;
+
+        helpIcon.setVisibility(iconVis);
+        helpContent.setVisibility(bodyVis);
+        helpCollapse.setVisibility(bodyVis);
     }
 
     @Nullable

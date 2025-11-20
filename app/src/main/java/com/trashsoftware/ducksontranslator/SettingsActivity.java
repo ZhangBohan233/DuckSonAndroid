@@ -41,22 +41,34 @@ public class SettingsActivity extends AppCompatActivity {
                 .replace(R.id.settings_container, new SettingsFragment())
                 .commit();
 
-        getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                int resultCode = Activity.RESULT_OK;
-                if (needReload) {
-                    resultCode = RESULT_RELOAD;
-                }
-                Intent resultIntent = new Intent();
-                setResult(resultCode, resultIntent);
-                finish();
+//        getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
+//            @Override
+//            public void handleOnBackPressed() {
+//                int resultCode = Activity.RESULT_OK;
+//                if (needReload) {
+//                    resultCode = RESULT_RELOAD;
+//                }
+//                Intent resultIntent = new Intent();
+//                setResult(resultCode, resultIntent);
+//                finish();
+//
+//                this.remove();
+//                getOnBackPressedDispatcher().onBackPressed();
+//            }
+//        });
 
-                this.remove();
-                getOnBackPressedDispatcher().onBackPressed();
-            }
-        });
+    }
 
+    @Override
+    public void onBackPressed() {
+        int resultCode = Activity.RESULT_OK;
+        if (needReload) {
+            resultCode = RESULT_RELOAD;
+        }
+        Intent resultIntent = new Intent();
+        setResult(resultCode, resultIntent);
+
+        super.onBackPressed();
     }
 
     public void setNeedReload(boolean reload) {

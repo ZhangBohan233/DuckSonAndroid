@@ -20,6 +20,10 @@ public class LanguageUtil {
             new SimpleDateFormat("yyyy 'year' MM 'month' dd 'day'");
     public static final SimpleDateFormat GEGLISH_DATE_TIME =
             new SimpleDateFormat("yyyy 'year' MM 'month' dd 'day' HH:mm:ss");
+    public static final SimpleDateFormat TIME_HH_MM_SS =
+            new SimpleDateFormat("HH:mm:ss");
+    public static final SimpleDateFormat TIME_HH_MM =
+            new SimpleDateFormat("HH:mm");
     private volatile static LanguageUtil instance;
 
     private LanguageCode languageCode;

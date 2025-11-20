@@ -59,6 +59,11 @@ public class HistoryDateVH extends HistoryVH {
         return localDate.format(LanguageUtil.getInstance().getDateFormatter());
     }
 
+    public static String timeText(Date itemDate, boolean showSeconds) {
+        if (showSeconds) return LanguageUtil.TIME_HH_MM_SS.format(itemDate);
+        else return LanguageUtil.TIME_HH_MM.format(itemDate);
+    }
+
     @Override
     public int getViewType() {
         return DATE_SPLITTER;

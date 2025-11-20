@@ -1,102 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    android:layout_marginStart="22dp"
+    android:layout_marginTop="12dp"
+    android:layout_marginEnd="16dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="22dp"
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/settingsTitle"
+        style="?attr/textAppearanceTitleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="13dp"
+        android:gravity="center_vertical"
+        android:text="@string/trans_options"
+        app:drawableLeftCompat="@drawable/ic_tune_24"
+        app:itemTextColor="?attr/colorOnSurface"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/baseDictText"
+        style="?attr/textAppearanceBodyLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/use_base_dict"
+        android:visibility="gone"
+        app:itemTextColor="?attr/colorOnSurface"
+        app:layout_constraintBottom_toBottomOf="@+id/baseDictSwitch"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/baseDictSwitch"
+        app:layout_constraintWidth_max="wrap">
+
+    </com.google.android.material.textview.MaterialTextView>
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/baseDictSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:visibility="gone"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settingsTitle" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/sameSoundText"
+        style="?attr/textAppearanceBodyLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/use_same_sound"
+        app:itemTextColor="?attr/colorOnSurface"
+        app:layout_constraintBottom_toBottomOf="@+id/homophoneSwitch"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/homophoneSwitch"
+        app:layout_constraintWidth_max="wrap">
+
+    </com.google.android.material.textview.MaterialTextView>
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/homophoneSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:layout_marginEnd="16dp">
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/baseDictSwitch" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/settingsTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="13dp"
-            android:gravity="center_vertical"
-            android:text="@string/trans_options"
-            android:textSize="18sp"
-            app:drawableLeftCompat="@drawable/ic_tune_24"
-            app:itemTextAppearance="?attr/textAppearanceTitleLarge"
-            app:itemTextColor="?attr/colorOnSurface"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/dialectText"
+        style="?attr/textAppearanceBodyLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/chongqing_mode"
+        app:itemTextColor="?attr/colorOnSurface"
+        app:layout_constraintBottom_toBottomOf="@+id/cqModeSwitch"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cqModeSwitch"
+        app:layout_constraintWidth_max="wrap">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/baseDictText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/use_base_dict"
-            app:itemTextAppearance="?attr/textAppearanceBodyLarge"
-            app:itemTextColor="?attr/colorOnSurface"
-            app:layout_constraintBottom_toBottomOf="@+id/baseDictSwitch"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/baseDictSwitch"
-            app:layout_constraintWidth_max="wrap">
+    </com.google.android.material.textview.MaterialTextView>
 
-        </com.google.android.material.textview.MaterialTextView>
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/cqModeSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/homophoneSwitch" />
 
-        <com.google.android.material.materialswitch.MaterialSwitch
-            android:id="@+id/baseDictSwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/settingsTitle" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/sameSoundText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/use_same_sound"
-            app:itemTextAppearance="?attr/textAppearanceBodyLarge"
-            app:itemTextColor="?attr/colorOnSurface"
-            app:layout_constraintBottom_toBottomOf="@+id/homophoneSwitch"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/homophoneSwitch"
-            app:layout_constraintWidth_max="wrap">
-
-        </com.google.android.material.textview.MaterialTextView>
-
-        <com.google.android.material.materialswitch.MaterialSwitch
-            android:id="@+id/homophoneSwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/baseDictSwitch" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/dialectText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/chongqing_mode"
-            app:itemTextAppearance="?attr/textAppearanceBodyLarge"
-            app:itemTextColor="?attr/colorOnSurface"
-            app:layout_constraintBottom_toBottomOf="@+id/cqModeSwitch"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/cqModeSwitch"
-            app:layout_constraintWidth_max="wrap">
-
-        </com.google.android.material.textview.MaterialTextView>
-
-        <com.google.android.material.materialswitch.MaterialSwitch
-            android:id="@+id/cqModeSwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/homophoneSwitch" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="12dp">
-
-    </View>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

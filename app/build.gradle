@@ -9,8 +9,8 @@ android {
         applicationId "com.trashsoftware.ducksontranslator"
         minSdk 28
         targetSdk 36
-        versionCode 48
-        versionName "0.10-alpha-7"
+        versionCode 53
+        versionName "0.11-RC"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -39,8 +39,8 @@ dependencies {
     implementation 'androidx.compose.material3:material3:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     implementation files('libs/duck_son_core.jar')
-    implementation 'androidx.navigation:navigation-fragment:2.9.5'
-    implementation 'androidx.navigation:navigation-ui:2.9.5'
+    implementation 'androidx.navigation:navigation-fragment:2.9.6'
+    implementation 'androidx.navigation:navigation-ui:2.9.6'
     implementation 'androidx.preference:preference:1.2.1'
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
     testImplementation 'junit:junit:4.13.2'

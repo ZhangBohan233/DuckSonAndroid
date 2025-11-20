@@ -393,7 +393,6 @@ public class MainTranslateFragment extends Fragment {
         textBoxDown.setTextColor(Color.BLACK);
         textBoxDown.notifyTranslationChanged();
         editTextUp.setToastReady();
-//        editTextUp.enableHighlighting();
     }
 
     public static class NoFilterAdapter extends ArrayAdapter<LanguageItem> {

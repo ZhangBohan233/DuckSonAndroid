@@ -23,7 +23,7 @@ public class MainAboutFragment extends Fragment {
     public static final String TAG = "MainAboutFragment";
     MainViewModel viewModel;
 
-    TextView emailView, closedBetaUsersView, appVersionView, coreVersionView;
+    TextView emailView, associationMembersView, closedBetaUsersView, appVersionView, coreVersionView;
 
     @Nullable
     @Override
@@ -33,6 +33,7 @@ public class MainAboutFragment extends Fragment {
         viewModel = MainViewModel.getInstance();
 
         emailView = root.findViewById(R.id.email_content);
+        associationMembersView = root.findViewById(R.id.ass_members);
         closedBetaUsersView = root.findViewById(R.id.cb_users);
         appVersionView = root.findViewById(R.id.app_version_content);
         coreVersionView = root.findViewById(R.id.core_version_content);
@@ -49,6 +50,14 @@ public class MainAboutFragment extends Fragment {
         String[] emails = getResources().getStringArray(R.array.contact_emails);
         String emailText = String.join("\n", emails);
         emailView.setText(emailText);
+
+        try {
+            String memberList = AssetsReader.readAssetsLinesAsString(requireContext(),
+                    "association_member_list.txt");
+            associationMembersView.setText(memberList);
+        } catch (IOException e) {
+            Log.e(TAG, e.toString());
+        }
 
         try {
             String usersList = AssetsReader.readAssetsLinesAsString(requireContext(),

@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.shape.ShapeAppearanceModel;
 import com.trashsoftware.ducksontranslator.HistoryActivity;
 import com.trashsoftware.ducksontranslator.R;
 import com.trashsoftware.ducksontranslator.db.HistoryAccess;
@@ -136,34 +137,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryVH> {
         context.finish();
     }
 
-//    @Deprecated
-//    public boolean clearItems() {
-//        if (historyAccess.deleteAll()) {
-//            int size = allHistory.size();
-//            allHistory.clear();
-//            notifyItemRangeChanged(0, size);
-//            return true;
-//        } else {
-//            pullHistoryFromDb();
-//            notifyDataSetChanged();
-//            return false;
-//        }
-//    }
-
-//    @Deprecated
-//    public boolean deleteItem(HistoryItemVH holder) {
-//        if (historyAccess.delete(holder.item)) {
-//            int index = holder.getAdapterPosition();
-//            allHistory.remove(index);
-//            notifyItemRemoved(index);
-//            notifyItemRangeChanged(index, allHistory.size());
-//            return true;
-//        } else {
-//            pullHistoryFromDb();
-//            return false;
-//        }
-//    }
-
     public boolean isSelecting() {
         return selecting;
     }
@@ -212,10 +185,29 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryVH> {
     public void onBindViewHolder(@NonNull HistoryVH holder, int position) {
 //        System.out.println("bind" + position);
         int type = getItemViewType(position);
+        int nItems = getItemCount();
+
+        Wrapper wrapper = allHistory.get(position);
+        int prevType = position > 0 ? getItemViewType(position - 1) : 0;
+        int nextType = position < nItems - 1 ? getItemViewType(position + 1) : 0;
+
+        boolean isFirst = type != prevType;
+        boolean isLast = type != nextType;
+
+        int shapeRes;
+        if (isFirst && isLast) {
+            shapeRes = R.style.ShapeAppearance_Card_Single;
+        } else if (isFirst) {
+            shapeRes = R.style.ShapeAppearance_Card_Top;
+        } else if (isLast) {
+            shapeRes = R.style.ShapeAppearance_Card_Bottom;
+        } else {
+            shapeRes = R.style.ShapeAppearance_Card_Middle;
+        }
 
         if (type == HistoryVH.NORMAL) {
             HistoryItemVH itemVH = (HistoryItemVH) holder;
-            HistoryItem item = allHistory.get(position).item;
+            HistoryItem item = wrapper.item;
             assert item != null;
 
             itemVH.setItem(context, this, item);
@@ -223,6 +215,15 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryVH> {
                 item.setExpanded(!item.isExpanded());
                 notifyItemChanged(position);
             });
+
+            itemVH.cardView.setShapeAppearanceModel(
+                    ShapeAppearanceModel.builder(
+                            itemVH.cardView.getContext(),
+                            shapeRes,
+                            0
+                    ).build()
+            );
+
             itemVH.itemView.setOnLongClickListener(v -> {
                 if (!selecting) {
                     setSelecting(true);
@@ -232,10 +233,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryVH> {
             });
         } else if (type == HistoryVH.FOOTER) {
             HistoryFooterVH footerVH = (HistoryFooterVH) holder;
-            footerVH.setValue(context, (int) allHistory.stream().filter(wrapper -> wrapper.item != null).count());
+            footerVH.setValue(context, (int) allHistory.stream().filter(wrp -> wrp.item != null).count());
         } else if (type == HistoryVH.DATE_SPLITTER) {
             HistoryDateVH dateVH = (HistoryDateVH) holder;
-            Wrapper wrapper = allHistory.get(position);
             assert wrapper.date != null;
             dateVH.setItem(context, wrapper.date);
         }

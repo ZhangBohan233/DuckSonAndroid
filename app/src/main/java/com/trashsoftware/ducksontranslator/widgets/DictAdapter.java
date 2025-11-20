@@ -100,7 +100,7 @@ public class DictAdapter extends RecyclerView.Adapter<DictVH> {
         for (WordResult wr : wordResults) {
             if (wr.getType() != lastType) {
                 lastType = wr.getType();
-                if (wr.getType() != WordResultType.PINYIN) {
+                if (wr.getType() != WordResultType.PINYIN && wr.getType() != WordResultType.REPRESENTATIVE) {
                     wrappers.add(new WordResultWrapper(null, wr.getType()));
                 }
             }

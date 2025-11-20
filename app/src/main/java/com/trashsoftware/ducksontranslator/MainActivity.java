@@ -157,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         NavHostFragment navContainerView = (NavHostFragment) fragmentManager
                 .findFragmentById(R.id.main_nav_container);
+        assert navContainerView != null;
         navController = navContainerView.getNavController();
 
         // 启动
@@ -321,10 +322,6 @@ public class MainActivity extends AppCompatActivity {
         encryptionFragment.applyPrivateKey();
     }
 
-    public void copyPrivateKeyAction(View view) {
-        encryptionFragment.copyPrivateKey();
-    }
-
     public void clearEncryptInputAction(View view) {
         encryptionFragment.clearEncryptInput();
     }
@@ -339,6 +336,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void shareEncryptOutputAction(View view) {
         encryptionFragment.shareEncryptOutput();
+    }
+
+    public void expandEncryptInstructionAction(View view) {
+        encryptionFragment.expandCollapseInstruction(true);
+    }
+
+    public void collapseEncryptInstructionAction(View view) {
+        encryptionFragment.expandCollapseInstruction(false);
     }
 
     private void checkIsFirstOpen() {

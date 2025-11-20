@@ -18,6 +18,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.os.BuildCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -74,18 +75,28 @@ public class HistoryActivity extends AppCompatActivity {
             }
         });
 
-        getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                if (adapter.isSelecting()) {
-                    adapter.setSelecting(false);
-                    return;
-                }
+//        getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
+//            @Override
+//            public void handleOnBackPressed() {
+//                if (adapter.isSelecting()) {
+//                    adapter.setSelecting(false);
+//                    return;
+//                }
+//
+//                this.remove();
+//                getOnBackPressedDispatcher().onBackPressed();
+//            }
+//        });
+    }
 
-                this.remove();
-                getOnBackPressedDispatcher().onBackPressed();
-            }
-        });
+    @Override
+    public void onBackPressed() {
+        if (adapter.isSelecting()) {
+            adapter.setSelecting(false);
+            return;
+        }
+
+        super.onBackPressed();
     }
 
     @Override
@@ -136,28 +147,8 @@ public class HistoryActivity extends AppCompatActivity {
                 }).show();
     }
 
-//    @Deprecated
-//    public void onClearHistoryClicked(MenuItem view) {
-//        new AlertDialog.Builder(this)
-//                .setTitle(R.string.please_confirm)
-//                .setMessage(R.string.clear_confirm)
-//                .setIcon(R.drawable.ic_launcher_icon)
-//                .setPositiveButton(R.string.yes, (dialog, which) -> {
-//                    if (adapter.clearItems()) {
-//                        Toast.makeText(this, R.string.clear_success, Toast.LENGTH_SHORT).show();
-//                    } else {
-//                        Toast.makeText(this, R.string.clear_failed, Toast.LENGTH_SHORT).show();
-//                    }
-//                }).setNegativeButton(R.string.cancel, (dialog, which) -> {
-//                    // nothing happens
-//                }).show();
-//    }
-
     private void initRecyclerView() {
         adapter = new HistoryAdapter(this);
-//        historyRecyclerView.addItemDecoration(
-//                new DividerItemDecoration(historyRecyclerView.getContext(),
-//                        DividerItemDecoration.VERTICAL));
 
         historyRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         historyRecyclerView.setAdapter(adapter);

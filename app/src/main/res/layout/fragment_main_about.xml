@@ -96,12 +96,32 @@
         app:layout_constraintTop_toBottomOf="@+id/acknowledgement_label" />
 
     <TextView
+        android:id="@+id/ass_members_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/members"
+        app:layout_constraintLeft_toLeftOf="@id/about_content_align"
+        app:layout_constraintTop_toBottomOf="@id/association_label"
+        app:layout_constraintWidth_percent="0.36" />
+
+    <TextView
+        android:id="@+id/ass_members"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/members"
+        app:layout_constraintLeft_toRightOf="@id/ass_members_label"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ass_members_label" />
+
+    <TextView
         android:id="@+id/cb_users_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/closed_beta_users"
+        android:layout_marginTop="8dp"
         app:layout_constraintLeft_toLeftOf="@id/about_content_align"
-        app:layout_constraintTop_toBottomOf="@id/association_label"
+        app:layout_constraintTop_toBottomOf="@id/ass_members"
         app:layout_constraintWidth_percent="0.36" />
 
     <TextView

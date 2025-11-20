@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory
+    <androidx.preference.PreferenceCategory
         android:icon="@drawable/ic_translate_20"
-        android:title="@string/trans_options"
-        android:iconSpaceReserved="false">
+        android:title="@string/trans_options">
 
-        <ListPreference
+        <androidx.preference.ListPreference
             android:defaultValue="@string/language_system"
             android:entries="@array/word_picker_list"
             android:entryValues="@array/word_picker_list_values"
@@ -16,16 +14,15 @@
             android:negativeButtonText="@string/cancel"
             android:title="@string/word_picker"
             app:defaultValue="COMBINED_CHAR"
-            app:useSimpleSummaryProvider="true"/>
+            app:useSimpleSummaryProvider="true" />
 
-    </PreferenceCategory>
+    </androidx.preference.PreferenceCategory>
 
-    <PreferenceCategory
+    <androidx.preference.PreferenceCategory
         android:icon="@drawable/ic_language_24"
-        android:title="@string/multi_language"
-        android:iconSpaceReserved="false">
+        android:title="@string/multi_language">
 
-        <ListPreference
+        <androidx.preference.ListPreference
             android:defaultValue="@string/language_system"
             android:entries="@array/language_list"
             android:entryValues="@array/language_list_values"
@@ -35,6 +32,6 @@
             app:defaultValue="DEFAULT"
             app:useSimpleSummaryProvider="true" />
 
-    </PreferenceCategory>
+    </androidx.preference.PreferenceCategory>
 
-</PreferenceScreen>
+</androidx.preference.PreferenceScreen>

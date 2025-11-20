@@ -40,6 +40,7 @@
     <string name="part_of_speech">%s.</string>
     <string name="pinyin">pinyin</string>
     <string name="cqPin">cq pin</string>
+    <string name="chsRepresentative">Representative</string>
     <string name="exact_word_divider">Results</string>
     <string name="prefix_word_divider">Prefix</string>
     <string name="substring_word_divider">Substring</string>
@@ -76,6 +77,13 @@
     <string name="share_public_key_title">Share the public key and invite any user to send you encrypted messages.</string>
     <string name="generate_keys_block_title">Are you sure to generate new keys?</string>
     <string name="generate_keys_block_prompt">Current keys will be lost. Any messages encrypted with current public key will be lost.</string>
+    <string name="encrypt_instruction">Instructions…</string>
+    <string name="encrypt_instruction_content">To send an encrypted message to your friend, please follow these steps:
+1. Ask your friend to generate a pair of keys and send the public key to you, keeping the private key on their hand (never send the private key).
+2. Encrypt your message by the public key you received and send the encrypted message to your friend.\n
+3. Ask your friend to decrypt the message by their private key.
+    </string>
+    <string name="encrypt_instruction_collapse">Collapse</string>
 
     <!--Literal converters-->
     <string name="converter_think_clean">Think clean</string>
@@ -130,6 +138,7 @@
     <string name="acknowledgements">birdsong thank</string>
     <string name="geglish_standard_association">give power language flag sharp and research agreement meeting</string>
     <string name="closed_beta_users">inside measure use outdoor</string>
+    <string name="members">Success gardeb</string>
     <string name="version_info">version letter break</string>
     <string name="studio_name">Garbage Chicken soft ware work room</string>
 

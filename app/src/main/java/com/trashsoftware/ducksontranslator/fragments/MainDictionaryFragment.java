@@ -1,5 +1,8 @@
 package com.trashsoftware.ducksontranslator.fragments;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -9,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -171,33 +175,7 @@ public class MainDictionaryFragment extends Fragment {
         viewModel.dictSearched = true;
     }
 
-    public void search() {
-        setSearched();
-        Editable editable = searchBox.getText();
-        if (editable == null || editable.isEmpty()) {
-            dictAdapter.refreshContent(List.of());
-            return;
-        }
-        String text = editable.toString();
-        if (text.length() > 6 && viewModel.getDictionary().getOptions().isUseSameSoundChar()) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext())
-                    .setTitle(R.string.dict_search_too_long)
-                    .setMessage(R.string.dict_search_too_long_msg)
-                    .setCancelable(true)
-                    .setPositiveButton(R.string.yes, (dialog, which) -> searchEssential(text))
-                    .setNegativeButton(R.string.no, (dialog, which) -> {
-                    });
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        } else {
-            searchEssential(text);
-        }
-    }
-
-    private void searchEssential(String srcText) {
-        adPlaceholder.setVisibility(View.GONE);
-        showLoading();
-
+    private String[] detectLang(String srcText) {
         String[] langCodes = getSelectedLangCodes();
 
         String src;
@@ -210,13 +188,51 @@ public class MainDictionaryFragment extends Fragment {
             src = langCodes[1];
             dst = langCodes[0];
         } else {
+            return null;
+        }
+        return new String[]{src, dst};
+    }
+
+    public void search() {
+        setSearched();
+        Editable editable = searchBox.getText();
+        if (editable == null || editable.length() == 0) {
             dictAdapter.refreshContent(List.of());
             return;
         }
-        Log.v("MainDictionaryFragment", "src: " + src + " dst: " + dst);
+        String text = editable.toString();
+        String[] detectedLang = detectLang(text);
+        if (detectedLang == null) {
+            dictAdapter.refreshContent(List.of());
+            return;
+        }
+        String src = detectedLang[0];
+        boolean askConfirm = "chs".equals(src) && text.length() > 6 && viewModel.getDictionary().getOptions().isUseSameSoundChar();
+
+        if (askConfirm) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext())
+                    .setTitle(R.string.dict_search_too_long)
+                    .setMessage(R.string.dict_search_too_long_msg)
+                    .setCancelable(true)
+                    .setPositiveButton(R.string.yes, (dialog, which) ->
+                            searchEssential(text, src, detectedLang[1]))
+                    .setNegativeButton(R.string.no, (dialog, which) -> {
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        } else {
+            searchEssential(text, src, detectedLang[1]);
+        }
+    }
+
+    private void searchEssential(String srcText, String srcLang, String dstLang) {
+        adPlaceholder.setVisibility(View.GONE);
+        showLoading();
+
+        Log.v("MainDictionaryFragment", "src: " + srcLang + " dst: " + dstLang);
 
         Future<List<WordResult>> future = executor.submit(() ->
-                viewModel.getDictionary().search(srcText, src, dst));
+                viewModel.getDictionary().search(srcText, srcLang, dstLang));
 
         executor.execute(() -> {
             try {
@@ -271,6 +287,12 @@ public class MainDictionaryFragment extends Fragment {
         searchBox.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 search();
+                InputMethodManager imm =
+                        (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+                return true;  // problem
             }
             return false;
         });

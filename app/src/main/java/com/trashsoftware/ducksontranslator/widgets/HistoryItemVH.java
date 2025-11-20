@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.trashsoftware.ducksontranslator.MainActivity;
 import com.trashsoftware.ducksontranslator.R;
@@ -22,9 +23,11 @@ import trashsoftware.duckSonTranslator.wordPickers.PickerFactory;
 
 public class HistoryItemVH extends HistoryVH {
 
-    private final ConstraintLayout expandPart;
+    protected final MaterialCardView cardView;
+    private final ConstraintLayout expandPart, previewPart;
     private final TextView srcLangText, dstLangText, origText, translatedText;
     private final TextView baseDict, homo, dialect, picker, date;
+    private final TextView previewInfo, previewTime;
     private final Button trans;
     private final MaterialCheckBox checkBox;
     private final AlignedText fullTextContainer;
@@ -34,7 +37,9 @@ public class HistoryItemVH extends HistoryVH {
     public HistoryItemVH(@NonNull View itemView) {
         super(itemView);
 
+        cardView = itemView.findViewById(R.id.history_item_card);
         expandPart = itemView.findViewById(R.id.expand_part);
+        previewPart = itemView.findViewById(R.id.history_preview_fold);
         checkBox = itemView.findViewById(R.id.history_item_box);
 
         srcLangText = itemView.findViewById(R.id.src_lang);
@@ -50,6 +55,9 @@ public class HistoryItemVH extends HistoryVH {
 
         trans = itemView.findViewById(R.id.translate_again_btn);
         fullTextContainer = itemView.findViewById(R.id.full_text_container);
+
+        previewInfo = itemView.findViewById(R.id.preview_info_text);
+        previewTime = itemView.findViewById(R.id.preview_time_text);
     }
 
     @Override
@@ -62,19 +70,25 @@ public class HistoryItemVH extends HistoryVH {
 
         itemDate = new Date(item.getTime());
 
-        srcLangText.setText(MainActivity.getLangName(context, item.getSrcLang()));
-        dstLangText.setText(MainActivity.getLangName(context, item.getDstLang()));
+        String src = MainActivity.getLangName(context, item.getSrcLang());
+        String dst = MainActivity.getLangName(context, item.getDstLang());
+
+        srcLangText.setText(src);
+        dstLangText.setText(dst);
         origText.setText(item.getOrigText());
         translatedText.setText(item.getTranslatedText());
 
         setYesNo(baseDict, item.isUseBaseDict());
         setYesNo(homo, item.isUseSameSound());
 
+        String dialectName;
+
         if (item.isCq()) {
-            dialect.setText(R.string.cqDialect);
+            dialectName = context.getString(R.string.cqDialect);
         } else {
-            dialect.setText(R.string.mandarin);
+            dialectName = context.getString(R.string.mandarin);
         }
+        dialect.setText(dialectName);
 
         String pickerDb = item.getWordPickerName();
         PickerFactory pf = PickerFactory.valueOf(pickerDb);
@@ -93,9 +107,19 @@ public class HistoryItemVH extends HistoryVH {
             parent.updateUiWhenSelectionChanged();
         });
 
+        // 预览部分
+        previewInfo.setText(
+                String.format("%s - %s", src, dst)
+        );
+
+        previewTime.setText(HistoryDateVH.timeText(itemDate, false));
+
         if (item.isExpanded()) {
             origText.setVisibility(View.INVISIBLE);  // 不用gone, 因为要固定箭头的位置
             translatedText.setVisibility(View.INVISIBLE);
+
+            previewPart.setVisibility(View.GONE);
+
             fullTextContainer.setVisibility(View.VISIBLE);
 
             fullTextContainer.setText(item.getOrigText(), item.getTranslatedText());
@@ -103,6 +127,7 @@ public class HistoryItemVH extends HistoryVH {
         } else {
             origText.setVisibility(View.VISIBLE);
             translatedText.setVisibility(View.VISIBLE);
+            previewPart.setVisibility(View.VISIBLE);
             fullTextContainer.setVisibility(View.GONE);
         }
     }

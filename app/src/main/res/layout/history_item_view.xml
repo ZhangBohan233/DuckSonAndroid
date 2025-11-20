@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/history_item_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginVertical="4dp"
+    android:layout_marginVertical="2dp"
     android:orientation="vertical"
     app:cardBackgroundColor="?attr/colorSurfaceContainer"
-    app:cardCornerRadius="18dp"
     app:cardElevation="0dp"
+    app:cardUseCompatPadding="false"
     app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
     app:strokeColor="?attr/colorOutline"
     app:strokeWidth="0dp">
@@ -35,7 +36,7 @@
 
         <TextView
             android:id="@+id/src_text"
-            style="@style/TextAppearance.Material3.TitleSmall"
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:maxLines="3"
@@ -57,14 +58,14 @@
 
         <TextView
             android:id="@+id/dst_text"
-            style="@style/TextAppearance.Material3.TitleSmall"
+            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:maxLines="3"
             android:text="Dst text demo"
             app:layout_constraintLeft_toRightOf="@id/arrow_img"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="16dp"
             app:layout_constraintWidth_percent="0.42" />
 
         <com.trashsoftware.ducksontranslator.widgets.AlignedText
@@ -85,6 +86,30 @@
             app:barrierDirection="bottom"
             app:constraint_referenced_ids="src_text,
             dst_text, arrow_img, full_text_container" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/history_preview_fold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/expand_barrier"
+            app:layout_constraintLeft_toRightOf="@id/history_item_box"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/preview_info_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/preview_time_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/preview_info_text"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/expand_part"

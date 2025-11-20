@@ -40,6 +40,7 @@
     <string name="part_of_speech">%s.</string>
     <string name="pinyin">拼音</string>
     <string name="cqPin">重庆话</string>
+    <string name="chsRepresentative">核心字</string>
     <string name="exact_word_divider">搜索结果</string>
     <string name="prefix_word_divider">以下为前缀词</string>
     <string name="substring_word_divider">以下为子串</string>
@@ -76,6 +77,13 @@
     <string name="share_public_key_title">共享公钥，邀请其他用户向你发送加密信息。</string>
     <string name="generate_keys_block_title">确定要重新生成密钥对？</string>
     <string name="generate_keys_block_prompt">当前的密钥将会丢失，您将无法重新解密之前的信息。</string>
+    <string name="encrypt_instruction">使用说明…</string>
+    <string name="encrypt_instruction_content">请按照以下步骤发送加密信息:\n
+1. 让收件人生成一对密钥，将其中的公钥发送给您，并妥善保管私钥（在任何情况下都不要发送私钥）。\n
+2. 使用收到的公钥加密信息，并将加密后的信息发送给收件人。\n
+3. 收件人使用其持有的私钥解密信息。
+    </string>
+    <string name="encrypt_instruction_collapse">收起</string>
 
     <!--Literal converters-->
     <string name="converter_think_clean">李言李语</string>
@@ -130,6 +138,7 @@
     <string name="acknowledgements">鸣谢</string>
     <string name="geglish_standard_association">给力语标准与研究协会</string>
     <string name="closed_beta_users">内测用户</string>
+    <string name="members">协会成员</string>
     <string name="version_info">版本信息</string>
     <string name="studio_name">垃圾软件工作室</string>
 

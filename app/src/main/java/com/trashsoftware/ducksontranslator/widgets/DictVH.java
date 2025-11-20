@@ -46,7 +46,7 @@ public abstract class DictVH extends RecyclerView.ViewHolder {
             int cardBack;
             WordResultType wrt = wordResult.getType();
             cardBack = switch (wrt) {
-                case PINYIN -> com.google.android.material.R.attr.colorPrimaryInverse;
+                case PINYIN, REPRESENTATIVE -> com.google.android.material.R.attr.colorPrimaryInverse;
                 case EXACT -> com.google.android.material.R.attr.colorPrimaryContainer;
                 case PREFIX, SUBSTRING, ROUGH ->
                         com.google.android.material.R.attr.colorSecondaryContainer;
@@ -58,7 +58,7 @@ public abstract class DictVH extends RecyclerView.ViewHolder {
             srcText.setText(wordResult.getDst());
 
             int textColor;
-            if (wrt == WordResultType.PINYIN) {
+            if (wrt == WordResultType.PINYIN || wrt == WordResultType.REPRESENTATIVE) {
                 textColor = MaterialColors.getColor(context, com.google.android.material.R.attr.colorOnSurface, 0);
             } else {
                 textColor = MaterialColors.getColor(context, com.google.android.material.R.attr.colorOnSurfaceVariant, 0);
@@ -72,6 +72,8 @@ public abstract class DictVH extends RecyclerView.ViewHolder {
 
                 if (wrt == WordResultType.PINYIN) {
                     posText.setText(getPinyinType(context, posDes.getKey()));
+                } else if (wrt == WordResultType.REPRESENTATIVE) {
+                    posText.setText(R.string.chsRepresentative);
                 } else {
                     posText.setText(context.getString(R.string.part_of_speech, posDes.getKey()));
                 }
@@ -105,6 +107,7 @@ public abstract class DictVH extends RecyclerView.ViewHolder {
         public void setContent(WordResultType wordResultType) {
             int resId = switch (wordResultType) {
                 case PINYIN -> 0;  // Should be unreachable if no bug
+                case REPRESENTATIVE -> 0;
                 case EXACT -> R.string.exact_word_divider;
                 case PREFIX -> R.string.prefix_word_divider;
                 case SUBSTRING -> R.string.substring_word_divider;
